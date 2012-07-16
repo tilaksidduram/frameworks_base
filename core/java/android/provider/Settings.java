@@ -2620,6 +2620,12 @@ public final class Settings {
         public static final String DOCK_SOUNDS_ENABLED = Global.DOCK_SOUNDS_ENABLED;
 
         /**
+         * Stores values for custom lockscreen targets
+         * @hide
+         */
+        public static final String LOCKSCREEN_TARGETS = "lockscreen_targets";
+
+        /**
          * Whether to play sounds when the keyguard is shown and dismissed.
          * @hide
          */
