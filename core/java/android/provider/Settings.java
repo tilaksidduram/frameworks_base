@@ -2280,21 +2280,21 @@ public final class Settings {
 
         /**
          * Whether the phone ringtone should be played in an increasing manner
-         * 
+         *
          * @hide
          */
         public static final String INCREASING_RING = "increasing_ring";
 
         /**
          * Increase ringtone volume each ringing interval
-         * 
+         *
          * @hide
          */
         public static final String INCREASING_RING_INTERVAL = "increasing_ring_interval";
 
         /**
          * Volume level to start at for increasing ringtone
-         * 
+         *
          * @hide
          */
         public static final String INCREASING_RING_MIN_VOLUME = "increasing_ring_min_volume";
@@ -2786,7 +2786,7 @@ public final class Settings {
          * @hide
          */
         public static final String LOCKSCREEN_NOTIFICATIONS_OFFSET_TOP = "lockscreen_notifications_offset_top";
-        
+
         /**
          * Enables a privacy mode which disables showing notifications.
          * @hide
@@ -3223,6 +3223,13 @@ public final class Settings {
          * @hide
          */
         public static final String TELO_RADIO_HIGH_POWER = "telo_radio_high_power";
+
+       /**
+        * Whether to control brightness from status bar
+        *
+        * @hide
+        */
+       public static final String STATUS_BAR_BRIGHTNESS_CONTROL = "status_bar_brightness_control";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
