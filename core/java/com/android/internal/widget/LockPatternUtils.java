@@ -724,8 +724,6 @@ public class LockPatternUtils {
             getLockSettings().setLockPassword(password, userHandle);
             DevicePolicyManager dpm = getDevicePolicyManager();
             if (password != null) {
-                // Don't update the encryption password here - separate them (Omni change)
-
                 int computedQuality = computePasswordQuality(password);
                 if (!isFallback) {
                     deleteGallery();
