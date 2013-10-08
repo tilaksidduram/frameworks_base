@@ -2166,4 +2166,7 @@
   <java-symbol type="bool" name="config_softap_extention" />
 
   <java-symbol type="bool" name="config_enable_mms_with_mobile_data_off" />
+
+  <!-- Gesture Sensor -->
+  <java-symbol type="bool" name="config_enableGestureService" />
 </resources>
