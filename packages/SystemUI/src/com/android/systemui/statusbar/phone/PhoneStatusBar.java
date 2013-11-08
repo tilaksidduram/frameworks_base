@@ -971,6 +971,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             addAppCircleSidebar();
         }
 
+        if (mRecreating) {
+            removeSidebarView();
+        } else {
+        }
+
+        addSidebarView();
+
         // figure out which pixel-format to use for the status bar.
         mPixelFormat = PixelFormat.OPAQUE;
 
@@ -1333,6 +1340,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         // receive broadcasts
         IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_CONFIGURATION_CHANGED);
         filter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_ON);
