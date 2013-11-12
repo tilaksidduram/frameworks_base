@@ -46,6 +46,7 @@ public class PanelBar extends FrameLayout {
     private int mState = STATE_CLOSED;
     private boolean mTracking;
     private BaseStatusBar mStatusBar;
+    PanelView mFullyOpenedPanel;
 
     float mPanelExpandedFractionSum;
 
@@ -191,6 +192,8 @@ public class PanelBar extends FrameLayout {
 
         if (DEBUG) LOG("panelExpansionChanged: end state=%d [%s%s ]", mState,
                 (fullyOpenedPanel!=null)?" fullyOpened":"", fullyClosed?" fullyClosed":"");
+
+        mFullyOpenedPanel = fullyOpenedPanel;
     }
 
     public void collapseAllPanels(boolean animate) {
