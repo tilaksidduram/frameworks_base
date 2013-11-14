@@ -737,6 +737,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.PIE_STATE), false, this,
                     UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.USE_EDGE_SERVICE_FOR_GESTURES), false, this,
+                    UserHandle.USER_ALL);
             updateSettings();
         }
 
@@ -1588,11 +1591,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.Secure.INCALL_POWER_BUTTON_BEHAVIOR,
                     Settings.Secure.INCALL_POWER_BUTTON_BEHAVIOR_DEFAULT,
                     UserHandle.USER_CURRENT);
-            mImmersiveModeStyle = Settings.System.getIntForUser(resolver,
-                    Settings.System.IMMERSIVE_MODE, 0, UserHandle.USER_CURRENT);
-            mPieState = Settings.System.getIntForUser(resolver,
-                    Settings.System.PIE_STATE, 0, UserHandle.USER_CURRENT);
-
             mNavigationBarLeftInLandscape = Settings.System.getInt(resolver,
                     Settings.System.NAVBAR_LEFT_IN_LANDSCAPE, 0) == 1;
             mRingHomeBehavior = Settings.Secure.getIntForUser(resolver,
@@ -1610,8 +1608,20 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.System.CAMERA_MUSIC_CONTROLS, 1, UserHandle.USER_CURRENT) == 1)
                     && !mCameraWakeScreen);
 
+            boolean devForceNavbar = Settings.System.getIntForUser(resolver,
+                    Settings.System.DEV_FORCE_SHOW_NAVBAR, 0, UserHandle.USER_CURRENT) == 1;
+            if (devForceNavbar != mDevForceNavbar) {
+                mDevForceNavbar = devForceNavbar;
+            }
+
+            updateKeyAssignments();
+            mImmersiveModeStyle = Settings.System.getIntForUser(resolver,
+                    Settings.System.IMMERSIVE_MODE, 0, UserHandle.USER_CURRENT);
+            mPieState = Settings.System.getIntForUser(resolver,
+                    Settings.System.PIE_STATE, 0, UserHandle.USER_CURRENT);
+
             final boolean useEdgeService = Settings.System.getIntForUser(resolver,
-                    Settings.System.USE_EDGE_SERVICE_FOR_GESTURES, 0, UserHandle.USER_CURRENT) == 1;
+                    Settings.System.USE_EDGE_SERVICE_FOR_GESTURES, 1, UserHandle.USER_CURRENT) == 1;
             if (useEdgeService ^ mUsingEdgeGestureServiceForGestures && mSystemReady) {
                 if (!mUsingEdgeGestureServiceForGestures && useEdgeService) {
                     mUsingEdgeGestureServiceForGestures = true;
@@ -1622,14 +1632,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 }
                 updateEdgeGestureListenerState();
             }
-
-            boolean devForceNavbar = Settings.System.getIntForUser(resolver,
-                    Settings.System.DEV_FORCE_SHOW_NAVBAR, 0, UserHandle.USER_CURRENT) == 1;
-            if (devForceNavbar != mDevForceNavbar) {
-                mDevForceNavbar = devForceNavbar;
-            }
-
-            updateKeyAssignments();
 
             // Configure rotation lock.
             int userRotation = Settings.System.getIntForUser(resolver,
