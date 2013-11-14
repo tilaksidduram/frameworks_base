@@ -3269,6 +3269,11 @@ public final class Settings {
          */
         public static final String QUIET_HOURS_START = "quiet_hours_start";
 
+        /** Weather to allow headsethook to launch voice commands
+         * @hide
+         */
+        public static final String HEADSETHOOK_LAUNCH_VOICE = "headsethook_launch_voice";
+
         /**
          * Sets when quiet hours end. This is stored in minutes from the start of the day.
          * @hide
