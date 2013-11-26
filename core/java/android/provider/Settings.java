@@ -3686,6 +3686,12 @@ public final class Settings {
 
         /**
          *
+         * Show when WiFi or data mobile is sending/receiving data
+         * @hide
+         */
+        public static final String STATUS_BAR_NETWORK_ACTIVITY = "status_bar_network_activity";
+
+        /**
          * @hide
          */
         public static final String ANIMATION_CONTROLS_DURATION = "animation_controls_duration";
