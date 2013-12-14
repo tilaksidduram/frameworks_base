@@ -20,10 +20,12 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import android.app.ActivityManagerNative;
 import android.app.IProfileManager;
 import android.app.NotificationGroup;
 import android.app.Profile;
 import android.app.ProfileGroup;
+import android.app.ProfileManager;
 import android.app.backup.BackupManager;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -129,8 +131,6 @@ public class ProfileManagerService extends IProfileManager.Stub {
                     if (!mActiveProfile.getUuid().equals(p.getUuid())) {
                         setActiveProfile(p, true);
                     }
-                } catch (RemoteException e) {
-                    Log.e(TAG, "Could not update profile on trigger", e);
                 }
             }
         }
@@ -162,8 +162,8 @@ public class ProfileManagerService extends IProfileManager.Stub {
         initialize(false);
     }
 
-        mProfiles = new HashMap<UUID, Profile>();
     private void initialize(boolean skipFile) {
+        mProfiles = new HashMap<UUID, Profile>();
         mProfileNames = new HashMap<String, UUID>();
         mGroups = new HashMap<UUID, NotificationGroup>();
         mDirty = false;
