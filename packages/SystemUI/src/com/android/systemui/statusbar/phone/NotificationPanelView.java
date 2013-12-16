@@ -198,8 +198,8 @@ public class NotificationPanelView extends PanelView {
                 mStatusBar.partialFlip(mFlipOffset +
                                        deltaX / (getWidth() * STATUS_BAR_SWIPE_MOVE_PERCENTAGE));
                 if (!swipeFlipJustStarted) {
-                    return true; // Consume the event.
                 }
+                    return true; // Consume the event.
             } else if (swipeFlipJustFinished) {
                 mStatusBar.completePartialFlip();
             }
@@ -226,6 +226,7 @@ public class NotificationPanelView extends PanelView {
         final boolean result = mHandleView.dispatchTouchEvent(event);
         if (shouldRecycleEvent) {
             event.recycle();
+            }
         }
         return result;
     }
