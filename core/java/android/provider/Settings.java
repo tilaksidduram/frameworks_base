@@ -2971,6 +2971,43 @@ public final class Settings {
         public static final String QUICK_SETTINGS_TILES = "quick_settings_tiles";
 
         /**
+         *
+         * TeloRadio enable
+         * @hide
+         */
+        public static final String TELO_RADIO_ENABLED = "telo_radio_enabled";
+
+        /**
+         * TeloRadio 2g with wifi
+         * @hide
+         */
+        public static final String TELO_RADIO_2G_WIFI = "telo_radio_2g_wifi";
+
+        /**
+         * TeloRadio LTE in high power
+         * @hide
+         */
+        public static final String TELO_RADIO_LTE = "telo_radio_lte";
+
+        /**
+         * TeloRadio change 2g when screenoff
+         * @hide
+         */
+        public static final String TELO_RADIO_2G_SCREENOFF = "telo_radio_2g_screenoff";
+
+        /**
+         * TeloRadio time to change 2g when screenoff
+         * @hide
+         */
+        public static final String TELO_RADIO_2G_SCREENOFF_TIME = "telo_radio_2g_screenoff_timeout";
+
+        /**
+         * TeloRadio change 3g when unlock device
+         * @hide
+         */
+        public static final String TELO_RADIO_GO3G_UNLOCK = "telo_radio_go_3g_unlock";
+
+        /**
          * Show or hide clock
          * 0 - hide
          * 1 - show (default)
@@ -3176,6 +3213,18 @@ public final class Settings {
         public static final String NOTIFICATION_CUSTOM_CARRIER_LABEL = "notification_custom_carrier_label";
 
         /**
+         *  TeloRadio Low power network
+         * @hide
+         */
+        public static final String TELO_RADIO_LOW_POWER = "telo_radio_low_power";
+
+        /**
+         * TeloRadio High power network
+         * @hide
+         */
+        public static final String TELO_RADIO_HIGH_POWER = "telo_radio_high_power";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -3242,7 +3291,12 @@ public final class Settings {
             VIBRATE_WHEN_RINGING,
             INCREASING_RING,
             RINGTONE,
-            NOTIFICATION_SOUND
+            NOTIFICATION_SOUND,
+            TELO_RADIO_ENABLED,
+            TELO_RADIO_2G_WIFI,
+            TELO_RADIO_LTE,
+            TELO_RADIO_2G_SCREENOFF,
+            TELO_RADIO_GO3G_UNLOCK,
         };
 
         /**
