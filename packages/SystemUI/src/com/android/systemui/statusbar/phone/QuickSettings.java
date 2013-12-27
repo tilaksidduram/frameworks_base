@@ -40,7 +40,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.hardware.display.DisplayManager;
 import android.media.MediaRouter;
-import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -90,8 +89,6 @@ class QuickSettings {
     static final boolean DEBUG_GONE_TILES = false;
     private static final String TAG = "QuickSettings";
     public static final boolean SHOW_IME_TILE = false;
-
-    public static final boolean LONG_PRESS_TOGGLES = true;
 
     public enum Tile {
         USER,
@@ -494,39 +491,25 @@ class QuickSettings {
                     parent.addView(wifiTile);
                     if(addMissing) wifiTile.setVisibility(View.GONE);
                 } else if(Tile.RSSI.toString().equals(tile.toString())) { // RSSI
-			if (mModel.deviceHasMobileData()) {
+                    if (mModel.deviceHasMobileData()) {
                         QuickSettingsTileView rssiTile = (QuickSettingsTileView)
                                 inflater.inflate(R.layout.quick_settings_tile, parent, false);
                         rssiTile.setTileId(Tile.RSSI);
                         rssiTile.setContent(R.layout.quick_settings_tile_rssi, inflater);
-
-		    if (LONG_PRESS_TOGGLES) {
-                         rssiTile.setOnLongClickListener(new View.OnLongClickListener() {
+                        rssiTile.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public boolean onLongClick(View v) {
-                               Intent intent = new Intent();
-                               intent.setComponent(new ComponentName(
-                                       "com.android.settings",
-                                       "com.android.settings.Settings$DataUsageSummaryActivity"));
-                               startSettingsActivity(intent);
-                               return true;
-                            }
-                        });
-                    }
-
-		    final ConnectivityManager cm =
-			   (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-                    rssiTile.setOnClickListener(new View.OnClickListener() {
-                           @Override
                             public void onClick(View v) {
                                 // TODO: RSSI toggle
-				boolean currentState = cm.getMobileDataEnabled();
-				cm.setMobileDataEnabled(!currentState);
+                                Intent intent = new Intent();
+                                intent.setComponent(new ComponentName(
+                                        "com.android.settings",
+                                        "com.android.settings.Settings$DataUsageSummaryActivity"));
+                                startSettingsActivity(intent);
                             }
-                    });
-                    mModel.addRSSITile(rssiTile, new NetworkActivityCallback() {
-                        @Override
-                        public void refreshView(QuickSettingsTileView view, State state) {
+                        });
+                        mModel.addRSSITile(rssiTile, new NetworkActivityCallback() {
+                            @Override
+                            public void refreshView(QuickSettingsTileView view, State state) {
                                 RSSIState rssiState = (RSSIState) state;
                                 ImageView iv = (ImageView) view.findViewById(R.id.rssi_image);
                                 ImageView iov = (ImageView)
