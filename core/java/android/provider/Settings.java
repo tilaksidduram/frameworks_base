@@ -1507,12 +1507,13 @@ public final class Settings {
          *
          * @return The setting's current value, or 'def' if it is not defined
          * or not a valid integer.
-         */
+
         public static boolean getBoolean(ContentResolver cr, String name, boolean def) {
             return getBooleanForUser(cr, name, def, UserHandle.myUserId());
         }
+	*/
 
-        /** @hide */
+        /** @hide
         public static boolean getBooleanForUser(ContentResolver cr, String name, boolean def,
                 int userHandle) {
             String v = getStringForUser(cr, name, userHandle);
@@ -1525,6 +1526,7 @@ public final class Settings {
                 return def;
             }
         }
+	 */
 
         /**
          * @hide
@@ -1539,15 +1541,17 @@ public final class Settings {
          * @param name The name of the setting to modify.
          * @param value The new value for the setting.
          * @return true if the value was set, false on database errors
-         */
+
         public static boolean putBoolean(ContentResolver cr, String name, boolean value) {
             return putBooleanForUser(cr, name, value, UserHandle.myUserId());
         }
+         */
 
-        /** @hide */
+        /** @hide
         public static boolean putBooleanForUser(ContentResolver cr, String name, boolean value, int userHandle) {
             return putStringForUser(cr, name, value ? "1" : "0", userHandle);
         }
+	 */
 
         /**
          * Convenience function to read all of the current
