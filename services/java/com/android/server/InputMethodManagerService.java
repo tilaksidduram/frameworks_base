@@ -401,6 +401,13 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
                     Settings.Secure.ENABLED_INPUT_METHODS), false, this);
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.SELECTED_INPUT_METHOD_SUBTYPE), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_IME_SWITCHER),
+                    false, new ContentObserver(mHandler) {
+                        public void onChange(boolean selfChange) {
+                            updateFromSettingsLocked(true);
+                        }
+                    });
         }
 
         @Override public void onChange(boolean selfChange) {
