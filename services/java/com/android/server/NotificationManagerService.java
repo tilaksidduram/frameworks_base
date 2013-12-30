@@ -80,7 +80,6 @@ import android.widget.Toast;
 
 import com.android.internal.R;
 import com.android.internal.notification.NotificationScorer;
-import com.android.internal.util.slim.QuietHoursHelper;
 import com.android.internal.util.FastXmlSerializer;
 
 import org.xmlpull.v1.XmlPullParser;
