@@ -104,7 +104,6 @@ public class KeyguardViewManager {
     private LockPatternUtils mLockPatternUtils;
 
     private Bitmap mBlurredImage = null;
-    private int mLastRotation = 0;
     private int mBlurRadius = 12;
     private boolean mSeeThrough = false;
     private boolean mIsCoverflow = true;
@@ -116,17 +115,11 @@ public class KeyguardViewManager {
     private KeyguardUpdateMonitorCallback mBackgroundChanger = new KeyguardUpdateMonitorCallback() {
         @Override
         public void onSetBackground(Bitmap bmp) {
-            mKeyguardHost.setCustomBackground( new BitmapDrawable(mContext.getResources(),
-                        bmp != null ? bmp : mBlurredImage) );
-            updateShowWallpaper(bmp == null && mBlurredImage == null);
+            if (bmp != null) mBlurredImage = null;
+            mIsCoverflow = true;
+            setCustomBackground (bmp);
         }
     };
-
-    private void setCustomBackground(Bitmap bmp) {
-        mKeyguardHost.setCustomBackground(bmp != null ?
-                    new BitmapDrawable(mContext.getResources(), bmp) : null);
-        updateShowWallpaper(bmp == null);
-    }
 
     public interface ShowListener {
         void onShown(IBinder windowToken);
@@ -234,6 +227,12 @@ public class KeyguardViewManager {
     private boolean shouldEnableTranslucentDecor() {
         Resources res = mContext.getResources();
         return res.getBoolean(R.bool.config_enableLockScreenTranslucentDecor);
+    }
+
+    private void setCustomBackground(Bitmap bmp) {
+        mKeyguardHost.setCustomBackground( new BitmapDrawable(mContext.getResources(),
+                    bmp != null ? bmp : mBlurredImage) );
+        updateShowWallpaper(bmp == null && mBlurredImage == null);
     }
 
     public void setBackgroundBitmap(Bitmap bmp) {
@@ -463,7 +462,7 @@ public class KeyguardViewManager {
             mBlurredImage = rotateBmp(mBlurredImage, mLastRotation - currentRotation);
             mLastRotation = currentRotation;
             mIsCoverflow = false;
-            KeyguardUpdateMonitor.getInstance(mContext).dispatchSetBackground(mBlurredImage);
+            setCustomBackground(mBlurredImage);
         } else {
             mIsCoverflow = true;
         }
