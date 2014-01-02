@@ -77,12 +77,18 @@ class QuickSettingsContainerView extends FrameLayout {
     }
 
     public void updateSpan() {
+        String tileContainer = Settings.System.getString(mContext.getContentResolver(),
+                Settings.System.QUICK_SETTINGS_TILES);
+        if(tileContainer == null) tileContainer = QuickSettings.DEFAULT_TILES;
+        String[] storedTiles = tileContainer.split(QuickSettings.DELIMITER);
+        int tileCount = storedTiles.length;
+
         Resources r = getContext().getResources();
         for(int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i);
             if(v instanceof QuickSettingsTileView) {
                 QuickSettingsTileView qs = (QuickSettingsTileView) v;
-                if(i < 3) { // Modify span of the first three childs
+                if(i < 3 && tileCount < 10 + i) { // Modify span of the first three childs
                     int span = r.getInteger(R.integer.quick_settings_user_time_settings_tile_span);
                     qs.setColumnSpan(span);
                 } else {

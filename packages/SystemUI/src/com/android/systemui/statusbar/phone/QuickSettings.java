@@ -31,6 +31,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.UserInfo;
 import android.content.res.Resources;
@@ -42,6 +43,7 @@ import android.hardware.display.DisplayManager;
 import android.media.MediaRouter;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.RemoteException;
@@ -102,7 +104,8 @@ class QuickSettings {
         AIRPLANE,
         BLUETOOTH,
         LOCATION,
-        IMMERSIVE
+        IMMERSIVE,
+        NFC
     }
 
     public static final String NO_TILES = "NO_TILES";
@@ -325,7 +328,7 @@ class QuickSettings {
         mContext.startActivityAsUser(intent, new UserHandle(UserHandle.USER_CURRENT));
         collapsePanels();
     }
-    
+
     public void updateBattery() {
         if (mBattery == null || mModel == null) {
             return;
@@ -342,6 +345,10 @@ class QuickSettings {
                     Settings.System.IMMERSIVE_MODE, 0) == 1;
     }
 
+    private boolean isNfcSupported() {
+        return mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_NFC);
+    }
+    
     private void addTiles(ViewGroup parent, LayoutInflater inflater, boolean addMissing) {
         // Load all the customizable tiles. If not yet modified by the user, load default ones.
         // After enabled tiles are loaded, proceed to load missing tiles and set them to View.GONE.
@@ -767,6 +774,44 @@ class QuickSettings {
                     });
                     parent.addView(immersiveTile);
                     if(addMissing) immersiveTile.setVisibility(View.GONE);
+                } else if(Tile.NFC.toString().equals(tile.toString()) && isNfcSupported()) {
+                    final QuickSettingsBasicTile nfcTile = new QuickSettingsBasicTile(mContext);
+                    nfcTile.setTileId(Tile.NFC);
+                    NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(mContext);
+                    boolean nfcEnabled = nfcAdapter != null ? nfcAdapter.isEnabled() : false;
+                    nfcTile.setImageResource(nfcEnabled ?
+                            R.drawable.ic_qs_nfc_on :
+                            R.drawable.ic_qs_nfc_off);
+                    nfcTile.setTextResource(nfcEnabled ?
+                            R.string.quick_settings_nfc_label :
+                            R.string.quick_settings_nfc_off_label);
+                    nfcTile.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            //We have to use that deprecated function here, 
+                            //because getDefaultAdapter(mContext) always returns null with the context we get on boot
+                            NfcAdapter adapter = NfcAdapter.getDefaultAdapter();
+                            if (adapter != null) {
+                                boolean enabled = adapter.isEnabled();
+                                if (enabled) {
+                                    adapter.disable();
+                                } else {
+                                    adapter.enable();
+                                }
+                                enabled = !enabled;
+                                nfcTile.setImageResource(enabled ?
+                                        R.drawable.ic_qs_nfc_on :
+                                        R.drawable.ic_qs_nfc_off);
+                                nfcTile.setTextResource(enabled ?
+                                        R.string.quick_settings_nfc_label :
+                                        R.string.quick_settings_nfc_off_label);
+                            }
+                        }
+                    });
+                    mModel.addNfcTile(nfcTile, new QuickSettingsModel.BasicRefreshCallback(nfcTile));
+                    parent.addView(nfcTile);
+                    if(addMissing) nfcTile.setVisibility(View.GONE);
                 }
             }
         }

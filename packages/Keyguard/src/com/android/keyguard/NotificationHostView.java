@@ -44,10 +44,9 @@ public class NotificationHostView extends FrameLayout {
     private static final int MSG_NOTIFICATION_ADD = 0;
     private static final int MSG_NOTIFICATION_REMOVE = 1;
 
-    private static final float OFFSET_TOP = 0.3f;
     private static final float SWIPE = 0.2f;
     private static final int ANIMATION_MAX_DURATION = 500;
-    private static final int PPS = 1000;
+    private static final int PPS = 3000;
     private static final int MAX_ALPHA = 150;
 
     //Here we store dimissed notifications so we don't add them again in onFinishInflate
@@ -128,7 +127,7 @@ public class NotificationHostView extends FrameLayout {
         private boolean animating = false;
         private boolean preventClick = false;
         private float initialX;
-        private float initialXPos;
+        private float delta;
         private boolean shown = false;
         private float previousX = 0;
         private float previousTime = 0;
@@ -187,53 +186,56 @@ public class NotificationHostView extends FrameLayout {
                 }
             }
         }
-
         @Override
         public boolean onInterceptTouchEvent(MotionEvent event) {
             mViewMediatorCallback.userActivity();
-            View v = getChildAt(0);
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    initialX = event.getRawX();
-                    initialXPos = v.getX();
-                    preventClick = false;
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    float time = System.nanoTime() / 1000000.0f;
-                    float x = event.getRawX() - initialX + initialXPos;
-                    speedX += (x - previousX) / (time - previousTime);
-                    count++;
-                    previousX = x;
-                    previousTime = time;
-                    if (speedX < 0 && x < 0) {
-                        v.setAlpha(1f + (x / v.getWidth()));
-                    }
-                    if (mShownNotifications == 0 || (shown && mShownNotifications == 1))
-                        NotificationHostView.this.setBackgroundColor(Color.argb(MAX_ALPHA - (int)(Math.abs(x) / v.getWidth() * MAX_ALPHA), 0, 0, 0));
-                    if (swipeGesture  || Math.abs(event.getX() - initialX) > CLICK_THRESHOLD) {
-                        swipeGesture = true;
-                        preventClick = true;
-                        v.cancelPendingInputEvents();
-                        mScrollView.requestDisallowInterceptTouchEvent(true);
-                        v.setX(x);
-                    }
-                    break;
-                case MotionEvent.ACTION_UP:
-                    speedX /= count;
-                    if (v.getX() < -SWIPE * mDisplayWidth &&
-                            (NotificationViewManager.config.dismissAll || statusBarNotification.isClearable())) {
-                        removeNotification(statusBarNotification);
-                    } else if (v.getX() < (SWIPE * mDisplayWidth)) {
-                        showNotification(this);
-                    } else if (v.getX() < ((1 - SWIPE) * mDisplayWidth) && speedX < 0) {
-                        showNotification(this);
-                    } else {
-                        hideNotification(this);
-                    }
-                    speedX = 0;
-                    count = 0;
-                    swipeGesture = false;
-                    break;
+            if (!NotificationViewManager.config.privacyMode) {
+                View v = getChildAt(0);
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        initialX = event.getX();
+                        delta = initialX - v.getX();
+                        preventClick = false;
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        float time = System.nanoTime() / 1000000.0f;
+                        float x = (event.getX() - delta);
+                        float xr = x - (mDisplayWidth - v.getWidth());
+                        speedX += (x - previousX) / (time - previousTime);
+                        count++;
+                        previousX = x;
+                        previousTime = time;
+                        if (speedX < 0 && x < mDisplayWidth - v.getWidth()) {
+                            v.setAlpha(1f + (xr / (v.getWidth() * (SWIPE * 2))));
+                        }
+                        if (mShownNotifications == 0 || (shown && mShownNotifications == 1))
+                            NotificationHostView.this.setBackgroundColor(Color.argb(MAX_ALPHA -
+                                    (int)(Math.abs(xr) / v.getWidth() * MAX_ALPHA), 0, 0, 0));
+                        if (swipeGesture  || Math.abs(event.getX() - initialX) > CLICK_THRESHOLD) {
+                            swipeGesture = true;
+                            preventClick = true;
+                            v.cancelPendingInputEvents();
+                            mScrollView.requestDisallowInterceptTouchEvent(true);
+                            v.setTranslationX(x);
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        speedX /= count;
+                        if (v.getX() - (mDisplayWidth - v.getWidth())< -SWIPE * mDisplayWidth &&
+                                (NotificationViewManager.config.dismissAll || statusBarNotification.isClearable())) {
+                            removeNotification(statusBarNotification);
+                        } else if (v.getX() < (SWIPE * mDisplayWidth)) {
+                            showNotification(this);
+                        } else if (v.getX() < ((1 - SWIPE) * mDisplayWidth) && speedX < 0) {
+                            showNotification(this);
+                        } else {
+                            hideNotification(this);
+                        }
+                        speedX = 0;
+                        count = 0;
+                        swipeGesture = false;
+                        break;
+                }
             }
             return false;
         }
@@ -259,30 +261,32 @@ public class NotificationHostView extends FrameLayout {
 
     @Override
     public void onFinishInflate() {
-        mNotifications.clear();
-        mNotificationsToAdd.clear();
-        mNotificationsToRemove.clear();
-        mShownNotifications = 0;
-        setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent ev) {
-                if (mShownNotifications > 0) {
-                    hideAllNotifications();
+        if (NotificationViewManager.config != null) {
+            mNotifications.clear();
+            mNotificationsToAdd.clear();
+            mNotificationsToRemove.clear();
+            mShownNotifications = 0;
+            setOnTouchListener(new OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent ev) {
+                    if (mShownNotifications > 0) {
+                        hideAllNotifications();
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
-        Point p = new Point();
-        mWindowManager.getDefaultDisplay().getSize(p);
-        mDisplayWidth = p.x;
-        mDisplayHeight = p.y;
-        mNotifView = (LinearLayout) findViewById(R.id.linearlayout);
-        mScrollView = (TouchModalScrollView) findViewById(R.id.scrollview);
-        mScrollView.setHostView(this);
-        mScrollView.setY(mDisplayHeight * OFFSET_TOP);
-        int maxHeight = Math.round(mDisplayHeight - mDisplayHeight * OFFSET_TOP);
-        mScrollView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-                Math.min(maxHeight, NotificationViewManager.config.notificationsHeight * mNotificationMinRowHeight)));
+            });
+            Point p = new Point();
+            mWindowManager.getDefaultDisplay().getSize(p);
+            mDisplayWidth = p.x;
+            mDisplayHeight = p.y;
+            mNotifView = (LinearLayout) findViewById(R.id.linearlayout);
+            mScrollView = (TouchModalScrollView) findViewById(R.id.scrollview);
+            mScrollView.setHostView(this);
+            mScrollView.setY(mDisplayHeight * NotificationViewManager.config.offsetTop);
+            int maxHeight = Math.round(mDisplayHeight - mDisplayHeight * NotificationViewManager.config.offsetTop);
+            mScrollView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+                    Math.min(maxHeight, NotificationViewManager.config.notificationsHeight * mNotificationMinRowHeight)));
+        }
     }
 
     public void addNotifications() {
@@ -332,7 +336,7 @@ public class NotificationHostView extends FrameLayout {
     }
 
     private void handleAddNotification(final boolean showNotification, boolean forceBigContentView) {
-        NotificationView nv = mNotificationsToAdd.poll();
+        final NotificationView nv = mNotificationsToAdd.poll();
         Log.d(TAG, "Add: " + describeNotification(nv.statusBarNotification));
         final StatusBarNotification sbn = nv.statusBarNotification;
         mDismissedNotifications.remove(describeNotification(sbn));
@@ -347,9 +351,9 @@ public class NotificationHostView extends FrameLayout {
                 (NotificationViewManager.config.expandedView || sbn.getNotification().contentView == null);
         RemoteViews rv = forceBigContentView && bigContentView ? sbn.getNotification().bigContentView : sbn.getNotification().contentView;
         final View remoteView = rv.apply(mContext, null);
-        int x = Math.round(mDisplayWidth - mNotificationMinHeight);
-        remoteView.setX(x);
         remoteView.setBackgroundColor(0x33ffffff);
+        remoteView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        remoteView.setX(mDisplayWidth - mNotificationMinHeight);
         if (bigContentView && forceBigContentView) {
             setBackgroundRecursive((ViewGroup)remoteView);
         }
@@ -379,12 +383,18 @@ public class NotificationHostView extends FrameLayout {
             final NotificationView oldView = (NotificationView) mNotifications.get(describeNotification(sbn));
             Runnable r = new Runnable() {
                 public void run() {
-                    remoteView.setX(oldView.getChildAt(0).getX());
+                    final float oldX = oldView.getChildAt(0).getX() - (mDisplayWidth - oldView.getChildAt(0).getWidth());
                     oldView.removeAllViews();
                     oldView.addView(remoteView);
                     oldView.statusBarNotification = sbn;
-                    if (showNotification)
-                        showNotification(oldView);
+                    mHandler.post(new Runnable() {
+                        public void run() {
+                            remoteView.setX(oldX + (mDisplayWidth - remoteView.getWidth()));
+                            if(showNotification) {
+                                showNotification(oldView);
+                            }
+                        }
+                    });
                 }
             };
             if (oldView.animating) {
@@ -400,9 +410,16 @@ public class NotificationHostView extends FrameLayout {
 
         mNotifView.addView(nv);
         mNotifications.put(describeNotification(sbn), nv);
-        if(showNotification)
-            showNotification(nv);
         mNotifView.bringToFront();
+        if(showNotification) {
+            // showNotification uses v.getWidth but until the layout is done, this just returns 0.
+            // by using mHandler.post, we wait until getWidth returns the real width
+            mHandler.post(new Runnable() {
+                public void run() {
+                    showNotification(nv);
+                }
+            });
+        }
     }
 
     public void removeNotification(final StatusBarNotification sbn) {
@@ -462,28 +479,32 @@ public class NotificationHostView extends FrameLayout {
     }
 
     private void showNotification(NotificationView nv) {
-        View v = nv.getChildAt(0);
-        int duration = getDurationFromDistance(v, 0, 0, Math.abs(nv.speedX));
-        v.animate().setDuration(duration).alpha(1);
-        animateTranslation(v, 0, 0, duration);
-        if (mShownNotifications == 0) animateBackgroundColor(Color.argb(MAX_ALPHA, 0, 0, 0), duration);
-        if (!nv.shown) {
-            nv.shown = true;
-            mShownNotifications++;
+        if (!NotificationViewManager.config.privacyMode) {
+            View v = nv.getChildAt(0);
+            int targetX = mDisplayWidth - v.getWidth();
+            int duration = getDurationFromDistance(v, targetX, 0, Math.abs(nv.speedX));
+            v.animate().setDuration(duration).alpha(1);
+            animateTranslation(v, targetX, 0, duration);
+            if (mShownNotifications == 0 ||
+                    (mShownNotifications == 1 && nv.shown)) {
+                animateBackgroundColor(Color.argb(MAX_ALPHA, 0, 0, 0), duration);
+            }
+            if (!nv.shown) {
+                nv.shown = true;
+                mShownNotifications++;
+            }
         }
         bringToFront();
     }
 
     private void hideNotification(NotificationView nv) {
-        if (nv.shown) {
-            View v = nv.getChildAt(0);
-            int targetX = Math.round(mDisplayWidth - mNotificationMinHeight);
-            int duration = getDurationFromDistance(v, targetX, (int)v.getY(), Math.abs(nv.speedX));
-            if (mShownNotifications > 0 && nv.shown) mShownNotifications--;
-            if (mShownNotifications == 0) animateBackgroundColor(0, duration);
-            animateTranslation(v, targetX, 0, duration);
-            nv.shown = false;
-        }
+        View v = nv.getChildAt(0);
+        int targetX = Math.round(mDisplayWidth - mNotificationMinHeight);
+        int duration = getDurationFromDistance(v, targetX, (int)v.getY(), Math.abs(nv.speedX));
+        if (mShownNotifications > 0 && nv.shown) mShownNotifications--;
+        if (mShownNotifications == 0) animateBackgroundColor(0, duration);
+        animateTranslation(v, targetX, 0, duration);
+        nv.shown = false;
     }
 
     public void showAllNotifications() {
@@ -495,7 +516,8 @@ public class NotificationHostView extends FrameLayout {
 
     public void hideAllNotifications() {
         for (NotificationView nv : mNotifications.values()) {
-            hideNotification (nv);
+            if (nv.shown)
+                hideNotification (nv);
         }
     }
 
@@ -550,9 +572,11 @@ public class NotificationHostView extends FrameLayout {
 
     private int getDurationFromDistance (View v, int targetX, int targetY, float ppms) {
         int distance = 0;
-        if (targetY == v.getY()) distance = Math.abs(Math.round(v.getX()) - targetX);
-        else if (targetX == v.getX()) distance = Math.abs(Math.round(v.getY() - targetY));
-        else distance = (int) Math.abs(Math.round(Math.sqrt((v.getX() - targetX)*(v.getX() * targetX)+(v.getY() - targetY)*(v.getY() - targetY))));
+        float x = v.getX();
+        float y = v.getY();
+        if (targetY == y) distance = Math.abs(Math.round(x) - targetX);
+        else if (targetX == x) distance = Math.abs(Math.round(y - targetY));
+        else distance = (int) Math.abs(Math.round(Math.sqrt((x - targetX)*(x * targetX)+(y - targetY)*(y - targetY))));
         return Math.round(distance / ppms);
     }
 

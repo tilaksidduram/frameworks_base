@@ -30,6 +30,7 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaRouter;
 import android.media.MediaRouter.RouteInfo;
 import android.net.ConnectivityManager;
+import android.nfc.NfcAdapter;
 import android.os.Handler;
 import android.os.UserHandle;
 import android.provider.Settings;
@@ -223,6 +224,21 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
         }
     }
 
+    /** Broadcast receiver for NFC State */
+    private final BroadcastReceiver mNfcReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (NfcAdapter.ACTION_ADAPTER_STATE_CHANGED.equals(action)) {
+                int state = intent.getIntExtra(NfcAdapter.EXTRA_ADAPTER_STATE,
+                        NfcAdapter.STATE_OFF);
+                boolean nfcEnabled = state == NfcAdapter.STATE_ON ||
+                        state == NfcAdapter.STATE_TURNING_ON;
+                onNfcSettingsChanged(nfcEnabled);
+            }
+        }
+    };
+
     private final Context mContext;
     private final Handler mHandler;
     private final CurrentUserTracker mUserTracker;
@@ -299,6 +315,10 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
     private RefreshCallback mSslCaCertWarningCallback;
     private State mSslCaCertWarningState = new State();
 
+    private QuickSettingsTileView mNfcTile;
+    private RefreshCallback mNfcCallback;
+    private State mNfcState = new State();
+
     private RotationLockController mRotationLockController;
 
     public QuickSettingsModel(Context context) {
@@ -335,6 +355,10 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
         IntentFilter alarmIntentFilter = new IntentFilter();
         alarmIntentFilter.addAction(Intent.ACTION_ALARM_CHANGED);
         context.registerReceiver(mAlarmIntentReceiver, alarmIntentFilter);
+
+        IntentFilter nfcIntentFilter = new IntentFilter();
+        nfcIntentFilter.addAction(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED);
+        context.registerReceiver(mNfcReceiver, nfcIntentFilter);
     }
 
     void updateResources() {
@@ -637,6 +661,24 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
         mLocationState.label = label;
         mLocationState.iconId = locationIconId;
         mLocationCallback.refreshView(mLocationTile, mLocationState);
+    }
+
+    // NFC
+    void addNfcTile(QuickSettingsTileView view, RefreshCallback cb) {
+        mNfcTile = view;
+        mNfcCallback = cb;
+        mNfcCallback.refreshView(view, mNfcState);
+    }
+    void onNfcSettingsChanged(boolean nfcEnabled) {
+        int textResId = nfcEnabled ? R.string.quick_settings_nfc_label
+                : R.string.quick_settings_nfc_off_label;
+        String label = mContext.getText(textResId).toString();
+        int nfcIconId = nfcEnabled
+                ? R.drawable.ic_qs_nfc_on : R.drawable.ic_qs_nfc_off;
+        mNfcState.enabled = nfcEnabled;
+        mNfcState.label = label;
+        mNfcState.iconId = nfcIconId;
+        mNfcCallback.refreshView(mNfcTile, mNfcState);
     }
 
     // Bug report

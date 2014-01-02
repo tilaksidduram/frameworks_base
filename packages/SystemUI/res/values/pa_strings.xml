@@ -55,4 +55,7 @@
     <string name="halo_signal_bars_1">ONE BAR</string>
     <string name="halo_signal_bars_none">NO BARS</string>
 
+    <!-- NFC Quicksettings tile -->
+    <string name="quick_settings_nfc_label">NFC on</string>
+    <string name="quick_settings_nfc_off_label">NFC off</string>
 </resources>
