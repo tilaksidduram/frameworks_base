@@ -114,7 +114,8 @@ class QuickSettings {
         MOBILENETWORK,
         LIGHTBULB,
         NFC,
-        SLEEP
+        SLEEP,
+        QUITEHOUR
     }
 
     public static final String NO_TILES = "NO_TILES";
@@ -123,7 +124,7 @@ class QuickSettings {
         + DELIMITER + Tile.SETTINGS + DELIMITER + Tile.WIFI + DELIMITER + Tile.RSSI
         + DELIMITER + Tile.ROTATION + DELIMITER + Tile.BATTERY + DELIMITER + Tile.BLUETOOTH
         + DELIMITER + Tile.LOCATION + DELIMITER + Tile.IMMERSIVE + DELIMITER + Tile.MOBILENETWORK
-        + DELIMITER + Tile.LIGHTBULB;
+        + DELIMITER + Tile.LIGHTBULB + DELIMITER + Tile.QUITEHOUR;
 
     private Context mContext;
     private PanelBar mBar;
@@ -944,6 +945,39 @@ class QuickSettings {
                     });
                     parent.addView(sleepTile);
                     if(addMissing) sleepTile.setVisibility(View.GONE);
+               } else if (Tile.QUITEHOUR.toString().equals(tile.toString())) { // Quite hours tile
+                  // Quite hours mode
+                  final QuickSettingsBasicTile quiteHourTile
+                       = new QuickSettingsBasicTile(mContext);
+                  quiteHourTile.setTileId(Tile.QUITEHOUR);
+                  quiteHourTile.setImageResource(R.drawable.ic_qs_quiet_hours_off);
+                  quiteHourTile.setTextResource(R.string.quick_settings_quiethours_off_label);
+                  quiteHourTile.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           boolean checkModeOn = Settings.System.getInt(mContext
+                                  .getContentResolver(), Settings.System.QUIET_HOURS_ENABLED, 0) == 1;
+                           Settings.System.putInt(mContext.getContentResolver(),
+                                 Settings.System.QUIET_HOURS_ENABLED, checkModeOn ? 0 : 1);
+                           Intent scheduleSms = new Intent();
+                           scheduleSms.setAction("com.android.settings.slim.service.SCHEDULE_SERVICE_COMMAND");
+                           mContext.sendBroadcast(scheduleSms);
+                      }
+                  });
+                  quiteHourTile.setOnLongClickListener(new View.OnLongClickListener() {
+                      @Override
+                      public boolean onLongClick(View v) {
+                           Intent intent = new Intent(Intent.ACTION_MAIN);
+                           intent.setClassName("com.android.settings",
+                                  "com.android.settings.Settings$QuietHoursSettingsActivity");
+                           startSettingsActivity(intent);
+                           return true;
+                      }
+                  });
+                  mModel.addQuiteHourTile(quiteHourTile,
+                        new QuickSettingsModel.BasicRefreshCallback(quiteHourTile));
+                  parent.addView(quiteHourTile);
+                  if (addMissing) quiteHourTile.setVisibility(View.GONE);
                 }
             }
         }
