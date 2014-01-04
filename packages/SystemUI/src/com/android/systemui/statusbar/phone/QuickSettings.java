@@ -46,7 +46,9 @@ import android.net.wifi.WifiManager;
 import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.os.RemoteException;
+import android.os.SystemClock;
 import android.os.UserHandle;
 import android.os.UserManager;
 import android.provider.AlarmClock;
@@ -105,7 +107,8 @@ class QuickSettings {
         BLUETOOTH,
         LOCATION,
         IMMERSIVE,
-        NFC
+        NFC,
+        SLEEP
     }
 
     public static final String NO_TILES = "NO_TILES";
@@ -143,6 +146,8 @@ class QuickSettings {
     private BatteryMeterView mBattery;
     private BatteryCircleMeterView mCircleBattery;
     private int mBatteryStyle;
+
+    private int mLastImmersiveMode = 2;
 
     public QuickSettings(Context context, QuickSettingsContainerView container) {
         mDevicePolicyManager
@@ -340,9 +345,9 @@ class QuickSettings {
         mModel.refreshBatteryTile();
     }
 
-    private boolean immersiveEnabled() {
+    private int getImmersiveMode() {
         return Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.IMMERSIVE_MODE, 0) == 1;
+                    Settings.System.IMMERSIVE_MODE, 0);
     }
 
     private boolean isNfcSupported() {
@@ -749,27 +754,46 @@ class QuickSettings {
                 } else if(Tile.IMMERSIVE.toString().equals(tile.toString())) { // Immersive mode
                     final QuickSettingsBasicTile immersiveTile
                             = new QuickSettingsBasicTile(mContext);
-                    final boolean immersiveModeOn = immersiveEnabled();
+                    final int immersiveMode = getImmersiveMode();
                     immersiveTile.setTileId(Tile.IMMERSIVE);
-                    immersiveTile.setImageResource(immersiveModeOn
+                    immersiveTile.setImageResource(immersiveMode != 0
                                  ? R.drawable.ic_qs_immersive_on
                                  : R.drawable.ic_qs_immersive_off);
-                    immersiveTile.setTextResource(immersiveModeOn
+                    immersiveTile.setTextResource(immersiveMode != 0
                                  ? R.string.quick_settings_immersive_mode_label
                                  : R.string.quick_settings_immersive_mode_off_label);
                     immersiveTile.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             collapsePanels();
-                            boolean immersiveOn = immersiveEnabled();
-                            immersiveTile.setImageResource(immersiveOn
+                            int immersive = getImmersiveMode();
+                            immersive = immersive == 0 ? 1 : 0;
+                            immersiveTile.setImageResource(immersive == 0
                                     ? R.drawable.ic_qs_immersive_off :
                                             R.drawable.ic_qs_immersive_on);
-                            immersiveTile.setTextResource(immersiveOn
+                            immersiveTile.setTextResource(immersive == 0
                                     ? R.string.quick_settings_immersive_mode_off_label :
                                             R.string.quick_settings_immersive_mode_label);
                             Settings.System.putInt(mContext.getContentResolver(),
-                                    Settings.System.IMMERSIVE_MODE, immersiveOn ? 0 : 1);
+                                    Settings.System.IMMERSIVE_MODE, immersive);
+                        }
+                    });
+                    immersiveTile.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            collapsePanels();
+                            int immersive = getImmersiveMode();
+                            if (immersive == 0 || immersive == 1) { 
+                                immersiveTile.setImageResource(R.drawable.ic_qs_immersive_on);
+                                immersiveTile.setTextResource(R.string.quick_settings_immersive_mode_label);
+                                Settings.System.putInt(mContext.getContentResolver(),
+                                        Settings.System.IMMERSIVE_MODE, mLastImmersiveMode);
+                            } else {
+                                mLastImmersiveMode = mLastImmersiveMode == 3 ? 2 : 3;
+                                Settings.System.putInt(mContext.getContentResolver(),
+                                        Settings.System.IMMERSIVE_MODE, mLastImmersiveMode);
+                            }
+                            return true;
                         }
                     });
                     parent.addView(immersiveTile);
@@ -812,6 +836,31 @@ class QuickSettings {
                     mModel.addNfcTile(nfcTile, new QuickSettingsModel.BasicRefreshCallback(nfcTile));
                     parent.addView(nfcTile);
                     if(addMissing) nfcTile.setVisibility(View.GONE);
+                } else if(Tile.SLEEP.toString().equals(tile.toString())) { // Sleep
+                    final PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+
+                    final QuickSettingsBasicTile sleepTile
+                    = new QuickSettingsBasicTile(mContext);
+                    sleepTile.setTileId(Tile.SLEEP);
+                    sleepTile.setImageResource(R.drawable.ic_qs_sleep);
+                    sleepTile.setTextResource(R.string.quick_settings_sleep_label);
+                    sleepTile.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            pm.goToSleep(SystemClock.uptimeMillis());
+                        }
+                    });
+
+                    sleepTile.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            collapsePanels();
+                            startSettingsActivity(android.provider.Settings.ACTION_DISPLAY_SETTINGS);
+                            return true;
+                        }
+                    });
+                    parent.addView(sleepTile);
+                    if(addMissing) sleepTile.setVisibility(View.GONE);
                 }
             }
         }
