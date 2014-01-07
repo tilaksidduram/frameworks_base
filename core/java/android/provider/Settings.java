@@ -2898,12 +2898,6 @@ public final class Settings {
         public static final String VOLUME_WAKE_SCREEN = "volume_wake_screen";
 
         /**
-         * Swipe between quick settings and notification drawer
-         * @hide
-         */
-        public static final String QUICK_SWIPE = "quick_swipe";
-
-        /**
          * Volume keys control cursor in text fields (default is 0)
          * 0 - Disabled
          * 1 - Volume up/down moves cursor left/right
