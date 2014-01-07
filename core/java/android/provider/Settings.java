@@ -2892,12 +2892,6 @@ public final class Settings {
         public static final String LOCKSCREEN_SEE_THROUGH = "lockscreen_see_through";
 
         /**
-         * Show when WiFi or data mobile is sending/receiving data
-         * @hide
-         */
-        public static final String STATUS_BAR_NETWORK_ACTIVITY = "status_bar_network_activity";
-
-        /**
          * Whether to wake the screen with the volume keys, the value is boolean.
          * @hide
          */
