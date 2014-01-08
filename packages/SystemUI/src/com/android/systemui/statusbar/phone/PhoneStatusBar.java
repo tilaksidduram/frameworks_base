@@ -55,7 +55,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.inputmethodservice.InputMethodService;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -374,7 +373,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode {
 
         @Override
         public void onChange(boolean selfChange, Uri uri) {
-		if (uri.equals(Settings.System.getUriFor(
+            if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.LOCKSCREEN_CAMERA_WIDGET))) {
+                if (mNavigationBarView != null) {
+                    mNavigationBarView.disableCameraByUser();
+                }
+            } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_SHOW))) {
                 boolean show = Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.NAVIGATION_BAR_SHOW, 1) == 1;
