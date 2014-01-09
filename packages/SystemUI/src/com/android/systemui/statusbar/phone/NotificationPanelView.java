@@ -130,9 +130,7 @@ public class NotificationPanelView extends PanelView {
                 case MotionEvent.ACTION_DOWN:
                     mGestureStartX = event.getX(0);
                     mGestureStartY = event.getY(0);
-                    mTrackingSwipe = isFullyExpanded() &&
-                        // Pointer is at the handle portion of the view?
-                        mGestureStartY > getHeight() - mHandleBarHeight - getPaddingBottom();
+		    mTrackingSwipe = isFullyExpanded();
                     mOkToFlip = getExpandedHeight() == 0;
                     if (event.getX(0) > getWidth() * mQuickPullDownPercentage) {
                         flip = true;
