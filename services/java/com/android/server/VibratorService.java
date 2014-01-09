@@ -207,6 +207,8 @@ public class VibratorService extends IVibratorService.Stub
             return;
         }
 
+        milliseconds = userDuration(milliseconds);
+
         Vibration vib = new Vibration(token, milliseconds, uid, packageName);
 
         final long ident = Binder.clearCallingIdentity();
@@ -230,6 +232,18 @@ public class VibratorService extends IVibratorService.Stub
             }
         }
         return true;
+    }
+
+    private long userDuration(long millis) {
+        int userMillis = Settings.System.getIntForUser(
+                mContext.getContentResolver(),
+                Settings.System.MINIMUM_VIBRATION_DURATION,
+                0, UserHandle.USER_CURRENT_OR_SELF);
+        // Set length if <= userMillis && not default
+        if (userMillis != 0 && millis <= userMillis) {
+            millis = userMillis;
+        }
+        return millis;
     }
 
     public void vibratePattern(int uid, String packageName, long[] pattern, int repeat,
@@ -475,6 +489,8 @@ public class VibratorService extends IVibratorService.Stub
     }
 
     private void doVibratorOn(long millis, int uid) {
+        millis = userDuration(millis);
+
         synchronized (mInputDeviceVibrators) {
             try {
                 mBatteryStatsService.noteVibratorOn(uid, millis);
