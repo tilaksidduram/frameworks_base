@@ -2336,6 +2336,12 @@ public final class Settings {
         public static final String TTY_MODE = "tty_mode";
 
         /**
+         * Whether national data roaming should be used.
+         * @hide
+         */
+        public static final String MVNO_ROAMING = "mvno_roaming";
+
+        /**
          * Whether noise suppression is enabled. The value is
          * boolean (1 or 0).
          * @hide
