@@ -40,6 +40,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.hardware.display.DisplayManager;
+import android.media.AudioManager;
 import android.media.MediaRouter;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
@@ -115,7 +116,8 @@ class QuickSettings {
         LIGHTBULB,
         NFC,
         SLEEP,
-        QUITEHOUR
+        QUITEHOUR,
+	VOLUME
     }
 
     public static final String NO_TILES = "NO_TILES";
@@ -945,6 +947,31 @@ class QuickSettings {
                     });
                     parent.addView(sleepTile);
                     if(addMissing) sleepTile.setVisibility(View.GONE);
+		// Volume tile
+		} else if(Tile.VOLUME.toString().equals(tile.toString())) {                     
+                    final QuickSettingsBasicTile volumeTile
+                    = new QuickSettingsBasicTile(mContext);
+                    volumeTile.setTileId(Tile.VOLUME);
+                    volumeTile.setImageResource(R.drawable.ic_qs_volume);
+                    volumeTile.setTextResource(R.string.quick_settings_volume_label);
+                    volumeTile.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            collapsePanels();
+                      AudioManager am = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+                      am.adjustVolume(AudioManager.ADJUST_SAME, AudioManager.FLAG_SHOW_UI);
+                        }
+                    });
+
+                    volumeTile.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            startSettingsActivity(android.provider.Settings.ACTION_SOUND_SETTINGS);
+                      return true;
+                        }
+                    });
+                    parent.addView(volumeTile);
+                    if(addMissing) volumeTile.setVisibility(View.GONE);
                } else if (Tile.QUITEHOUR.toString().equals(tile.toString())) { // Quite hours tile
                   // Quite hours mode
                   final QuickSettingsBasicTile quiteHourTile
