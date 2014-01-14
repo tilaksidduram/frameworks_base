@@ -2951,6 +2951,13 @@ public final class Settings {
          */
         public static final String CUSTOM_SOUND_EFFECTS_PATH = "custom_sound_effects_path";
 
+        /**
+         * Whether navigation bar is placed on the left side in landscape mode
+         *
+         * @hide
+         */
+        public static final String NAVBAR_LEFT_IN_LANDSCAPE = "navigation_bar_left";
+
          /**
           * Action to perform when the home key is long-pressed. (Default is 2)
           * 0 - Nothing

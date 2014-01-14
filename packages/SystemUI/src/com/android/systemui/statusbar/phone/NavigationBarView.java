@@ -77,6 +77,7 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
     int mBarSize;
     boolean mVertical;
     boolean mScreenOn;
+    boolean mLeftInLandscape;
 
     boolean mShowMenu;
     int mDisabledFlags = 0;
@@ -216,6 +217,7 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
         mBarSize = res.getDimensionPixelSize(R.dimen.navigation_bar_size);
         mVertical = false;
         mShowMenu = false;
+        mLeftInLandscape = false;
         mDelegateHelper = new DelegateViewHelper(this);
 
         RecentsActivity.setNavigationCallback(this);
@@ -564,6 +566,11 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
         return mVertical;
     }
 
+    public void setLeftInLandscape(boolean leftInLandscape) {
+        mLeftInLandscape = leftInLandscape;
+        mDeadZone.setStartFromRight(leftInLandscape);
+    }
+
     public void reorient() {
         final int rot = mDisplay.getRotation();
         for (int i=0; i<4; i++) {
@@ -573,6 +580,7 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
         mCurrentView.setVisibility(View.VISIBLE);
 
         mDeadZone = (DeadZone) mCurrentView.findViewById(R.id.deadzone);
+        mDeadZone.setStartFromRight(mLeftInLandscape);
 
         // force the low profile & disabled states into compliance
         mBarTransitions.init(mVertical);
@@ -713,5 +721,4 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
         }
         pw.println();
     }
-
 }
