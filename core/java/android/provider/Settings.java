@@ -3095,6 +3095,12 @@ public final class Settings {
         public static final String QUIET_HOURS_RINGER = "quiet_hours_ringer";
 
         /**
+         * Setting to show determine if AOSP dialer is used
+         * @hide
+         */
+        public static final String AOSP_DIALER = "aosp_dialer";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
