@@ -1234,6 +1234,11 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
             mobileLabel = customLabel;
         }
 
+        // Cleanup the double quotes
+        if (wifiLabel.length() > 0) {
+            wifiLabel = wifiLabel.replaceAll("^\"|\"$", "");
+        }
+
         if (DEBUG) {
             Log.d(TAG, "refreshViews connected={"
                     + (mWifiConnected?" wifi":"")
