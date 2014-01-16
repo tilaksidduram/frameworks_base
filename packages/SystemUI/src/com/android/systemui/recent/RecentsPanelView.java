@@ -95,6 +95,7 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
     private RecentsScrollView mRecentsContainer;
 
     private boolean mShowing;
+    private boolean mAttached;
     private boolean mWaitingToShow;
     private ViewHolder mItemToAnimateInWhenWindowAnimationIsFinished;
     private boolean mAnimateIconOfFirstTask;
@@ -123,11 +124,24 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
     TextView mForegroundProcessText;
 
     Handler mHandler = new Handler();
-    SettingsObserver mSettingsObserver;
     ActivityManager mAm;
     ActivityManager.MemoryInfo mMemInfo;
 
     MemInfoReader mMemInfoReader = new MemInfoReader();
+
+    private ContentObserver mObserver = new ContentObserver(mHandler) {
+        @Override
+        public void onChange(boolean selfChange) {
+            updateSettings();
+            updateView();
+        }
+
+        @Override
+        public void onChange(boolean selfChange, android.net.Uri uri) {
+            updateSettings();
+            updateView();
+        };
+    };
 
     private static Set<Integer> sLockedTasks = new HashSet<Integer>();
 
@@ -333,7 +347,6 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
         mRecentTasksLoader = RecentTasksLoader.getInstance(context);
         mRecentsActivity = (RecentsActivity) context;
         a.recycle();
-        mSettingsObserver = new SettingsObserver(mHandler);
     }
 
     public int numItemsInOneScreenful() {
@@ -463,17 +476,29 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
     @Override
     protected void onAttachedToWindow () {
         super.onAttachedToWindow();
-        final ViewRootImpl root = getViewRootImpl();
-        if (root != null) {
-            root.setDrawDuringWindowsAnimating(true);
+        if (!mAttached) {
+            mAttached = true;
+
+            final ViewRootImpl root = getViewRootImpl();
+            if (root != null) {
+                root.setDrawDuringWindowsAnimating(true);
+            }
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.registerContentObserver(Settings.AOKP
+                    .getUriFor(Settings.AOKP.RAM_USAGE_BAR),
+                    false, mObserver);
+            updateSettings();
+            updateView();
         }
-        mSettingsObserver.observe(); // observe will call updateSettings()
     }
 
     @Override
     protected void onDetachedFromWindow() {
-        mContext.getContentResolver().unregisterContentObserver(mSettingsObserver);
         super.onDetachedFromWindow();
+        if (mAttached) {
+            mAttached = false;
+            mContext.getContentResolver().unregisterContentObserver(mObserver);
+        }
     }
 
     public int getTasks() {
@@ -1087,29 +1112,12 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
         }
     };
 
-    class SettingsObserver extends ContentObserver {
-        SettingsObserver(Handler handler) {
-            super(handler);
-        }
-
-        void observe() {
-            ContentResolver resolver = mContext.getContentResolver();
-            resolver.registerContentObserver(Settings.System.getUriFor(
-            	Settings.System.RAM_USAGE_BAR),
-                    false, this);
-            updateSettings();
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            updateSettings();
-        }
-    }
-
     public void updateSettings() {
         ramBarEnabled = Settings.System.getBoolean(mContext.getContentResolver(),
                 Settings.System.RAM_USAGE_BAR, false);
+    }
 
+    private void updateView() {
         if (mRamUsageBar != null) {
             mRamUsageBar.setVisibility(ramBarEnabled ? View.VISIBLE : View.GONE);
         }
