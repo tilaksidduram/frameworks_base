@@ -2466,43 +2466,39 @@ public class Activity extends ContextThemeWrapper
         WindowManager.LayoutParams attrs = mWindow.getAttributes();
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                onUserInteraction();
                 if (mWindow.mIsFloatingWindow) {
-                    Log.d(TAG, "Y: " + ev.getY() + " Raw: " + ev.getRawY());
                     if (ev.getX() >= attrs.width - 50) scaleW = true;
                     if (ev.getY() >= attrs.height - 50) scaleH = true;
-                    if (ev.getY() <= 50) move = true;
+                    if (ev.getY() <= 50 + attrs.y) move = true;
                     if (move || scaleW || scaleH) {
                         lastPos = new Point((int)ev.getRawX(), (int)ev.getRawY());
                         return true;
                     }
                 }
+                onUserInteraction();
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (mWindow.mIsFloatingWindow && lastPos != null) {
                     int x = attrs.x;
                     int y = attrs.y;
-                    Point screenSize = new Point();
-                    mWindowManager.getDefaultDisplay().getSize(screenSize);
                     if (move) {
-                        Log.e(TAG, "Move!");
+                        Point screenSize = new Point();
+                        mWindowManager.getDefaultDisplay().getSize(screenSize);
                         x = attrs.x + ((int)ev.getRawX() - lastPos.x);
                         y = attrs.y + ((int)ev.getRawY() - lastPos.y);
                     }
                     int width = (int) (scaleW ? attrs.width + ((int)ev.getRawX() - lastPos.x) : attrs.width);
                     int height = (int) (scaleH ? attrs.height + ((int)ev.getRawY() - lastPos.y) : attrs.height);
-                    mWindow.setLayout(Math.max(0, Math.min(x, screenSize.x - width)), Math.max(0, Math.min(y, screenSize.y - height)), 
-                            Math.min(width, screenSize.x), Math.min(height, screenSize.y));
+                    if (scaleW || scaleH) Log.e(TAG, "Scale!");
+                    mWindow.setLayout(x, y, width, height);
                     lastPos.x = (int)ev.getRawX();
                     lastPos.y = (int)ev.getRawY();
                     return true;
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                boolean ret = scaleW || scaleH || move;
                 scaleW = scaleH = move = false;
-                lastPos = null;
-                if (ret) return true;
+                if (scaleW || scaleH || move) return true;
                 break;
         }
         if (getWindow().superDispatchTouchEvent(ev)) {
@@ -5301,7 +5297,7 @@ public class Activity extends ContextThemeWrapper
             mWindow = PolicyManager.makeNewWindow(this);
             mWindow.mIsFloatingWindow = true;
             mWindow.setCloseOnTouchOutsideIfNotSet(false);
-            mWindow.setGravity(Gravity.TOP | Gravity.LEFT);
+            mWindow.setGravity(Gravity.CENTER);
             
             //if (android.os.Process.myUid() == android.os.Process.SYSTEM_UID) {
             int flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
@@ -5338,12 +5334,11 @@ public class Activity extends ContextThemeWrapper
         Display display = wm.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
-        boolean portrait = metrics.heightPixels > metrics.widthPixels;
-        int width = (int)(metrics.widthPixels * (portrait ? 0.9f : 0.7f));
-        int height = (int)(metrics.heightPixels * (portrait ? 0.7f : 0.9f));
-        int x = (metrics.widthPixels - width) / 2;
-        int y = (metrics.heightPixels - height) / 2;
-        mWindow.setLayout(x, y, width, height);
+        if (metrics.heightPixels > metrics.widthPixels) {
+            mWindow.setLayout((int)(metrics.widthPixels * 0.9f), (int)(metrics.heightPixels * 0.7f));
+        } else {
+            mWindow.setLayout((int)(metrics.widthPixels * 0.7f), (int)(metrics.heightPixels * 0.8f));
+        }
     }
 
     /** @hide */
