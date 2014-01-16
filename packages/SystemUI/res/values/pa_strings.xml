@@ -20,7 +20,6 @@
     <!-- QS Battery Tile -->
     <string name="quick_settings_battery_charging">Charging</string>
     <string name="quick_settings_battery_discharging">Discharging</string>
-
     <!--Screenshot delete -->
     <string name="screenshot_delete_action">Delete</string>
 
