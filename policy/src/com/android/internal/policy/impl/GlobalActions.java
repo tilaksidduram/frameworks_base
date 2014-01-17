@@ -594,7 +594,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             new SinglePressAction(drawable, name) {
 
                 public void onPress() {
-                    mWindowManagerFuncs.reboot(action, true);
+                    mWindowManagerFuncs.reboot(action, false);
                 }
 
                 public boolean showDuringKeyguard() {
