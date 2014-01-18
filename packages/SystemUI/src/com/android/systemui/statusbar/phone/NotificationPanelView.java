@@ -20,8 +20,10 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.EventLog;
+import android.util.SettingConfirmationHelper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
@@ -43,7 +45,7 @@ public class NotificationPanelView extends PanelView {
     private int mFingers;
     private PhoneStatusBar mStatusBar;
     private boolean mOkToFlip;
-    private static final float mQuickPullDownPercentage = 0.8f;
+    private static final float QUICK_PULL_DOWN_PERCENTAGE = 0.8f;
 
     private float mGestureStartX;
     private float mGestureStartY;
@@ -132,7 +134,7 @@ public class NotificationPanelView extends PanelView {
                     mGestureStartY = event.getY(0);
 		    mTrackingSwipe = isFullyExpanded();
                     mOkToFlip = getExpandedHeight() == 0;
-                    if (event.getX(0) > getWidth() * mQuickPullDownPercentage) {
+                    if (event.getX(0) > getWidth() * QUICK_PULL_DOWN_PERCENTAGE) {
                         flip = true;
                     }
                     break;
@@ -187,7 +189,16 @@ public class NotificationPanelView extends PanelView {
                 }
                 if (maxy - miny < mHandleBarHeight) {
                     if (mJustPeeked || getExpandedHeight() < mHandleBarHeight) {
-                        mStatusBar.switchToSettings();
+                        SettingConfirmationHelper helper = new SettingConfirmationHelper(mContext);
+                        helper.showConfirmationDialogForSetting(
+                                mContext.getString(R.string.quick_settings_quick_pull_down_title),
+                                mContext.getString(R.string.quick_settings_quick_pull_down_message),
+                                mContext.getResources().getDrawable(R.drawable.quick_pull_down),
+                                Settings.System.QUICK_SETTINGS_QUICK_PULL_DOWN);
+                        if(Settings.System.getInt(mContext.getContentResolver(),
+                                    Settings.System.QUICK_SETTINGS_QUICK_PULL_DOWN, 0) != 2) {
+                            mStatusBar.switchToSettings();
+                        }
                     } else {
                         mStatusBar.flipToSettings();
                     }

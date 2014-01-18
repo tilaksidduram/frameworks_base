@@ -22,11 +22,15 @@
     <string name="quick_settings_battery_discharging">Discharging</string>
     <!--Screenshot delete -->
     <string name="screenshot_delete_action">Delete</string>
-
     <string name="screenshot_delete_confirmation">Screenshot deleted.</string>
 
     <!-- Content description of the data connection type HSPA+ for accessibility (not shown on the screen). [CHAR LIMIT=NONE] -->
     <string name="accessibility_data_connection_HP">HSPA+</string>
+
+    <!-- Quick pulldown confirmation dialog -->
+    <string name="quick_settings_quick_pull_down_title">Quick pull down</string>
+    <string name="quick_settings_quick_pull_down_message">Would you like the edge of the status bar to pull down quick settings?</string>
+
     <!-- QuickSettings: Immersive mode [CHAR LIMIT=NONE] -->
     <string name="quick_settings_immersive_mode_label">Immersive</string>
     <!-- QuickSettings: Immersive mode (Off) [CHAR LIMIT=NONE] -->

@@ -2986,6 +2986,12 @@ public final class Settings {
         public static final String STATUS_BAR_BATTERY_STYLE = "status_bar_battery_style";
 
         /**
+         * Quick settings quick pull down option
+         * @hide
+         */
+        public static final String QUICK_SETTINGS_QUICK_PULL_DOWN = "quick_settings_quick_pull_down";
+
+        /**
          *  Enable statusbar double tap gesture on to put device to sleep
          * @hide
          */
@@ -3168,6 +3174,15 @@ public final class Settings {
             INCREASING_RING,
             RINGTONE,
             NOTIFICATION_SOUND
+        };
+
+        /**
+         * Settings to reset on user choice. They will fall back to their default value (0).
+         *
+         * @hide
+         */
+        public static final String[] SETTINGS_TO_RESET = {
+            QUICK_SETTINGS_QUICK_PULL_DOWN
         };
 
         // Settings moved to Settings.Secure
