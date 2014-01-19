@@ -3168,7 +3168,6 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_MAXIMIZE_WIDGETS = "lockscreen_maximize_widgets";
 
-
         /**
          * Holds the text for the Carrier label. An empty string
          * will bring the default text back.
