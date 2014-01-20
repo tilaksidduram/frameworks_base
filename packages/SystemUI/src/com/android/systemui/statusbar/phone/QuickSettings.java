@@ -904,25 +904,42 @@ class QuickSettings {
                     parent.addView(locationTile);
                     if(addMissing) locationTile.setVisibility(View.GONE);
                 } else if(Tile.IMMERSIVE.toString().equals(tile.toString())) { // Immersive mode tile
-                    final QuickSettingsBasicTile immersiveTile
-                            = new QuickSettingsBasicTile(mContext);
+                    final QuickSettingsDualBasicTile immersiveTile
+                            = new QuickSettingsDualBasicTile(mContext);
+                    immersiveTile.setDefaultContent();
                     immersiveTile.setTileId(Tile.IMMERSIVE);
-                    immersiveTile.setImageResource(R.drawable.ic_qs_immersive_off);
-                    immersiveTile.setTextResource(R.string.quick_settings_immersive_mode_off_label);
-                    immersiveTile.setOnClickListener(new View.OnClickListener() {
+                    immersiveTile.setFrontImageResource(R.drawable.ic_qs_immersive_off);
+                    immersiveTile.setFrontTextResource(R.string.quick_settings_immersive_mode_off_label);
+                    immersiveTile.setFrontOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mModel.switchImmersiveModeStyles();
+                            mModel.changeImmersiveMode();
                             mModel.refreshImmersiveTile();
                         }
                     });
                     mModel.addImmersiveTile(immersiveTile, new QuickSettingsModel.RefreshCallback() {
                         @Override
                         public void refreshView(QuickSettingsTileView unused, State state) {
-                            immersiveTile.setImageResource(state.iconId);
-                            immersiveTile.setText(state.label);
-			}
-		    });
+                            immersiveTile.setFrontImageResource(state.iconId);
+                            immersiveTile.setFrontText(state.label);
+                        }
+                    });
+                    immersiveTile.setBackImageResource(R.drawable.ic_qs_immersive_off);
+                    immersiveTile.setBackTextResource(R.string.quick_settings_immersive_mode_off_label);
+                    immersiveTile.setBackOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mModel.switchImmersiveModeStyles();
+                            mModel.refreshImmersiveExtraTile();
+                        }
+                    });
+                    mModel.addImmersiveExtraTile(immersiveTile.getBack(), new QuickSettingsModel.RefreshCallback() {
+                        @Override
+                        public void refreshView(QuickSettingsTileView unused, State state) {
+                            immersiveTile.setBackImageResource(state.iconId);
+                            immersiveTile.setBackText(state.label);
+                        }
+                    });
                     parent.addView(immersiveTile);
                     if(addMissing) immersiveTile.setVisibility(View.GONE);
                 } else if(Tile.LIGHTBULB.toString().equals(tile.toString())) { // Lightbulb tile
