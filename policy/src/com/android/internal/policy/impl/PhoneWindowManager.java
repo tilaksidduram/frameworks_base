@@ -3035,6 +3035,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     public int adjustSystemUiVisibilityLw(int visibility) {
         mStatusBarController.adjustSystemUiVisibilityLw(mLastSystemUiFlags, visibility);
         mNavigationBarController.adjustSystemUiVisibilityLw(mLastSystemUiFlags, visibility);
+        updateSystemUiVisibilityLw();
 
         // Reset any bits in mForceClearingStatusBarVisibility that
         // are now clear.
