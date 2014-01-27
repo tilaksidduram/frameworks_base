@@ -936,22 +936,6 @@ class QuickSettings {
                     mModel.addImmersiveModeTile(immersiveTile.getBack(), new QuickSettingsModel.RefreshCallback() {
                         @Override
                         public void refreshView(QuickSettingsTileView unused, State state) {
-                            immersiveTile.setFrontImageResource(state.iconId);
-                            immersiveTile.setFrontText(state.label);
-                        }
-                    });
-                    immersiveTile.setBackImageResource(R.drawable.ic_qs_immersive_off);
-                    immersiveTile.setBackTextResource(R.string.quick_settings_immersive_mode_off_label);
-                    immersiveTile.setBackOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mModel.switchImmersiveModeStyles();
-                            mModel.refreshImmersiveExtraTile();
-                        }
-                    });
-                    mModel.addImmersiveExtraTile(immersiveTile.getBack(), new QuickSettingsModel.RefreshCallback() {
-                        @Override
-                        public void refreshView(QuickSettingsTileView unused, State state) {
                             immersiveTile.setBackImageResource(state.iconId);
                             immersiveTile.setBackText(state.label);
                         }
