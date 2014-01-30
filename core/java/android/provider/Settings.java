@@ -2862,6 +2862,12 @@ public final class Settings {
          */
         public static final String HARDWARE_KEY_REBINDING = "hardware_key_rebinding";
 
+        /**
+         * Defines the custom path to use for UI sound effects (null for default)
+         * @hide
+         */
+        public static final String CUSTOM_SOUND_EFFECTS_PATH = "custom_sound_effects_path";
+
          /**
           * Action to perform when the home key is long-pressed. (Default is 2)
           * 0 - Nothing
