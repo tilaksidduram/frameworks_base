@@ -61,4 +61,31 @@
     <string name="setting_confirmation_no">No</string>
     <!-- Immersive mode confirmation: Pick confirmation window from bottom when status bar is visible -->
     <string name="immersive_mode_confirmation_bottom">Swipe up from the bottom to exit full screen.</string>
+
+    <!--CyanogenMod Profiles -->
+    <!-- Names of default profiles. -->
+    <string name="profileNameDefault">Default</string>
+    <string name="profileNameWork">Work</string>
+    <string name="profileNameHome">Home</string>
+    <string name="profileNameSilent">Silent</string>
+    <string name="profileNameNight">Night</string>
+
+    <!-- Names of application groups. -->
+    <string name="profileGroupPhone">Phone</string>
+    <string name="profileGroupCalendar">Calendar</string>
+    <string name="profileGroupGmail">Gmail</string>
+    <string name="profileGroupEmail">Email</string>
+    <string name="profileGroupSMS">SMS</string>
+
+    <!-- Name of wildcard profile. -->
+    <string name="wildcardProfile">Other</string>
+
+    <!-- label for item that opens the profile choosing dialog -->
+    <string name="global_action_choose_profile">Profile</string>
+
+    <!-- The title of the profile picker dialog. -->
+    <string name="profile_picker_title">Profiles</string>
+
+    <!-- The item label for the no profile selection item. -->
+    <string name="profile_none">None</string>
 </resources>

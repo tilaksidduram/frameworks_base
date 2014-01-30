@@ -1811,4 +1811,10 @@
   <java-symbol type="dimen" name="edge_gesture_trigger_distance" />
   <java-symbol type="dimen" name="edge_gesture_perpendicular_distance" />
   <java-symbol type="dimen" name="edge_gesture_trigger_thickness" />
+
+  <!-- Profiles -->
+  <java-symbol type="xml" name="profile_default" />
+  <java-symbol type="string" name="wildcardProfile" />
+  <java-symbol type="string" name="profile_picker_title" />
+  <java-symbol type="string" name="profile_none" />
 </resources>
