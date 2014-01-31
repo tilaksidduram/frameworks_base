@@ -584,6 +584,10 @@ public class KeyguardViewMediator {
         mKeyguardViewManager.setBackgroundBitmap(bmp);
     }
 
+    public void setWallpaper(Bitmap bmp) {
+        mKeyguardViewManager.setWallpaper(bmp);
+    }
+
     /**
      * Let us know that the system is ready after startup.
      */
@@ -1200,7 +1204,7 @@ public class KeyguardViewMediator {
     protected void handleDispatchButtonClickEvent(int buttonId) {
         mKeyguardViewManager.dispatchButtonClick(buttonId);
     }
-    
+
     private void sendUserPresentBroadcast() {
         final UserHandle currentUser = new UserHandle(mLockPatternUtils.getCurrentUser());
         mContext.sendBroadcastAsUser(USER_PRESENT_INTENT, currentUser);
@@ -1440,7 +1444,7 @@ public class KeyguardViewMediator {
         msg.arg1 = buttonId;
         mHandler.sendMessage(msg);
     }
-    
+
     public void launchCamera() {
         Message msg = mHandler.obtainMessage(LAUNCH_CAMERA);
         mHandler.sendMessage(msg);
