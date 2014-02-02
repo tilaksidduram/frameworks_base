@@ -3632,6 +3632,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
         }
 
+        // Update the QuickSettings container
+        if (mNavigationBarView != null)  {
+            mNavigationBarView.updateResources();
+            updateSearchPanel();
+        }
     }
 
     protected void loadDimens() {
