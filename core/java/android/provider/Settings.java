@@ -3094,6 +3094,12 @@ public final class Settings {
          */
         public static final String STATUS_BAR_BATTERY_STYLE = "status_bar_battery_style";
 
+       /**
+         * Whether to unlock the menu key.  The value is boolean (1 or 0).
+         * @hide
+         */
+        public static final String MENU_UNLOCK_SCREEN = "menu_unlock_screen";
+
         /**
          * Quick settings quick pull down option
          * @hide
