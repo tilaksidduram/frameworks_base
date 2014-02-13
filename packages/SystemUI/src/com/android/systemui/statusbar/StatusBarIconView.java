@@ -85,7 +85,7 @@ public class StatusBarIconView extends AnimatedImageView {
         mNumberPain.setTextSize(scaledPx);
         mNotification = notification;
         mShowNotificationCount = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.STATUS_BAR_NOTIF_COUNT, 0) == 1;
+                Settings.System.STATUSBAR_NOTIF_COUNT, 0) == 1;
         setContentDescription(notification);
 
         // We do not resize and scale system icons (on the right), only notification icons (on the
@@ -157,7 +157,7 @@ public class StatusBarIconView extends AnimatedImageView {
             }
 
             if (!numberEquals || force) {
-                if (icon.number > 0 && mShowNotificationCount) {
+                if (icon.number > 1 && mShowNotificationCount) {
                     if (mNumberBackground == null) {
                         mNumberBackground = getContext().getResources().getDrawable(
                                 R.drawable.ic_notification_overlay);
@@ -281,7 +281,7 @@ public class StatusBarIconView extends AnimatedImageView {
             mAttached = true;
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(Settings.System
-                        .getUriFor(Settings.System.STATUS_BAR_NOTIF_COUNT),
+                        .getUriFor(Settings.System.STATUSBAR_NOTIF_COUNT),
                         false, mSettingsObserver);
             updateSettings();
         }
@@ -353,7 +353,7 @@ public class StatusBarIconView extends AnimatedImageView {
     protected void updateSettings() {
         mShowNotificationCount = Settings.System.getInt(
                 mContext.getContentResolver(),
-                Settings.System.STATUS_BAR_NOTIF_COUNT, 0) == 1;
+                Settings.System.STATUSBAR_NOTIF_COUNT, 0) == 1;
     }
 
     protected void apply() {
