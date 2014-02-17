@@ -468,9 +468,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private int mPressOnAppSwitchBehavior = -1;
     private int mLongPressOnAppSwitchBehavior = -1;
 
-    // Tracks preloading of the recent apps screen
-    private boolean mRecentAppsPreloaded;
-
     // support for activating the lock screen while the screen is on
     boolean mAllowLockscreenWhenOn;
     int mLockScreenTimeout;
@@ -2960,7 +2957,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private void toggleRecentApps() {
-        mRecentAppsPreloaded = false; // preloading no longer needs to be canceled
+        mPreloadedRecentApps = false; // preloading no longer needs to be canceled
         sendCloseSystemWindows(SYSTEM_DIALOG_REASON_RECENT_APPS);
         try {
             IStatusBarService statusbar = getStatusBarService();
