@@ -46,6 +46,7 @@ import android.os.Message;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.util.Log;
+import android.util.SettingConfirmationHelper;
 import android.view.WindowManager.LayoutParams;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
@@ -977,6 +978,16 @@ public class VolumePanel extends Handler implements OnSeekBarChangeListener, Vie
                                             new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 mAudioService.disableSafeMediaVolume();
+                                    SettingConfirmationHelper helper =
+                                            new SettingConfirmationHelper(mContext);
+                                    helper.showConfirmationDialogForSetting(
+                                        mContext.getResources()
+                                                .getString(R.string.safe_headset_warning_title),
+                                        mContext.getResources()
+                                                .getString(R.string.safe_headset_warning_message),
+                                        mContext.getResources()
+                                                .getDrawable(R.drawable.safe_headset_volume_warning),
+                                        Settings.System.SAFE_HEADSET_VOLUME);
                             }
                         })
                         .setNegativeButton(com.android.internal.R.string.no, null)

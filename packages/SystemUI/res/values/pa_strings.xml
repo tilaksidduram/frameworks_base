@@ -161,4 +161,8 @@
     <string name="status_bar_recent_lock_item_title">Lock</string>
     <!-- Title shown in recents popup for unlocking an app from being cleared -->
     <string name="status_bar_recent_unlock_item_title">Unlock</string>
+
+    <!-- On-the-spot preferences -->
+    <string name="quick_settings_quick_pull_down">@string/quick_settings_quick_pull_down_title</string>
+    <string name="safe_headset_volume">Safe headset volume</string>
 </resources>
