@@ -132,6 +132,7 @@ public class GlowPadView extends View {
     private boolean mMagneticTargets = false;
     private boolean mDragging;
     private int mNewTargetResources;
+    private ArrayList<TargetDrawable> mNewTargetDrawables;
 
     private Paint mArcPaint;
     private RectF mArcRect;
@@ -200,6 +201,10 @@ public class GlowPadView extends View {
             if (mNewTargetResources != 0) {
                 internalSetTargetResources(mNewTargetResources);
                 mNewTargetResources = 0;
+                hideTargets(false, false);
+            } else if (mNewTargetDrawables != null) {
+                internalSetTargetResources(mNewTargetDrawables);
+                mNewTargetDrawables = null;
                 hideTargets(false, false);
             }
             mAnimatingTargets = false;
@@ -693,6 +698,15 @@ public class GlowPadView extends View {
             mNewTargetResources = resourceId;
         } else {
             internalSetTargetResources(resourceId);
+        }
+    }
+
+    public void setTargetResources(ArrayList<TargetDrawable> drawList) {
+        if (mAnimatingTargets) {
+            // postpone this change until we return to the initial state
+            mNewTargetDrawables = drawList;
+        } else {
+            internalSetTargetResources(drawList);
         }
     }
 
