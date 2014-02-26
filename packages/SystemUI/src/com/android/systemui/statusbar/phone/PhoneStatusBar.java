@@ -493,6 +493,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
             mReminderEnabled = reminderHolder;
             updateReminder();
+            updateCustomHeaderStatus();
         }
 
         private void updateBrightness() {
@@ -504,13 +505,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mBrightnessControl = !autoBrightness && Settings.System.getIntForUser(
                     resolver, Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL,
                     0, UserHandle.USER_CURRENT) == 1;
-
-        }
-
-        public void update() {
-            final ContentResolver resolver = mContext.getContentResolver();
-
-            updateCustomHeaderStatus();
 
         }
     }
