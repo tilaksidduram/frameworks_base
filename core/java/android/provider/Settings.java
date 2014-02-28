@@ -3486,6 +3486,18 @@ public final class Settings {
          */
         public static final String SCREEN_RECORDER_RECORD_AUDIO = "screen_recorder_record_audio";
 
+         /**
+         * show "clear all recents" button
+         *  @hide
+         */
+        public static final String SHOW_CLEAR_RECENTS_BUTTON = "clear_recents_button";
+
+        /**
+         * location of the "clear all recents" button
+         * @hide
+         */
+        public static final String CLEAR_RECENTS_BUTTON_LOCATION = "clear_recents_button_location";
+
         /**
          * Defines the screen-off animation to display
          * @hide
