@@ -3389,6 +3389,12 @@ public final class Settings {
         public static final String STATUSBAR_CLOCK_DATE_FORMAT = "statusbar_clock_date_format";
 
         /**
+        * Bold Clock
+        * @hide
+        */
+        public static final String STATUS_BAR_BOLD_CLOCK = "status_bar_bold_clock";
+
+        /**
          * Swap volume buttons when the screen is rotated
          * 0 - Disabled
          * 1 - Enabled (screen is rotated by 90 or 180 degrees: phone, hybrid)
