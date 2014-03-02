@@ -3826,7 +3826,8 @@ public final class Settings {
          * @hide
          */
         public static final String[] SETTINGS_TO_RESET = {
-            QUICK_SETTINGS_QUICK_PULL_DOWN
+            QUICK_SETTINGS_QUICK_PULL_DOWN,
+	    MANUAL_SAFE_MEDIA_VOLUME
         };
 
         // Settings moved to Settings.Secure
