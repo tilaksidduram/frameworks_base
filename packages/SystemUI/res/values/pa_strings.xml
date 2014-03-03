@@ -82,6 +82,7 @@
     <string name="quick_settings_location_mode_high_label">High</string>
     <string name="quick_settings_location_mode_battery_label">Battery</string>
     <string name="quick_settings_location_mode_sensors_label">Device</string>
+
     <!-- NFC Quicksettings tile -->
     <string name="quick_settings_nfc_label">NFC on</string>
     <string name="quick_settings_nfc_off_label">NFC off</string>
@@ -89,9 +90,6 @@
     <string name="quick_settings_volume_label">Volume</string>
     <string name="quick_settings_quiethours_label">Quiet hours</string>
     <string name="quick_settings_quiethours_off_label">Quiet hours off</string>
-    <!-- On-the-spot preferences -->
-    <string name="quick_settings_quick_pull_down">@string/quick_settings_quick_pull_down_title</string>
-    <string name="safe_headset_volume">Safe headset volume</string>
 
     <string name="status_bar_notification_hide_icon_packages">Hide app\'s notification icon(s)</string>
 

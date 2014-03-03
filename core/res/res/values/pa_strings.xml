@@ -62,10 +62,6 @@
     <!-- Immersive mode confirmation: Pick confirmation window from bottom when status bar is visible -->
     <string name="immersive_mode_confirmation_bottom">Swipe up from the bottom to exit full screen.</string>
 
-    <!-- Safe headset volume warning dialog -->
-    <string name="safe_headset_warning_title">Safe headset volume</string>
-    <string name="safe_headset_warning_message">Would you like to disable the recommended volume level warning?</string>
-
     <!--CyanogenMod Profiles -->
     <!-- Names of default profiles. -->
     <string name="profileNameDefault">Default</string>
