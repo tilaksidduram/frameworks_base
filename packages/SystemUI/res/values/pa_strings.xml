@@ -166,4 +166,8 @@
     <!-- On-the-spot preferences -->
     <string name="quick_settings_quick_pull_down">@string/quick_settings_quick_pull_down_title</string>
     <string name="safe_headset_volume">@*android:string/safe_headset_warning_title</string>
+
+    <!-- Slim recents -->
+    <string name="status_bar_recent_playstore_item_title">Play Store</string>
+    <string name="status_bar_recent_amazon_item_title">Amazon Store</string>
 </resources>
