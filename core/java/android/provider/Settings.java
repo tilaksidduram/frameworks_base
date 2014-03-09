@@ -3873,6 +3873,14 @@ public final class Settings {
         public static final String PIE_GRAVITY = "pie_gravity";
 
         /**
+         * Either if notification peek is enabled of disabled
+         * 0 = disabled (default)
+         * 1 = enabled
+         * @hide
+         */
+        public static final String PEEK_STATE = "peek_state";
+
+        /**
          * Whether to enable voice wakeup.  The value is boolean (1 or 0).
          * @hide
          */

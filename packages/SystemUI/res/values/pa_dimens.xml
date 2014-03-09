@@ -37,6 +37,14 @@
     <dimen name="pie_tab_title_height">24dp</dimen>
     <dimen name="pie_item_size">40dp</dimen>
     <dimen name="pie_panel_padding">20dp</dimen>
+    <!-- Notification peek dimens -->
+    <dimen name="item_padding">5dp</dimen>
+    <dimen name="small_notification_icon_size">30dp</dimen>
+    <dimen name="small_notification_icon_padding">2dp</dimen>
+    <dimen name="notification_icon_size">46dp</dimen>
+    <dimen name="notification_text_width">300dp</dimen>
+    <dimen name="clock_padding">10dp</dimen>
+    <dimen name="clock_size">15dp</dimen>
 
     <!-- Slim recent -->
     <dimen name="recent_width">230dp</dimen>
@@ -47,5 +55,4 @@
     <dimen name="recent_header_width">120dp</dimen>
     <dimen name="recent_text_size">20dp</dimen>
     <dimen name="recent_thumbnail_bottom_padding">3dp</dimen>
-
 </resources>
