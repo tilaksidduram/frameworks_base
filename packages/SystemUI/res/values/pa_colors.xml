@@ -16,4 +16,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Pie colors -->
     <color name="pie_menu_background">#C0000000</color>
+    <!-- RamBar colors -->
+    <color name="linear_color_bar_left_color">#ff0099cc</color>
+    <color name="linear_color_bar_middle_color">#ff0099cc</color>
+    <color name="linear_color_bar_right_color">#ff888888</color>
 </resources>
