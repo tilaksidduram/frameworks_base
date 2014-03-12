@@ -4869,6 +4869,18 @@ public final class Settings {
         public static final String LOCK_PATTERN_SIZE = "lock_pattern_size";
 
         /**
+         * Lockscreen widget add, glowpad ring, text, failed pattern ring colors
+         * @hide
+         */
+        public static final String LOCKSCREEN_MISC_COLOR = "lockscreen_misc_color";
+
+        /**
+         * Lockscreen targets and pattern ring colors
+         * @hide
+         */
+        public static final String LOCKSCREEN_TARGETS_COLOR = "lockscreen_targets_color";
+
+        /**
          * Whether lock pattern will vibrate as user enters (0 = false, 1 =
          * true)
          *

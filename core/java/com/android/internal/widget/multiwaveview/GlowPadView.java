@@ -37,6 +37,7 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.UserHandle;
 import android.os.Vibrator;
@@ -69,6 +70,12 @@ public class GlowPadView extends View {
     private static final int STATE_TRACKING = 3;
     private static final int STATE_SNAP = 4;
     private static final int STATE_FINISH = 5;
+
+    //Lockscreen targets
+    /**
+     * @hide
+     */
+    public final static String ICON_RESOURCE = "icon_resource";
 
     // Animation properties.
     private static final float SNAP_MARGIN_DEFAULT = 20.0f; // distance to ring before we snap to it
@@ -109,6 +116,7 @@ public class GlowPadView extends View {
     private ArrayList<String> mDirectionDescriptions;
     private Drawable mPointDrawable;
     private Drawable mPadDrawable;
+    private GradientDrawable mRingDrawable;
     private OnTriggerListener mOnTriggerListener;
     private TargetDrawable mHandleDrawable;
     private TargetDrawable mOuterRing;
@@ -247,6 +255,8 @@ public class GlowPadView extends View {
         mPadDrawable = a.getDrawable(R.styleable.GlowPadView_handleDrawable);
         mHandleDrawable = new TargetDrawable(res, handle != null ? handle.resourceId : 0);
         mHandleDrawable.setState(TargetDrawable.STATE_INACTIVE);
+        mRingDrawable = (GradientDrawable) a.getDrawable(
+                R.styleable.GlowPadView_outerRingDrawable).mutate();
         mOuterRing = new TargetDrawable(res,
                 getResourceId(a, R.styleable.GlowPadView_outerRingDrawable));
 
@@ -423,7 +433,7 @@ public class GlowPadView extends View {
         }
     }
 
-    public void setColoredIcons(int lockColor, int dotColor, Bitmap custom) {
+    public void setColoredIcons(int lockColor, int dotColor, int ringColor, Bitmap custom) {
         if (custom != null) {
             Drawable handleDrawable = ImageHelper.resize(mContext,
                 new BitmapDrawable(mContext.getResources(),
@@ -448,6 +458,12 @@ public class GlowPadView extends View {
             if (mPointDrawable != null) {
                 mPointDrawable.setColorFilter(null);
             }
+        }
+
+        if (ringColor != -2 && mRingDrawable != null) {
+            mRingDrawable.setStroke(2, ringColor);
+            mRingDrawable.invalidateSelf();
+            setRingDrawable(mRingDrawable);
         }
     }
     private void showGlow(int duration, int delay, float finalAlpha,
@@ -1498,5 +1514,15 @@ public class GlowPadView extends View {
             mHandleDrawable = new TargetDrawable(res, 0);
         }
         mHandleDrawable.setState(TargetDrawable.STATE_INACTIVE);
+    }
+
+    private void setRingDrawable(Drawable ring) {
+        Resources res = mContext.getResources();
+        if (ring != null) {
+            mOuterRing = new TargetDrawable(res, ring);
+        } else {
+            mOuterRing = new TargetDrawable(res, 0);
+        }
+        mOuterRing.setState(TargetDrawable.STATE_INACTIVE);
     }
 }
