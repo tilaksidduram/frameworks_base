@@ -2489,7 +2489,7 @@ public class NotificationManagerService extends INotificationManager.Stub
         if (mLedNotification == null || mInCall || (mScreenOn && (!ScreenOnNotificationLed)) || !mNotificationPulseEnabled ||
             (QuietHoursHelper.inQuietHours(mContext, Settings.System.QUIET_HOURS_DIM))) {
             mNotificationLight.turnOff();
-        } else {
+        } else if (mNotificationPulseEnabled) {
             final Notification ledno = mLedNotification.sbn.getNotification();
             final NotificationLedValues ledValues = getLedValuesForNotification(mLedNotification);
             int ledARGB = ledno.ledARGB;
