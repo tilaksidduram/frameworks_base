@@ -479,8 +479,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         void observe() {
 	    mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.STATUS_BAR_BATTERY_STYLE), false, this);
-	    mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_CUSTOM_HEADER), false, this);
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL), false, this, UserHandle.USER_ALL);
@@ -527,7 +525,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 setNotificationAlpha();
             }
 	    updateBrightness();
-            updateBatteryIcons();
             updateSettings();
         }
 
@@ -808,8 +805,14 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.Global.getUriFor(SETTING_HEADS_UP), true,
                     mHeadsUpObserver);
         }
-        SettingsObserver sb = new SettingsObserver(new Handler());
-        sb.observe();
+        mContext.getContentResolver().registerContentObserver(
+                Settings.System.getUriFor(Settings.System.STATUS_BAR_BATTERY_STYLE),
+                        false, new ContentObserver(new Handler()) {
+            @Override
+            public void onChange(boolean selfChange) {
+                updateBatteryIcons();
+            }
+        });
     }
 
     // ================================================================================
