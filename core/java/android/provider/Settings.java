@@ -3796,6 +3796,12 @@ public final class Settings {
          */
         public static final String CUSTOM_OVERFLING_DISTANCE = "custom_overfling_distance";
 
+         /**
+         * Navbar recents clear all option
+         * @hide
+         */
+        public static final String NAVBAR_RECENTS_CLEAR_ALL = "navbar_recents_clear_all";
+
         /**
          * Whether recent panel gravity is left or right (default = Gravity.RIGHT).
          * @hide
@@ -3957,7 +3963,8 @@ public final class Settings {
         public static final String[] SETTINGS_TO_RESET = {
             QUICK_SETTINGS_QUICK_PULL_DOWN,
             SAFE_HEADSET_VOLUME,
-            PIE_STATE
+            PIE_STATE,
+            NAVBAR_RECENTS_CLEAR_ALL
         };
 
         // Settings moved to Settings.Secure
