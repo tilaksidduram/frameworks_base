@@ -960,9 +960,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             // no window manager? good luck with that
         }
 
-        /* ChaosLab: GestureAnywhere - BEGIN */
-        addGestureAnywhereView();
-        /* ChaosLab: GestureAnywhere - END */
+        if (mRecreating) {
+        } else {
+            addGestureAnywhereView();
+            addAppCircleSidebar();
+        }
 
         // figure out which pixel-format to use for the status bar.
         mPixelFormat = PixelFormat.OPAQUE;
