@@ -2649,6 +2649,9 @@ final class ActivityStack {
         if (mResumedActivity == r) {
             mResumedActivity = null;
         }
+        if (mPausingActivity == r) {
+            mPausingActivity = null;
+        }
         if (mService.mFocusedActivity == r) {
             mService.mFocusedActivity = null;
         }
