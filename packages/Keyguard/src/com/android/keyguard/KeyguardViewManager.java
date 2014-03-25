@@ -254,7 +254,7 @@ public class KeyguardViewManager {
         if (bmp != null) {
             try {
                 FileOutputStream fos = new FileOutputStream(mWallpaperFile);
-                bmp.compress(CompressFormat.PNG, 100, fos);
+                bmp.compress(CompressFormat.JPEG, 100, fos);
             } catch (FileNotFoundException ex) {
                 Log.e(TAG, "Could not write file: " + mWallpaperFile + "\nError: " + ex.toString());
             }
@@ -475,7 +475,7 @@ public class KeyguardViewManager {
         }
 
         if (mLoadWallpaper) {
-            setBackgroundBitmap(BitmapFactory.decodeFile(mWallpaperFile));
+            setWallpaper(BitmapFactory.decodeFile(mWallpaperFile));
             mLoadWallpaper = false;
         }
     }
