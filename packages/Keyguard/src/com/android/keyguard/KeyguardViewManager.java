@@ -365,6 +365,7 @@ public class KeyguardViewManager {
 
         public ViewManagerHost(Context context) {
             super(context);
+            mLastConfiguration = new Configuration(context.getResources().getConfiguration());
             registerWallpaperReceiver();
             customLockscreen();
 
@@ -382,7 +383,6 @@ public class KeyguardViewManager {
         public void initBackground() {
             mBackgroundInitialized = true;
             setBackground(mBackgroundDrawable);
-            mLastConfiguration = new Configuration(context.getResources().getConfiguration());
         }
 
         public void setCustomBackground(Drawable d) {
