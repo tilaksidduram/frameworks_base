@@ -3638,12 +3638,6 @@ public final class Settings {
         public static final String LOCKSCREEN_MAXIMIZE_WIDGETS = "lockscreen_maximize_widgets";
 
         /**
-         * Whether a custom lockscreen wallpaper is enabled
-         * @hide
-         */
-        public static final String LOCKSCREEN_WALLPAPER = "lockscreen_wallpaper";
-
-        /**
          * Holds the text for the Carrier label. An empty string
          * will bring the default text back.
          * @hide

@@ -197,9 +197,6 @@ public class KeyguardServiceWrapper implements IKeyguardService {
         }
     }
 
-    public void setWallpaper(Bitmap bmp) {
-        // Not used by PhoneWindowManager
-    }
     public void showAssistant() {
         // Not used by PhoneWindowManager
     }
