@@ -113,7 +113,6 @@ class QuickSettings {
         LOCATION,
         IMMERSIVE,
         LIGHTBULB,
-        SLEEP,
         SOUND,
         NFC,
         SLEEP,
