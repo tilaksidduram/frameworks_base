@@ -2780,6 +2780,12 @@ public final class Settings {
         public static final String SCREEN_ON_NOTIFICATION_LED = "screen_on_notification_led";
 
         /**
+         * Whether to enable the modlock keyguard
+         * @hide
+         */
+        public static final String LOCKSCREEN_MODLOCK_ENABLED = "lockscreen_modlock_enabled";
+
+        /**
          * @deprecated Use {@link android.provider.Settings.Global#LOW_BATTERY_SOUND}
          * instead
          * @hide
@@ -3932,6 +3938,7 @@ public final class Settings {
             TELO_RADIO_2G_SCREENOFF,
             TELO_RADIO_GO3G_UNLOCK,
             LOCKSCREEN_ALWAYS_SHOW_BATTERY,
+            LOCKSCREEN_MODLOCK_ENABLED,
         };
 
         /**
