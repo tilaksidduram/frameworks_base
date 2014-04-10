@@ -114,4 +114,11 @@
     <string name="live_display_outdoor_summary">Use outdoor settings only</string>
     <string name="live_display_hint">LiveDisplay can help reduce eyestrain and help you sleep at night. Click here to try it out!</string>
 
+    <!-- Floating Window -->
+    <string name="floating_window_snap_top">Snap top</string>
+    <string name="floating_window_snap_bottom">Snap bottom</string>
+    <string name="floating_window_snap_left">Snap left</string>
+    <string name="floating_window_snap_right">Snap right</string>
+    <string name="floating_window_minimize">Minimize</string>
+
 </resources>

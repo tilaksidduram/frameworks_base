@@ -73,4 +73,7 @@
     <string name="quick_settings_pa_pie_on">on</string>
     <string name="quick_settings_pa_pie_off">off</string>
 
+    <!-- Title shown in recents popup for showing app launch in floating mode -->
+    <string name="recent_float_mode_title">Floating mode</string>
+
 </resources>
