@@ -3850,6 +3850,14 @@ public final class Settings {
          */
         public static final String VOICE_LAUNCH_INTENT = "voice_launch_intent";
 
+         /**
+         * Whether to show alternative recent clear all button on recent panel top right corner:
+         * - navbar is not enabled/present
+         * - pie immersive is disabled and not showing
+         * @hide
+         */
+        public static final String ALTERNATIVE_RECENTS_CLEAR_ALL = "alternative_recents_clear_all";
+
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.

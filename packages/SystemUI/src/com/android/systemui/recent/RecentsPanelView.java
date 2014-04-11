@@ -411,7 +411,8 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
             /* int navBarPercent = Integer.parseInt(ExtendedPropertiesUtils.getProperty("com.android.systemui.navbar.dpi",
                     "100"));
             mClearRecents.setVisibility(navBarPercent == 0 && getTasks() > 0 ? View.VISIBLE : View.GONE);*/
-            mClearRecents.setVisibility(getTasks() == 0 ? View.GONE : View.VISIBLE);
+            // mClearRecents is the top right view not the nabar one, so show it when navbar is not showing and/or pie is disabled.
+            mClearRecents.setVisibility(showAlternativeRecentsClearAll() && getTasks() > 0 ? View.VISIBLE : View.GONE);
 	    mClearRecents.setColorFilter(getResources().getColor(R.color.status_bar_recents_app_label_color), Mode.SRC_ATOP);
 
             boolean showClearAllButton = Settings.System.getInt(mContext.getContentResolver(),
@@ -452,6 +453,11 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
                 mPopup.dismiss();
             }
         }
+    }
+
+    public boolean showAlternativeRecentsClearAll() {
+        return Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.ALTERNATIVE_RECENTS_CLEAR_ALL, 0, UserHandle.USER_CURRENT) == 1;
     }
 
     @Override
