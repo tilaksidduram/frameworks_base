@@ -171,6 +171,7 @@ public class NotificationManagerService extends INotificationManager.Stub
 
     // for enabling and disabling notification pulse behavior
     private boolean mScreenOn = true;
+    private boolean mDreaming = false;
     private boolean mInCall = false;
     private boolean mNotificationPulseEnabled;
     private ArrayMap<String, NotificationLedValues> mNotificationPulseCustomLedValues;
@@ -1239,6 +1240,15 @@ public class NotificationManagerService extends INotificationManager.Stub
             } else if (action.equals(Intent.ACTION_SCREEN_OFF)) {
                 mScreenOn = false;
 		updateLightsLocked();
+                updateNotificationPulse();
+            } else if (action.equals(Intent.ACTION_DREAMING_STARTED)) {
+                mDreaming = true;
+                updateNotificationPulse();
+            } else if (action.equals(Intent.ACTION_DREAMING_STOPPED)) {
+                mDreaming = false;
+                if (mScreenOn) {
+                    mNotificationLight.turnOff();
+                }
             } else if (action.equals(TelephonyManager.ACTION_PHONE_STATE_CHANGED)) {
                 mInCall = (intent.getStringExtra(TelephonyManager.EXTRA_STATE).equals(
                         TelephonyManager.EXTRA_STATE_OFFHOOK));
@@ -1250,8 +1260,8 @@ public class NotificationManagerService extends INotificationManager.Stub
                 }
             } else if (action.equals(Intent.ACTION_USER_PRESENT)) {
                 // turn off LED when user passes through lock screen
-                if (!ScreenOnNotificationLed) {
-                    if (mLedNotification == null || !isLedNotificationForcedOn(mLedNotification)) {
+                if (!mDreaming) {
+                    if (mLedNotification == null || !isLedNotificationForcedOn(mLedNotification) && !ScreenOnNotificationLed) {
                         mNotificationLight.turnOff();
                     }
                 }
@@ -1418,6 +1428,8 @@ public class NotificationManagerService extends INotificationManager.Stub
         filter.addAction(Intent.ACTION_USER_PRESENT);
         filter.addAction(Intent.ACTION_USER_STOPPED);
         filter.addAction(Intent.ACTION_USER_SWITCHED);
+        filter.addAction(Intent.ACTION_DREAMING_STARTED);
+        filter.addAction(Intent.ACTION_DREAMING_STOPPED);
         mContext.registerReceiver(mIntentReceiver, filter);
         IntentFilter pkgFilter = new IntentFilter();
         pkgFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
@@ -2345,7 +2357,7 @@ public class NotificationManagerService extends INotificationManager.Stub
             enableLed = false;
         } else if (isLedNotificationForcedOn(mLedNotification)) {
             enableLed = true;
-        } else if (mInCall || (mScreenOn)) {
+        } else if (mInCall || (mScreenOn && !ScreenOnNotificationLed && !mDreaming)) {
             enableLed = false;
         } else if (QuietHoursHelper.inQuietHours(mContext, Settings.System.QUIET_HOURS_DIM)) {
             enableLed = false;
