@@ -484,8 +484,8 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
                 root.setDrawDuringWindowsAnimating(true);
             }
             ContentResolver resolver = mContext.getContentResolver();
-            resolver.registerContentObserver(Settings.AOKP
-                    .getUriFor(Settings.AOKP.RAM_USAGE_BAR),
+            resolver.registerContentObserver(Settings.System
+                    .getUriFor(Settings.System.RAM_USAGE_BAR),
                     false, mObserver);
             updateSettings();
             updateView();
