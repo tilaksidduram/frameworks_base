@@ -2121,17 +2121,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             if (DEBUG_STARTING_WINDOW) Slog.d(TAG, "addStartingWindow " + packageName
                     + ": nonLocalizedLabel=" + nonLocalizedLabel + " theme="
                     + Integer.toHexString(theme));
-<<<<<<< HEAD
-
-            try {
-                context = context.createPackageContext(packageName, 0);
-                if (theme != context.getThemeResId()) {
-
-=======
             if (theme != context.getThemeResId() || labelRes != 0) {
                 try {
                     context = context.createPackageContext(packageName, 0);
->>>>>>> 32133d4... Remove T-mobile items not used by new theme engine
                     context.setTheme(theme);
                 } catch (PackageManager.NameNotFoundException e) {
                     // Ignore
@@ -5266,12 +5258,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
         }
     }
-
-    BroadcastReceiver mThemeChangeReceiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent) {
-            mUiContext = null;
-        }
-    };
 
     private void disableQbCharger() {
         if (SystemProperties.getInt("sys.quickboot.enable", 0) == 1) {
