@@ -1147,8 +1147,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                         }});
                 }
             }
-        }
-
 
             mCarrierAndWifiView = mStatusBarWindow.findViewById(R.id.carrier_wifi);
             mWifiView = mStatusBarWindow.findViewById(R.id.wifi_view);
