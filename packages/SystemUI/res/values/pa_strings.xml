@@ -113,6 +113,11 @@
     <string name="navbar_recents_clear_all">@string/navbar_recents_clear_all_title</string>
     <string name="pie_state">@string/enable_pie_control_title</string>
 
+    <!-- Switch apps -->
+    <string name="enable_switch_apps_title">Switch apps</string>
+    <string name="enable_switch_apps_message">Quickly launch prior app when long pressing recents?</string>
+    <string name="recents_switch">@string/enable_switch_apps_title</string>
+
     <!-- NFC Quicksettings tile -->
     <string name="quick_settings_nfc_label">NFC on</string>
     <string name="quick_settings_nfc_off_label">NFC off</string>

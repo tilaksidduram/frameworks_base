@@ -3837,6 +3837,14 @@ public final class Settings {
         public static final String RECENT_PANEL_FAVORITES = "recent_panel_favorites";
 
         /**
+         * Recents longpress switchs apps.
+         * 0 = off
+         * 1 = on
+         * @hide
+         */
+        public static final String RECENTS_SWITCH = "recents_switch";
+
+        /**
          * Pie control panel. Meet him on the spot.
          * 0 = off
          * 1 = on
@@ -3980,7 +3988,8 @@ public final class Settings {
             QUICK_SETTINGS_QUICK_PULL_DOWN,
             SAFE_HEADSET_VOLUME,
             PIE_STATE,
-            NAVBAR_RECENTS_CLEAR_ALL
+            NAVBAR_RECENTS_CLEAR_ALL,
+            RECENTS_SWITCH
         };
 
         // Settings moved to Settings.Secure
