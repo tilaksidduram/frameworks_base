@@ -423,7 +423,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NOTIFICATION_HIDE_CARRIER),
                     false, this, UserHandle.USER_ALL);
-            update();
+
+            updateSettings();
         }
 
         @Override
@@ -435,21 +436,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             } else {
                 removeNavigationBar();
             }
+            updateSettings();
         }
-
-        public void update() {
-            ContentResolver resolver = mContext.getContentResolver();
-            String notificationShortcutsIsActive = Settings.System.getStringForUser(resolver,
-                    Settings.System.NOTIFICATION_SHORTCUTS_CONFIG, UserHandle.USER_CURRENT);
-            mNotificationShortcutsIsActive = !(notificationShortcutsIsActive == null
-                    || notificationShortcutsIsActive.isEmpty());
-
-            mNotificationHideCarrier = Settings.System.getIntForUser(resolver,
-                    Settings.System.NOTIFICATION_HIDE_CARRIER, 0, UserHandle.USER_CURRENT) != 0;
-            if (mCarrierLabel != null) {
-                toggleCarrierAndWifiLabelVisibility();
-            }
-	}
     }
 
     private void forceAddNavigationBar() {
@@ -1133,6 +1121,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     }});
             }
 
+	    mNotificationHideCarrier = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.NOTIFICATION_HIDE_CARRIER, 0, UserHandle.USER_CURRENT) != 0;
+
 	    mCarrierAndWifiView = mStatusBarWindow.findViewById(R.id.carrier_wifi);
 	    mWifiView = mStatusBarWindow.findViewById(R.id.wifi_view);
             mCarrierLabel = (TextView)mStatusBarWindow.findViewById(R.id.carrier_label);
@@ -1190,9 +1181,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                         }});
                 }
             }
-
-	    mNotificationHideCarrier = Settings.System.getIntForUser(mContext.getContentResolver(),
-                    Settings.System.NOTIFICATION_HIDE_CARRIER, 0, UserHandle.USER_CURRENT) != 0;
 
             mCarrierAndWifiView = mStatusBarWindow.findViewById(R.id.carrier_wifi);
             mWifiView = mStatusBarWindow.findViewById(R.id.wifi_view);
@@ -3678,7 +3666,17 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             boolean navLeftInLandscape = Settings.System.getInt(resolver,
                     Settings.System.NAVBAR_LEFT_IN_LANDSCAPE, 0) == 1;
             mNavigationBarView.setLeftInLandscape(navLeftInLandscape);
+        }
 
+        String notificationShortcutsIsActive = Settings.System.getStringForUser(resolver,
+                    Settings.System.NOTIFICATION_SHORTCUTS_CONFIG, UserHandle.USER_CURRENT);
+        mNotificationShortcutsIsActive = !(notificationShortcutsIsActive == null
+                    || notificationShortcutsIsActive.isEmpty());
+
+        mNotificationHideCarrier = Settings.System.getIntForUser(resolver,
+                Settings.System.NOTIFICATION_HIDE_CARRIER, 0, UserHandle.USER_CURRENT) != 0;
+        if (mCarrierLabel != null) {
+            toggleCarrierAndWifiLabelVisibility();
         }
     }
     private void updateAndNotifyReminder() {
