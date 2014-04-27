@@ -5055,12 +5055,6 @@ public final class Settings {
         public static final String LOCKSCREEN_FRAME_COLOR = "lockscreen_frame_color";
 
         /**
-         *Whether lock before unlock is enabled or disabled
-         * @hide
-         */
-        public static final String LOCK_BEFORE_UNLOCK = "lock_before_unlock";
-
-        /**
          * Chamber on / off (custom setting shortcuts)
          * @hide
          */
