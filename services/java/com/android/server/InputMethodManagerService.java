@@ -200,7 +200,7 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
     private StatusBarManagerService mStatusBar;
     private Notification mImeSwitcherNotification;
     private PendingIntent mImeSwitchPendingIntent;
-    private boolean mShowOngoingImeSwitcherForPhones;
+    private boolean mShowOngoingImeSwitcher;
     private boolean mNotificationShown;
     private final boolean mImeSelectedOnBoot;
 
@@ -405,6 +405,13 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
                     Settings.Secure.ENABLED_INPUT_METHODS), false, this);
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.SELECTED_INPUT_METHOD_SUBTYPE), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_IME_SWITCHER),
+                    false, new ContentObserver(mHandler) {
+                        public void onChange(boolean selfChange) {
+                            updateFromSettingsLocked(true);
+                        }
+                    });
         }
 
         @Override public void onChange(boolean selfChange) {
@@ -641,7 +648,7 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
         Intent intent = new Intent(Settings.ACTION_SHOW_INPUT_METHOD_PICKER);
         mImeSwitchPendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
 
-        mShowOngoingImeSwitcherForPhones = false;
+        mShowOngoingImeSwitcher = false;
 
         final IntentFilter broadcastFilter = new IntentFilter();
         broadcastFilter.addAction(Intent.ACTION_SCREEN_ON);
@@ -850,9 +857,7 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
                 mStatusBar = statusBar;
                 statusBar.setIconVisibility("ime", false);
                 updateImeWindowStatusLocked();
-                mShowOngoingImeSwitcherForPhones = mRes.getBoolean(
-                        com.android.internal.R.bool.show_ongoing_ime_switcher);
-                if (mShowOngoingImeSwitcherForPhones) {
+                if (mShowOngoingImeSwitcher) {
                     mWindowManagerService.setOnHardKeyboardStatusChangeListener(
                             mHardKeyboardListener);
                 }
@@ -1457,7 +1462,7 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
     }
 
     private boolean needsToShowImeSwitchOngoingNotification() {
-        if (!mShowOngoingImeSwitcherForPhones) return false;
+        if (!mShowOngoingImeSwitcher) return false;
         if (isScreenLocked()) return false;
         synchronized (mMethodMap) {
             List<InputMethodInfo> imis = mSettings.getEnabledInputMethodListLocked();
@@ -1664,6 +1669,8 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
             mCurMethodId = null;
             unbindCurrentMethodLocked(true, false);
         }
+        mShowOngoingImeSwitcher = Settings.System.getInt(mContext.getContentResolver(),
+               Settings.System.STATUS_BAR_IME_SWITCHER, 1) == 1;
     }
 
     /* package */ void setInputMethodLocked(String id, int subtypeId) {
