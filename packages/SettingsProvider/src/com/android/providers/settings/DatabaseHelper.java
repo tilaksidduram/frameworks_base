@@ -1573,6 +1573,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             upgradeVersion = 99;
         }
 
+        if (upgradeVersion == 99) {
+            if (mUserHandle == UserHandle.USER_OWNER) {
+                loadScreenAnimationStyle(db);
+            }
+            upgradeVersion = 100;
+	}
+
         if (upgradeVersion == 101) {
             db.beginTransaction();
             SQLiteStatement stmt = null;
@@ -1999,6 +2006,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             stmt = db.compileStatement("INSERT OR REPLACE INTO global(name,value)"
                     + " VALUES(?,?);");
             loadSetting(stmt, Settings.Global.ENABLE_QUICKBOOT, 0);
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            if (stmt != null) stmt.close();
+        }
+    }
+
+    private void loadScreenAnimationStyle(SQLiteDatabase db) {
+        db.beginTransaction();
+        SQLiteStatement stmt = null;
+        try {
+            stmt = db.compileStatement("INSERT OR REPLACE INTO system(name,value)"
+                    + " VALUES(?,?);");
+            loadIntegerSetting(stmt, Settings.System.SCREEN_ANIMATION_STYLE,
+                    R.integer.def_screen_animation_style);
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
