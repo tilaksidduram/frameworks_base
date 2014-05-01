@@ -327,12 +327,31 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
             ViewGroup container = (ViewGroup) mRotatedViews[i];
             if (container != null) {
                 updateKeyButtonViewResources(container);
+                updateLightsOutResources(container);
             }
         }
     }
 
     private void updateKeyButtonViewResources(ViewGroup container) {
         // TODO: fix this for AOSPA
+    }
+
+    private void updateLightsOutResources(ViewGroup container) {
+        ViewGroup lightsOut = (ViewGroup) container.findViewById(R.id.lights_out);
+        if (lightsOut != null) {
+            final int nChildren = lightsOut.getChildCount();
+            for (int i = 0; i < nChildren; i++) {
+                final View child = lightsOut.getChildAt(i);
+                if (child instanceof ImageView) {
+                    final ImageView iv = (ImageView) child;
+                    // clear out the existing drawable, this is required since the
+                    // ImageView keeps track of the resource ID and if it is the same
+                    // it will not update the drawable.
+                    iv.setImageDrawable(null);
+                    iv.setImageResource(R.drawable.ic_sysbar_lights_out_dot_large);
+                }
+            }
+        }
     }
 
     @Override
