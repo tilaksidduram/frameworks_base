@@ -36,7 +36,12 @@ public class SettingConfirmationHelper {
     private static final int DISABLED = 2;
     private static final int ASK_LATER = 3;
 
-    public static void showConfirmationDialogForSetting(final Context mContext, String title, String msg, Drawable hint, final String setting) {
+    public static interface OnSelectListener {
+        void onSelect(boolean enabled);
+    }
+
+    public static void showConfirmationDialogForSetting(final Context mContext, String title, String msg, Drawable hint,
+                                                        final String setting, final OnSelectListener mListener) {
         int mCurrentStatus = Settings.System.getInt(mContext.getContentResolver(), setting, NOT_SET);
         if (mCurrentStatus == ENABLED || mCurrentStatus == DISABLED) return;
 
@@ -53,7 +58,8 @@ public class SettingConfirmationHelper {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Settings.System.putInt(mContext.getContentResolver(), setting, ENABLED);
-                	return;
+                        if (mListener == null) return;
+                        mListener.onSelect(true);
 	            }
 		}
         );
@@ -61,7 +67,8 @@ public class SettingConfirmationHelper {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Settings.System.putInt(mContext.getContentResolver(), setting, ASK_LATER);
-                	return;
+                        if (mListener == null) return;
+                        mListener.onSelect(false);
 	            }
 		}
         );
@@ -69,7 +76,8 @@ public class SettingConfirmationHelper {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Settings.System.putInt(mContext.getContentResolver(), setting, DISABLED);
-                	return;
+                        if (mListener == null) return;
+                        mListener.onSelect(false);
 	            }
 		}
         );
