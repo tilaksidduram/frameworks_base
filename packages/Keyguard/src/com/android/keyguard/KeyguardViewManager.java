@@ -107,7 +107,6 @@ public class KeyguardViewManager {
     private int mLastRotation = 0;
     private int mBlurRadius = 12;
     private boolean mSeeThrough = false;
-    private boolean mIsCoverflow = true;
 
     private NotificationHostView mNotificationView;
     private NotificationViewManager mNotificationViewManager;
@@ -116,9 +115,9 @@ public class KeyguardViewManager {
     private KeyguardUpdateMonitorCallback mBackgroundChanger = new KeyguardUpdateMonitorCallback() {
         @Override
         public void onSetBackground(Bitmap bmp) {
-            mKeyguardHost.setCustomBackground( new BitmapDrawable(mContext.getResources(),
-                        bmp != null ? bmp : mBlurredImage) );
-            updateShowWallpaper(bmp == null && mBlurredImage == null);
+            // album art album should override blurred background
+            if (bmp != null) mBlurredImage = null;
+            setCustomBackground (bmp);
         }
     };
 
@@ -385,7 +384,7 @@ public class KeyguardViewManager {
             final int vWidth = getWidth();
             final int vHeight = getHeight();
 
-            if (!mIsCoverflow) {
+            if (bgWidth == vWidth && bgHeight == vHeight) {
                 background.setBounds(0, 0, vWidth, vHeight);
                 return;
             }
@@ -447,7 +446,7 @@ public class KeyguardViewManager {
     }
 
     SparseArray<Parcelable> mStateContainer = new SparseArray<Parcelable>();
-    int mLastRotation = 0;
+
     private void maybeCreateKeyguardLocked(boolean enableScreenRotation, boolean force,
             Bundle options) {
         if (mKeyguardHost != null) {
@@ -497,14 +496,8 @@ public class KeyguardViewManager {
             mKeyguardView.requestFocus();
         }
 
-        if(mBlurredImage != null) {
-            int currentRotation = mKeyguardView.getDisplay().getRotation() * 90;
-            mBlurredImage = rotateBmp(mBlurredImage, mLastRotation - currentRotation);
-            mLastRotation = currentRotation;
-            mIsCoverflow = false;
-            KeyguardUpdateMonitor.getInstance(mContext).dispatchSetBackground(mBlurredImage);
-        } else {
-            mIsCoverflow = true;
+        if (mBlurredImage != null) {
+            setCustomBackground(mBlurredImage);
         }
 
         updateUserActivityTimeoutInWindowLayoutParams();
