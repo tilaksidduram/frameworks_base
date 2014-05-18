@@ -18,6 +18,11 @@
 */
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Performance profile modes -->
+    <string name="perf_profile_pwrsv">Power save</string>
+    <string name="perf_profile_bal">Balanced</string>
+    <string name="perf_profile_perf">Performance</string>
+
     <!-- Power Menu (Global Actions) -->
     <!-- Label for item that takes a screenshot in phone options dialog. -->
     <string name="global_action_screenshot">Screenshot</string>
