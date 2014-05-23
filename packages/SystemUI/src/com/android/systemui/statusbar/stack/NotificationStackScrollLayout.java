@@ -628,6 +628,9 @@ public class NotificationStackScrollLayout extends ViewGroup
         return false;
     }
 
+    public void onChildTriggered(View v) {
+    }
+
     public void onBeginDrag(View v) {
         setSwipingInProgress(true);
         mAmbientState.onBeginDrag(v);
