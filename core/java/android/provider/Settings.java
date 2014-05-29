@@ -3534,6 +3534,14 @@ public final class Settings {
         public static final String CLEAR_RECENTS_BUTTON_LOCATION = "clear_recents_button_location";
 
         /**
+         * Always turn on screen after call ignoring proximity?
+         * 0 = no
+         * 1 = yes
+         * @hide
+         */
+        public static final String INACCURATE_PROXIMITY_WORKAROUND = "inaccurate_proximity_sensor";
+
+        /**
          * Defines the screen-off animation to display
          * @hide
          */
