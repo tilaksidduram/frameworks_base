@@ -789,6 +789,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mCurrentTheme = (CustomTheme)currentTheme.clone();
         }
 
+        mLocationController = new LocationController(mContext); // will post a notification
+        mBatteryController = new BatteryController(mContext);
+        mNetworkController = new NetworkController(mContext);
+        mBluetoothController = new BluetoothController(mContext);
+        mRotationLockController = new RotationLockController(mContext);
+
         super.start(); // calls createAndAddWindows()
 
         addNavigationBar();
@@ -1075,11 +1081,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         setAreThereNotifications();
 
         // Other icons
-        mLocationController = new LocationController(mContext); // will post a notification
-        mBatteryController = new BatteryController(mContext);
-        mBluetoothController = new BluetoothController(mContext);
-        mRotationLockController = new RotationLockController(mContext);
-
+        final SignalClusterView signalCluster =
+                (SignalClusterView)mStatusBarView.findViewById(R.id.signal_cluster);
 
         if (MSimTelephonyManager.getDefault().isMultiSimEnabled()) {
             mMSimNetworkController = new MSimNetworkController(mContext);
@@ -1243,6 +1246,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                         qsDateView.setEnabled(true);
                     }
                 }
+            }
+
+            // remove quicksettings callbacks before they are used and nullify quicksettings
+            if (mQS != null) {
+                mQS.shutdown(mNetworkController, mBluetoothController, mBatteryController,
+                        mLocationController, mRotationLockController);
+                mQS = null;
             }
 
             // wherever you find it, Quick Settings needs a container to survive
@@ -3706,7 +3716,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             R.dimen.status_bar_icon_padding);
 
         if (newIconHPadding != mIconHPadding || newIconSize != mIconSize) {
-//            Log.d(TAG, "size=" + newIconSize + " padding=" + newIconHPadding);
+            //Log.d(TAG, "size=" + newIconSize + " padding=" + newIconHPadding);
             mIconHPadding = newIconHPadding;
             mIconSize = newIconSize;
             //reloadAllNotificationIcons(); // reload the tray
