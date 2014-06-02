@@ -182,9 +182,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     // Pie
     private static final int PIE_ENABLED = 1;
-    private static final int PIE_MODE_NOT_SET = 0;
-    private static final int PIE_MODE_LITE = 1;
-    private static final int PIE_MODE_FULL = 2;
 
     // Available custom actions to perform on a key press.
     // Must match values for KEY_HOME_LONG_PRESS_ACTION in:
@@ -1494,12 +1491,14 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         // Height of the navigation bar when presented horizontally at bottom
         mNavigationBarHeightForRotation[mPortraitRotation] =
         mNavigationBarHeightForRotation[mUpsideDownRotation] =
-                Math.round(res.getDimensionPixelSize(com.android.internal.R.dimen.navigation_bar_height) *
+                immersiveModeHidesNavigationBar() && immersiveModeImplementsPie() ?
+                        0 : Math.round(res.getDimensionPixelSize(com.android.internal.R.dimen.navigation_bar_height) *
                 Settings.System.getFloat(mContext.getContentResolver(),
                         Settings.System.NAVIGATION_BAR_HEIGHT, 1f));
         mNavigationBarHeightForRotation[mLandscapeRotation] =
         mNavigationBarHeightForRotation[mSeascapeRotation] = 
-		Math.round(res.getDimensionPixelSize(com.android.internal.R.dimen.navigation_bar_height_landscape) *
+                immersiveModeHidesNavigationBar() && immersiveModeImplementsPie() ?
+                        0 : Math.round(res.getDimensionPixelSize(com.android.internal.R.dimen.navigation_bar_height_landscape) *
                 Settings.System.getFloat(mContext.getContentResolver(),
                         Settings.System.NAVIGATION_BAR_HEIGHT, 1f));
 
@@ -1508,7 +1507,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mNavigationBarWidthForRotation[mUpsideDownRotation] =
         mNavigationBarWidthForRotation[mLandscapeRotation] =
         mNavigationBarWidthForRotation[mSeascapeRotation] =
-                Math.round(res.getDimensionPixelSize(com.android.internal.R.dimen.navigation_bar_width) *
+                immersiveModeHidesNavigationBar() && immersiveModeImplementsPie() ?
+                        0 : Math.round(res.getDimensionPixelSize(com.android.internal.R.dimen.navigation_bar_width) *
                 Settings.System.getFloat(mContext.getContentResolver(),
                         Settings.System.NAVIGATION_BAR_HEIGHT, 1f));
 
@@ -1676,12 +1676,14 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             Resources res = mContext.getResources();
             mNavigationBarHeightForRotation[mPortraitRotation] =
             mNavigationBarHeightForRotation[mUpsideDownRotation] =
-                    Math.round(res.getDimensionPixelSize(com.android.internal.R.dimen.navigation_bar_height) *
+                    immersiveModeHidesNavigationBar() && immersiveModeImplementsPie() ?
+                            0 : Math.round(res.getDimensionPixelSize(com.android.internal.R.dimen.navigation_bar_height) *
                     Settings.System.getFloat(mContext.getContentResolver(),
                             Settings.System.NAVIGATION_BAR_HEIGHT, 1f));
             mNavigationBarHeightForRotation[mLandscapeRotation] =
-            mNavigationBarHeightForRotation[mSeascapeRotation] = Math.round(res.getDimensionPixelSize(
-                    com.android.internal.R.dimen.navigation_bar_height_landscape) *
+            mNavigationBarHeightForRotation[mSeascapeRotation] =
+                    immersiveModeHidesNavigationBar() && immersiveModeImplementsPie() ?
+                            0 : Math.round(res.getDimensionPixelSize(com.android.internal.R.dimen.navigation_bar_height_landscape) *
                     Settings.System.getFloat(mContext.getContentResolver(),
                             Settings.System.NAVIGATION_BAR_HEIGHT, 1f));
 
@@ -1690,10 +1692,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mNavigationBarWidthForRotation[mUpsideDownRotation] =
             mNavigationBarWidthForRotation[mLandscapeRotation] =
             mNavigationBarWidthForRotation[mSeascapeRotation] =
-                    Math.round(res.getDimensionPixelSize(com.android.internal.R.dimen.navigation_bar_width) *
+                    immersiveModeHidesNavigationBar() && immersiveModeImplementsPie() ?
+                            0 : Math.round(res.getDimensionPixelSize(com.android.internal.R.dimen.navigation_bar_width) *
                     Settings.System.getFloat(mContext.getContentResolver(),
                             Settings.System.NAVIGATION_BAR_HEIGHT, 1f));
-
 
             // use screen off timeout setting as the timeout for the lockscreen
             mLockScreenTimeout = Settings.System.getIntForUser(resolver,
@@ -2056,8 +2058,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (hasNavigationBar()) {
             // For a basic navigation bar, when we are in landscape mode we place
             // the navigation bar to the side.
-            if ((!isImmersiveMode(mLastSystemUiFlags) || !immersiveModeImplementsPie()) &&
-                    (mNavigationBarCanMove && fullWidth > fullHeight)) {
+            if (mNavigationBarCanMove && fullWidth > fullHeight) {
                 return fullWidth - mNavigationBarWidthForRotation[rotation];
             }
         }
@@ -2068,8 +2069,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (hasNavigationBar()) {
             // For a basic navigation bar, when we are in portrait mode we place
             // the navigation bar to the bottom.
-            if ((!isImmersiveMode(mLastSystemUiFlags) || !immersiveModeImplementsPie()) &&
-                    (!mNavigationBarCanMove || fullWidth < fullHeight)) {
+            if (!mNavigationBarCanMove || fullWidth < fullHeight) {
                 return fullHeight - mNavigationBarHeightForRotation[rotation];
             }
         }
@@ -3411,11 +3411,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         mStatusBar.isVisibleLw() && ((mLastSystemUiFlags & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0);
                 boolean mAllowPieOverride = !mHasNavigationBar && !mDevForceNavbar;
                 boolean mAlternativeClearAll = !mAllowPieOverride ? isNavBarImmersive : immersiveModeHidesNavigationBar();
-                // define pie's state and/or style
-                Settings.System.putInt(mContext.getContentResolver(), Settings.System.PIE_MODE,
-                        ((!mAllowPieOverride ? isNavBarImmersive && !statusBarVisible : !statusBarVisible) ?
-                                PIE_MODE_FULL : (!mAllowPieOverride ? isNavBarImmersive : immersiveModeHidesNavigationBar()) ?
-                                PIE_MODE_LITE : PIE_MODE_NOT_SET));
 
                 // use alternative clear all view/button?
                 Settings.System.putInt(mContext.getContentResolver(), Settings.System.ALTERNATIVE_RECENTS_CLEAR_ALL,
@@ -3450,14 +3445,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 // change atomically with screen rotations.
                 mNavigationBarOnBottom = (!mNavigationBarCanMove || displayWidth < displayHeight);
                 if (mNavigationBarOnBottom) {
-                    // It's a system nav bar or a portrait screen; nav bar goes on bottom.
-                    // TODO: actually we shouldn't check for immersiveModeImplementsPie here.
-                    // If you try immersive mode without PIE you'll see that the notification shade won't cover the whole screen,
-                    // this is due to the PIE check here. BUT if we don't check it (which fixes notification panel),
-                    // the swipe gesture to show navigation bar is broken. So FIX THE DAMN AOSP CODE!
-                    int top = displayHeight - overscanBottom - (isImmersiveMode(mLastSystemUiFlags) &&
-                           immersiveModeImplementsPie() && (!mNavigationBar.isVisibleLw() || !mNavigationBar.isAnimatingLw()) ?
-                                    0 : mNavigationBarHeightForRotation[displayRotation]);
+                    int top = displayHeight - overscanBottom - mNavigationBarHeightForRotation[displayRotation];
                     mTmpNavigationFrame.set(0, top, displayWidth, displayHeight - overscanBottom);
                     mStableBottom = mTmpNavigationFrame.top;
                     if (!immersiveModeHidesNavigationBar()) {
@@ -3515,9 +3503,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     }
                 } else {
                     // Landscape screen; nav bar goes to the right.
-                    int left = displayWidth - overscanRight - (isImmersiveMode(mLastSystemUiFlags) &&
-                            immersiveModeImplementsPie() && (!mNavigationBar.isVisibleLw() || !mNavigationBar.isAnimatingLw()) ?
-                                    0 : mNavigationBarWidthForRotation[displayRotation]);
+                    int left = displayWidth - overscanRight - mNavigationBarWidthForRotation[displayRotation];
                     mTmpNavigationFrame.set(left, 0, displayWidth - overscanRight, displayHeight);
                     mStableRight = mTmpNavigationFrame.left;
                     if (!immersiveModeHidesNavigationBar()) {
