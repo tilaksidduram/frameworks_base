@@ -205,9 +205,14 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private static final int KEY_MASK_APP_SWITCH = 0x10;
     private static final int KEY_MASK_CAMERA = 0x20;
 
-    // Recents clear all
-    private static final int HIDE_ALTERNATIVE_RECENTS_CLEAR_ALL = 0;
-    private static final int SHOW_ALTERNATIVE_RECENTS_CLEAR_ALL = 1;
+    // Immersive
+    private static final int IMMERSIVE_MODE_OFF = 0;
+    private static final int IMMERSIVE_MODE_FULL = 1;
+    private static final int IMMERSIVE_MODE_HIDE_ONLY_NAVBAR = 2;
+    private static final int IMMERSIVE_MODE_HIDE_ONLY_STATUSBAR = 3;
+
+    // Pie
+    private static final int PIE_ENABLED = 1;
 
     /**
      * These are the system UI flags that, when changing, can cause the layout

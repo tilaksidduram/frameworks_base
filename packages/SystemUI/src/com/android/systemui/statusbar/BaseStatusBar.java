@@ -111,6 +111,11 @@ import com.android.systemui.statusbar.SignalClusterView;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import static com.android.systemui.statusbar.phone.QuickSettingsModel.IMMERSIVE_MODE_OFF;
+import static com.android.systemui.statusbar.phone.QuickSettingsModel.IMMERSIVE_MODE_FULL;
+import static com.android.systemui.statusbar.phone.QuickSettingsModel.IMMERSIVE_MODE_HIDE_ONLY_NAVBAR;
+import static com.android.systemui.statusbar.phone.QuickSettingsModel.IMMERSIVE_MODE_HIDE_ONLY_STATUSBAR;
+
 public abstract class BaseStatusBar extends SystemUI implements
         CommandQueue.Callbacks {
     public static final String TAG = "StatusBar";
@@ -138,6 +143,10 @@ public abstract class BaseStatusBar extends SystemUI implements
 
     public static final int EXPANDED_LEAVE_ALONE = -10000;
     public static final int EXPANDED_FULL_OPEN = -10001;
+
+    // Recents clear all
+    private static final int HIDE_ALTERNATIVE_RECENTS_CLEAR_ALL = 0;
+    private static final int SHOW_ALTERNATIVE_RECENTS_CLEAR_ALL = 1;
 
     protected CommandQueue mCommandQueue;
     protected INotificationManager mNotificationManager;
@@ -279,7 +288,10 @@ public abstract class BaseStatusBar extends SystemUI implements
                     Settings.System.IMMERSIVE_MODE, 0, UserHandle.USER_CURRENT);
             boolean pieEnabled = Settings.System.getIntForUser(resolver,
                     Settings.System.PIE_STATE, 0, UserHandle.USER_CURRENT) == 1;
+            boolean immersiveHidesNavBar = mImmersiveModeStyle == IMMERSIVE_MODE_FULL
+                    | mImmersiveModeStyle == IMMERSIVE_MODE_HIDE_ONLY_NAVBAR;
 
+            updateClearAllRecents(immersiveHidesNavBar, pieEnabled);
             updatePieControls(!pieEnabled);
         }
     };
@@ -513,6 +525,14 @@ public abstract class BaseStatusBar extends SystemUI implements
                     }
                 }
             };
+    }
+
+    protected void updateClearAllRecents(boolean navBarHidden, boolean pieEnabled) {
+        // use alternative clear all view/button?
+        Settings.System.putInt(mContext.getContentResolver(),
+                Settings.System.ALTERNATIVE_RECENTS_CLEAR_ALL,
+                        navBarHidden && pieEnabled ? SHOW_ALTERNATIVE_RECENTS_CLEAR_ALL
+                            : HIDE_ALTERNATIVE_RECENTS_CLEAR_ALL);
     }
 
     public void userSwitched(int newUserId) {
