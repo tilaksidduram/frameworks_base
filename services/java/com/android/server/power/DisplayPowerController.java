@@ -903,6 +903,7 @@ final class DisplayPowerController {
             } else {
                 // Want screen off.
                 // Wait for previous on animation to complete beforehand.
+		unblockScreenOn();
                 int electronBeamMode = ElectronBeam.MODE_FADE;
                 if (!mElectronBeamFadesConfig) {
                     switch (mScreenOffAnimation) {
@@ -919,7 +920,6 @@ final class DisplayPowerController {
                     if (!mElectronBeamOffAnimator.isStarted()) {
                         if (mPowerState.getElectronBeamLevel() == 0.0f) {
                             setScreenOn(false);
-                            unblockScreenOn();
                         } else if (mPowerState.prepareElectronBeam(electronBeamMode)
                                 && mPowerState.isScreenOn()) {
                             mElectronBeamOffAnimator.start();
@@ -973,7 +973,7 @@ final class DisplayPowerController {
     }
 
     private void setScreenOn(boolean on) {
-        if (mPowerState.isScreenOn() == on) {
+        if (mPowerState.isScreenOn() != on) {
             mPowerState.setScreenOn(on);
             if (on) {
                 mNotifier.onScreenOn();
