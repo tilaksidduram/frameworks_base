@@ -3407,37 +3407,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             // then take that into account.
             navVisible |= !canHideNavigationBar();
 
-            if (immersiveModeImplementsPie()) {
-                boolean isNavBarImmersive = isImmersiveMode(mLastSystemUiFlags);
-                boolean statusBarVisible = mStatusBar != null &&
-                        mStatusBar.isVisibleLw() && ((mLastSystemUiFlags & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0);
-                boolean mAllowPieOverride = !mHasNavigationBar && !mDevForceNavbar;
-                boolean mAlternativeClearAll = !mAllowPieOverride ? isNavBarImmersive : immersiveModeHidesNavigationBar();
-
-                // use alternative clear all view/button?
-                Settings.System.putInt(mContext.getContentResolver(), Settings.System.ALTERNATIVE_RECENTS_CLEAR_ALL,
-                        mAlternativeClearAll ? SHOW_ALTERNATIVE_RECENTS_CLEAR_ALL : HIDE_ALTERNATIVE_RECENTS_CLEAR_ALL);
-            } else {
-                // use alternative clear all view/button?
-                Settings.System.putInt(mContext.getContentResolver(), Settings.System.ALTERNATIVE_RECENTS_CLEAR_ALL,
-                        mHasNavigationBar || mDevForceNavbar ? HIDE_ALTERNATIVE_RECENTS_CLEAR_ALL : SHOW_ALTERNATIVE_RECENTS_CLEAR_ALL);
-            }
-
-            // If one is not in immersive mode and starts an app with native immersive mode
-            // the keyboard doesn't cover the full width of screen because it doesn't know that the screen size
-            // had changed. This config update fixes that
-            boolean isImmersive = isImmersiveMode(mLastSystemUiFlags);
-            if (isImmersive != mWasImmersive) {
-                mWasImmersive = isImmersive;
-                if (immersiveModeImplementsPie()) {
-                    try {
-                        ActivityManagerNative.getDefault().updateConfiguration(null);
-                    } catch (RemoteException e) {
-                        Log.e(TAG, "Something bad happened!", e);
-                    }
-                }
-            }
-
             // Height of the navigation bar when presented horizontally at bottom
             mNavigationBarHeightForRotation[mPortraitRotation] =
             mNavigationBarHeightForRotation[mUpsideDownRotation] =
