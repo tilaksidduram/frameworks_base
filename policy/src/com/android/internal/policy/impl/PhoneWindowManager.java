@@ -205,15 +205,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private static final int KEY_MASK_APP_SWITCH = 0x10;
     private static final int KEY_MASK_CAMERA = 0x20;
 
-    // Immersive
-    private static final int IMMERSIVE_MODE_OFF = 0;
-    private static final int IMMERSIVE_MODE_FULL = 1;
-    private static final int IMMERSIVE_MODE_HIDE_ONLY_NAVBAR = 2;
-    private static final int IMMERSIVE_MODE_HIDE_ONLY_STATUSBAR = 3;
-
-    // Pie
-    private static final int PIE_ENABLED = 1;
-
     /**
      * These are the system UI flags that, when changing, can cause the layout
      * of the screen to change.
