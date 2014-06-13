@@ -261,6 +261,10 @@ public abstract class BaseStatusBar extends SystemUI implements
         return mNotificationData;
     }
 
+    public SearchPanelView getSearchPanelView() {
+        return mSearchPanelView;
+    }
+
     public RemoteViews.OnClickHandler getNotificationClickHandler() {
         return mOnClickHandler;
     }
