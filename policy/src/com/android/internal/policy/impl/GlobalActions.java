@@ -234,19 +234,19 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
         if (mRebootMenu) {
             createRebootMenuItems();
         } else {
-            // Simple toggle style if there's no vibrator, otherwise use a tri-state
-            if (!mHasVibrator) {
-                mSilentModeAction = new SilentModeToggleAction();
-            } else {
-                mSilentModeAction = new SilentModeTriStateAction(mContext, mAudioManager, mHandler);
-            }
+        // Simple toggle style if there's no vibrator, otherwise use a tri-state
+        if (!mHasVibrator) {
+            mSilentModeAction = new SilentModeToggleAction();
+        } else {
+            mSilentModeAction = new SilentModeTriStateAction(mContext, mAudioManager, mHandler);
+        }
 
-            mAirplaneModeOn = new ToggleAction(
-                    R.drawable.ic_lock_airplane_mode,
-                    R.drawable.ic_lock_airplane_mode_off,
-                    R.string.global_actions_toggle_airplane_mode,
-                    R.string.global_actions_airplane_mode_on_status,
-                    R.string.global_actions_airplane_mode_off_status) {
+        mAirplaneModeOn = new ToggleAction(
+                R.drawable.ic_lock_airplane_mode,
+                R.drawable.ic_lock_airplane_mode_off,
+                R.string.global_actions_toggle_airplane_mode,
+                R.string.global_actions_airplane_mode_on_status,
+                R.string.global_actions_airplane_mode_off_status) {
 
                 void onToggle(boolean on) {
                     if (mHasTelephony && Boolean.parseBoolean(
@@ -283,29 +283,27 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 }
             };
 
-            onAirplaneModeChanged();
+        onAirplaneModeChanged();
 
-            mItems = new ArrayList<Action>();
+        mItems = new ArrayList<Action>();
 
-            // first: power off
+        int quickbootAvailable = 1;
+        final PackageManager pm = mContext.getPackageManager();
+        try {
+            pm.getPackageInfo("com.qapp.quickboot", PackageManager.GET_META_DATA);
+        } catch (NameNotFoundException e) {
+            quickbootAvailable = 0;
+        }
 
-       	    int quickbootAvailable = 1;
-            final PackageManager pm = mContext.getPackageManager();
-            try {
-                pm.getPackageInfo("com.qapp.quickboot", PackageManager.GET_META_DATA);
-            } catch (NameNotFoundException e) {
-                quickbootAvailable = 0;
-            }
-
-            final boolean quickbootEnabled = Settings.Global.getInt(
+        final boolean quickbootEnabled = Settings.Global.getInt(
                 mContext.getContentResolver(), Settings.Global.ENABLE_QUICKBOOT,
                 quickbootAvailable) == 1;
 
-            // first: power off
-            mItems.add(
-                new SinglePressAction(
-                        com.android.internal.R.drawable.ic_lock_power_off,
-                        R.string.global_action_power_off) {
+        // first: power off
+        mItems.add(
+            new SinglePressAction(
+                    com.android.internal.R.drawable.ic_lock_power_off,
+                    R.string.global_action_power_off) {
 
                 public void onPress() {
                     // goto quickboot mode
@@ -331,37 +329,38 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 public boolean showBeforeProvisioning() {
                     return true;
                 }
-             );
+            });
 
-             // next: reboot
-                mItems.add(
-                    new SinglePressAction(R.drawable.ic_lock_reboot,
-                            R.string.global_action_reboot) {
-                        public void onPress() {
-                            if (mKeyguardShowing && mKeyguardSecure){
-                                mWindowManagerFuncs.reboot(true);
-                            } else {
-                                showDialog(mKeyguardShowing, mKeyguardSecure, mDeviceProvisioned, true);
-                            }
-                        }
-
-                        public boolean onLongPress() {
-                            return true;
-                        }
-
-                        public boolean showDuringKeyguard() {
-                            return true;
-                        }
-
-                        public boolean showBeforeProvisioning() {
-                            return true;
-                        }
+        // next: reboot
+        mItems.add(
+            new SinglePressAction(R.drawable.ic_lock_reboot,
+                        R.string.global_action_reboot) {
+                public void onPress() {
+                    if (mKeyguardShowing && mKeyguardSecure){
+                        mWindowManagerFuncs.reboot(true);
+                    } else {
+                        showDialog(mKeyguardShowing, mKeyguardSecure, mDeviceProvisioned, true);
                     }
-                );
+                }
 
-            // next: screenshot
-            mItems.add(
-                new SinglePressAction(R.drawable.ic_lock_screenshot,
+                public boolean onLongPress() {
+                    mWindowManagerFuncs.rebootSafeMode(true);
+                    return true;
+                }
+
+                public boolean showDuringKeyguard() {
+                    return true;
+                }
+
+                public boolean showBeforeProvisioning() {
+                    return true;
+                }
+            }
+        );
+
+        // next: screenshot
+        mItems.add(
+            new SinglePressAction(R.drawable.ic_lock_screenshot,
                         R.string.global_action_screenshot) {
                 public void onPress() {
                     takeScreenshot();
@@ -422,8 +421,9 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
         // next: bug report, if enabled
         if (Settings.Secure.getInt(mContext.getContentResolver(),
                 Settings.Secure.BUGREPORT_IN_POWER_MENU, 0) != 0) {
-            mItems.add(new SinglePressAction(com.android.internal.R.drawable.stat_sys_adb,
-                   R.string.global_action_bug_report) {
+            mItems.add(
+                new SinglePressAction(com.android.internal.R.drawable.stat_sys_adb,
+                        R.string.global_action_bug_report) {
 
                     public void onPress() {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getUiContext());
@@ -443,12 +443,11 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                                                     ActivityManagerNative.getDefault()
                                                             .requestBugReport();
                                                 } catch (RemoteException e) {
-                                                    // run
                                                 }
                                             }
                                         }, 500);
                                     }
-                        });
+                                });
                         AlertDialog dialog = builder.create();
                         dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
                         dialog.show();
