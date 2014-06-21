@@ -274,7 +274,7 @@ public class ExpandHelper implements Gefingerpoken, OnClickListener {
 
         if (v == null) {
             if (DEBUG) Log.d(TAG, "isinside null subject");
-            return true;
+            return false;
         }
         if (mEventSource != null) {
             int[] location = new int[2];
