@@ -3981,6 +3981,12 @@ public final class Settings {
         public static final String RECENT_PANEL_SHOW_TOPMOST = "recent_panel_show_topmost";
 
         /**
+         * Enable when s-pen is in use
+         * @hide
+         */
+        public static final String ENABLE_NAVBAR_SPEN = "enable_navbar_spen";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *

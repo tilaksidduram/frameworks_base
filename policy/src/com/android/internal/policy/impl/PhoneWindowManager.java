@@ -551,6 +551,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private boolean mVolumeUpKeyConsumedByScreenRecordChord;
     private boolean mPowerKeyTriggered;
     private long mPowerKeyTime;
+    private boolean mSPenInserted = false;
     private boolean mVolumeWakeScreen;
     private boolean mIsLongPress;
 
@@ -1250,6 +1251,16 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 com.android.internal.R.bool.config_singleStageCameraKey);
 
         updateKeyAssignments();
+
+        // register for spen events
+        ContentObserver sPenObserver = new ContentObserver(new Handler()) {
+            @Override
+            public void onChange(boolean selfChange) {
+                checkSPenSwitch();
+            }
+        };
+        context.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                Settings.System.ENABLE_NAVBAR_SPEN), false, sPenObserver, UserHandle.USER_ALL);
 
         // register for dock events
         IntentFilter filter = new IntentFilter();
@@ -4431,6 +4442,23 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mPowerManager.wakeUp(SystemClock.uptimeMillis());
         } else if (!mLidControlsSleep) {
             mPowerManager.userActivity(SystemClock.uptimeMillis(), false);
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void notifySPenSwitchChanged(long whenNanos, boolean sPenOn) {
+        Intent intent = new Intent(ACTION_SPEN);
+        intent.putExtra(EXTRA_SPEN_PLUGGED_STATE, sPenOn);
+        mContext.sendStickyBroadcastAsUser(intent,UserHandle.ALL);
+        mSPenInserted = sPenOn;
+        checkSPenSwitch();
+    }
+
+    private void checkSPenSwitch() {
+        if (Settings.System.getInt(mContext.getContentResolver(), Settings.System.ENABLE_NAVBAR_SPEN, 0) == 0) {
+            Settings.System.putInt(mContext.getContentResolver(), Settings.System.DEV_FORCE_SHOW_NAVBAR, 0);
+        } else {
+            Settings.System.putInt(mContext.getContentResolver(), Settings.System.DEV_FORCE_SHOW_NAVBAR, mSPenInserted ? 1 : 0);
         }
     }
 
