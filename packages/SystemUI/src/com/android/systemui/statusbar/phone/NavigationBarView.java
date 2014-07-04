@@ -111,6 +111,7 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
 
     private Resources mThemedResources;
 
+    private boolean mHasCmKeyguard = false;
     private boolean mModLockDisabled = true;
     private SettingsObserver mObserver;
 
@@ -243,7 +244,13 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
         watchForDevicePolicyChanges();
 
         mObserver = new SettingsObserver(new Handler());
-    }
+
+        final String keyguardPackage = mContext.getString(
+                com.android.internal.R.string.config_keyguardPackage);
+        final Bundle keyguardMetadata = getApplicationMetadata(mContext, keyguardPackage);
+        mHasCmKeyguard = keyguardMetadata != null &&
+                keyguardMetadata.getBoolean("com.cyanogenmod.keyguard", false);
+     }
 
     private void watchForDevicePolicyChanges() {
         final IntentFilter filter = new IntentFilter();
@@ -594,15 +601,7 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
-
-        final String keyguardPackage = mContext.getString(
-                com.android.internal.R.string.config_keyguardPackage);
-        final Bundle keyguard_metadata = NavigationBarView
-                .getApplicationMetadata(mContext, keyguardPackage);
-        if (null != keyguard_metadata &&
-                keyguard_metadata.getBoolean("com.cyanogenmod.keyguard", false)) {
-            mObserver.observe();
-        }
+        mObserver.observe();
     }
 
     @Override
@@ -821,8 +820,8 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
     private static Bundle getApplicationMetadata(Context context, String pkg) {
         if (pkg != null) {
             try {
-                ApplicationInfo ai = context.getPackageManager().
-                    getApplicationInfo(pkg, PackageManager.GET_META_DATA);
+                PackageManager pm = context.getPackageManager();
+                ApplicationInfo ai = pm.getApplicationInfo(pkg, PackageManager.GET_META_DATA);
                 return ai.metaData;
             } catch (NameNotFoundException e) {
                 return null;
@@ -859,8 +858,12 @@ public class NavigationBarView extends LinearLayout implements NavigationCallbac
 
         @Override
         public void onChange(boolean selfChange) {
+            if (mHasCmKeyguard) {
             mModLockDisabled = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.LOCKSCREEN_MODLOCK_ENABLED, 1) == 0;
+            } else {
+                mModLockDisabled = true;
+            }
             setDisabledFlags(mDisabledFlags, true /* force */);
         }
     }
