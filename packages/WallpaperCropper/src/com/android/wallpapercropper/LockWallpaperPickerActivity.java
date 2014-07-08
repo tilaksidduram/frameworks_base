@@ -926,7 +926,7 @@ public class LockWallpaperPickerActivity extends WallpaperCropActivity {
                                                  themeLockWallpaperInfos) {
                 ThemeLockWallpapersAdapter tla = new ThemeLockWallpapersAdapter(
                         LockWallpaperPickerActivity.this, themeLockWallpaperInfos);
-                populateWallpapersFromAdapter(mWallpapersView, tla, false, false);
+                populateWallpapersFromAdapter(mWallpapersView, tla, false, true);
             }
         }.execute((Void) null);
 
