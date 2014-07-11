@@ -2817,6 +2817,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mGestureRec.add(event);
         }
 
+        if (mBrightnessControl) {
+            brightnessControl(event);
+	}
+        if ((mDisabled & StatusBarManager.DISABLE_EXPAND) != 0) {
+            return true;
+        }
+
         if (mStatusBarWindowState == WINDOW_STATE_SHOWING) {
             final boolean upOrCancel =
                     event.getAction() == MotionEvent.ACTION_UP ||
@@ -2827,14 +2834,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 setInteracting(StatusBarManager.WINDOW_STATUS_BAR, true);
             }
         }
-
-        if (mBrightnessControl) {
-            brightnessControl(event);
-            if ((mDisabled & StatusBarManager.DISABLE_EXPAND) != 0) {
-                return true;
-            }
-        }
-
         return false;
     }
 
