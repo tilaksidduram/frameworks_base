@@ -290,6 +290,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     View mClearButton;
     ImageView mSettingsButton, mNotificationButton, mEditModeButton;
 
+    private View mWeatherHeader;
+    private boolean mWeatherEnabled;
+
     // carrier/wifi label
     private TextView mCarrierLabel;
     private TextView mSubsLabel;
@@ -450,6 +453,16 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         addNavigationBar();
     }
 
+    private void enableOrDisableWeather() {
+        if (mWeatherEnabled) {
+            mWeatherHeader.setVisibility(View.VISIBLE);
+            mWeatherHeader.setEnabled(true);
+        } else {
+            mWeatherHeader.setVisibility(View.GONE);
+            mWeatherHeader.setEnabled(false);
+        }
+    }
+
     // ensure quick settings is disabled until the current user makes it through the setup wizard
     private boolean mUserSetup = false;
     private ContentObserver mUserSetupObserver = new ContentObserver(new Handler()) {
@@ -530,6 +543,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.CUSTOM_RECENT), false, this, UserHandle.USER_ALL);
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
                     Settings.System.TOGGLE_CARRIER_LOGO), false, this, UserHandle.USER_ALL);
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.SYSTEMUI_WEATHER_HEADER_VIEW), false, this, UserHandle.USER_ALL);
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.SYSTEMUI_WEATHER_NOTIFICATION), false, this, UserHandle.USER_ALL);
             updateSettings();
             updateBrightness();
         }
@@ -562,6 +579,18 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mFlipInterval = Settings.System.getIntForUser(mContext.getContentResolver(),
                         Settings.System.REMINDER_ALERT_INTERVAL, 1500, UserHandle.USER_CURRENT);
 
+            boolean weatherHolder = Settings.System.getBoolean(mContext.getContentResolver(),
+                        Settings.System.SYSTEMUI_WEATHER_HEADER_VIEW, false);
+            if (weatherHolder != mWeatherEnabled) {
+                mWeatherEnabled = weatherHolder;
+                enableOrDisableWeather();
+            }
+
+            mCarrierLogoEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
+                        Settings.System.TOGGLE_CARRIER_LOGO, 0, UserHandle.USER_CURRENT) == 1;
+            setCarrierVisibility();
+            updateCustomHeaderStatus();
+
             boolean reminderHolder = Settings.System.getIntForUser(mContext.getContentResolver(),
                         Settings.System.REMINDER_ALERT_ENABLED, 0, UserHandle.USER_CURRENT) != 0;
             if (reminderHolder != mReminderEnabled) {
@@ -578,10 +607,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 }
                 enableOrDisableReminder();
             }
-
-            mCarrierLogoEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
-                        Settings.System.TOGGLE_CARRIER_LOGO, 0, UserHandle.USER_CURRENT) == 1;
-            setCarrierVisibility();
             updateCustomHeaderStatus();
         }
 
@@ -1017,6 +1042,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mStatusHeaderImage = (ImageView) mNotificationPanelHeader.findViewById(R.id.header_background_image);
         mHeaderOverlay = res.getDrawable(R.drawable.bg_custom_header_overlay);
         updateCustomHeaderStatus();
+
+        mWeatherHeader = mStatusBarWindow.findViewById(R.id.weather_text);
+
+        mWeatherEnabled = Settings.System.getBoolean(mContext.getContentResolver(),
+                    Settings.System.SYSTEMUI_WEATHER_HEADER_VIEW, false);
 
         mReminderHeader = mStatusBarWindow.findViewById(R.id.reminder_header);
         mReminderHeader.setOnClickListener(mReminderButtonListener);
