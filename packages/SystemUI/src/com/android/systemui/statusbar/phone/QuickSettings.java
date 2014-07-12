@@ -1052,6 +1052,14 @@ class QuickSettings {
                             sleepTile.setBackText(state.label);
                         }
                     });
+                    sleepTile.setBackOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            collapsePanels();
+                            startSettingsActivity(android.provider.Settings.ACTION_DISPLAY_SETTINGS);
+                            return true;
+                        }
+                    });
                     parent.addView(sleepTile);
                     if(addMissing) sleepTile.setVisibility(View.GONE);
                 } else if(Tile.NFC.toString().equals(tile.toString()) && isNfcSupported()) {
