@@ -3999,6 +3999,18 @@ public final class Settings {
         public static final String T9_SEARCH_INPUT_LOCALE = "t9_search_input_locale";
 
         /**
+         * The style of the incoming call screen.
+         * Default is {@link INCOMING_CALL_STYLE_FULLSCREEN_PHOTO}.
+         * @hide
+         */
+        public static final String INCOMING_CALL_STYLE = "incoming_call_style";
+
+        /** @hide */
+        public static final int INCOMING_CALL_STYLE_CLASSIC = 0;
+        /** @hide */
+        public static final int INCOMING_CALL_STYLE_FULLSCREEN_PHOTO = 1;
+
+        /**
          * Recent panel: Show topmost task
          *
          * @hide
@@ -4080,6 +4092,7 @@ public final class Settings {
             INCREASING_RING,
             RINGTONE,
             NOTIFICATION_SOUND,
+            INCOMING_CALL_STYLE,
             TELO_RADIO_ENABLED,
             TELO_RADIO_2G_WIFI,
             TELO_RADIO_LTE,
