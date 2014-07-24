@@ -3993,6 +3993,12 @@ public final class Settings {
         public static final String HOVER_STATE = "hover_state";
 
         /**
+         * Locale for secondary overlay on dialer for t9 search input
+         * @hide
+         */
+        public static final String T9_SEARCH_INPUT_LOCALE = "t9_search_input_locale";
+
+        /**
          * Recent panel: Show topmost task
          *
          * @hide
