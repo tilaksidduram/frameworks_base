@@ -72,4 +72,7 @@
     <dimen name="recent_header_width">120dp</dimen>
     <dimen name="recent_text_size">20dp</dimen>
     <dimen name="recent_thumbnail_bottom_padding">3dp</dimen>
+
+    <!-- Wifi mcombo margins (used by Theme Engine) -->
+    <dimen name="wifi_combo_margin_end">-6dp</dimen>
 </resources>
