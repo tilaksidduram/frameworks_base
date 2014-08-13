@@ -2398,6 +2398,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             loadIntegerSetting(stmt, Settings.Global.WIFI_SUSPEND_OPTIMIZATIONS_ENABLED,
                     R.integer.def_wifi_suspend_optimizations_enabled);
 
+            loadIntegerSetting(stmt, Settings.Global.SEND_ACTION_APP_ERROR,
+                    R.integer.def_send_action_app_error);
+
             type = SystemProperties.getInt("ro.telephony.tetherdunrequired", -1);
             if (type == 0 || type == 1) {
                 loadSetting(stmt, Settings.Global.TETHER_DUN_REQUIRED, type);
