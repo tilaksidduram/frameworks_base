@@ -96,4 +96,7 @@
     <dimen name="folder_width">290dp</dimen>
     <dimen name="folder_height">480dp</dimen>
     <dimen name="setup_sidebar_width">90dp</dimen>
+
+    <!-- Statusbar Carrier Logo -->
+    <dimen name="statusbar_carrier_logo_size">20sp</dimen>
 </resources>

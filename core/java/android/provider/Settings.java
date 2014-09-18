@@ -3768,6 +3768,12 @@ public final class Settings {
         public static final String RAM_USAGE_BAR = "ram_usage_bar";
 
         /**
+         * Carrier Logo toggle
+         * @hide
+         */
+        public static final String TOGGLE_CARRIER_LOGO = "toggle_carrier_logo";
+
+        /**
          * Weather to minimize lockscreen challenge on screen turned on
          * @hide
          */
