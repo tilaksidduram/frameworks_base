@@ -48,7 +48,7 @@ public class SignalClusterView
     private int mMobileTypeId = 0, mNoSimIconId = 0;
     private boolean mIsAirplaneMode = false;
     private int mAirplaneIconId = 0;
-    private int mCarrierIconId = 0;
+    private int mCarrierIconId = -1;
     private String mWifiDescription, mMobileDescription, mMobileTypeDescription;
     private PhoneStatusBar mStatusBar;
 
@@ -218,12 +218,9 @@ public class SignalClusterView
             mMobileGroup.setContentDescription(mMobileTypeDescription + " " + mMobileDescription);
             mMobileGroup.setVisibility(View.VISIBLE);
             mNoSimSlot.setImageResource(mNoSimIconId);
-            if (mCarrierIconId != -1) {
+            if (mCarrierIconId > 0) {
                 mStatusBar.setCarrierImageResource(mCarrierIconId);
-            }
-            if (Settings.System.getInt(mContext.getContentResolver(),
-                     Settings.System.TOGGLE_CARRIER_LOGO, 0) != 1) {
-                     mStatusBar.setCarrierVisibility(View.VISIBLE);
+                mStatusBar.setCarrierVisibility(View.VISIBLE);
             } else {
                 mStatusBar.setCarrierVisibility(View.GONE);
             }

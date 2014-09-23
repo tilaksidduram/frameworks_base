@@ -98,5 +98,5 @@
     <dimen name="setup_sidebar_width">90dp</dimen>
 
     <!-- Statusbar Carrier Logo -->
-    <dimen name="statusbar_carrier_logo_size">20sp</dimen>
+    <dimen name="status_bar_carrier_logo_size">20sp</dimen>
 </resources>

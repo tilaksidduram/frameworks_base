@@ -362,6 +362,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private ImageView mStatusHeaderImage;
     private Drawable mHeaderOverlay;
     private ImageView mCarrierLogo;
+    private boolean mCarrierLogoEnabled = false;
 
     // status bar brightness control
     private boolean mBrightnessControl;
@@ -527,6 +528,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.REMINDER_ALERT_INTERVAL), false, this, UserHandle.USER_ALL);
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
                     Settings.System.CUSTOM_RECENT), false, this, UserHandle.USER_ALL);
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.TOGGLE_CARRIER_LOGO), false, this, UserHandle.USER_ALL);
             updateSettings();
             updateBrightness();
         }
@@ -575,6 +578,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 }
                 enableOrDisableReminder();
             }
+
+            mCarrierLogoEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
+                        Settings.System.TOGGLE_CARRIER_LOGO, 0, UserHandle.USER_CURRENT) == 1;
+            setCarrierVisibility();
             updateCustomHeaderStatus();
         }
 
@@ -3701,8 +3708,16 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     };
 
+    private void setCarrierVisibility() {
+        if (mCarrierLogo != null) {
+            mCarrierLogo.setVisibility(mCarrierLogoEnabled ? View.VISIBLE : View.GONE);
+        }
+    }
+
     public void setCarrierVisibility(int vis) {
-        mCarrierLogo.setVisibility(vis);
+        if (mCarrierLogoEnabled) {
+            mCarrierLogo.setVisibility(vis);
+        }
     }
 
     public void setCarrierImageResource(int res) {
