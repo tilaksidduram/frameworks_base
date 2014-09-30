@@ -1404,9 +1404,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
         mCircleBattery = (BatteryCircleMeterView) mStatusBarView.findViewById(R.id.circle_battery);
         if (mCircleBattery != null) {
-        mCircleBattery.updateUser(mCurrentUserId);
-        mCircleBattery.updateSettings(false);
-        mCircleBattery.setColors(false);
+            mCircleBattery.updateUser(mCurrentUserId);
+            mCircleBattery.updateSettings(false);
+            mCircleBattery.setColors(false);
+        }
         if (MSimTelephonyManager.getDefault().isMultiSimEnabled()) {
             mMSimNetworkController.setListener(this);
         } else {
