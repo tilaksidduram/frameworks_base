@@ -3438,6 +3438,12 @@ public final class Settings {
          */
         public static final String QUICK_SETTINGS_TILES = "quick_settings_tiles";
 
+        /**
+         * Quick Settings tiles that should be hidden automatically.
+         * @hide
+         */
+        public static final String QUICK_SETTINGS_HIDE_TILES = "quick_settings_hide_tiles";
+
        /**
         * Sets the portrait background of notification drawer
         * @hide
