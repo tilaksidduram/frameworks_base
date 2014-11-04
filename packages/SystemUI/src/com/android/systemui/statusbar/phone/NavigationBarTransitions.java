@@ -43,8 +43,6 @@ public final class NavigationBarTransitions extends BarTransitions {
     private final NavigationBarView mView;
     private final IStatusBarService mBarService;
 
-    private View mStatusBarBlocker;
-
     private boolean mLightsOut;
     private boolean mVertical;
     private int mRequestedMode;
@@ -58,7 +56,6 @@ public final class NavigationBarTransitions extends BarTransitions {
     }
 
     public void init(boolean isVertical) {
-        mStatusBarBlocker = mView.findViewById(R.id.status_bar_blocker);
         setVertical(isVertical);
         applyModeBackground(-1, getMode(), false /*animate*/);
         applyMode(getMode(), false /*animate*/, true /*force*/);
@@ -102,9 +99,6 @@ public final class NavigationBarTransitions extends BarTransitions {
 
         // apply to lights out
         applyLightsOut(mode == MODE_LIGHTS_OUT, animate, force);
-
-        final boolean isTranslucent = mode != MODE_OPAQUE && mode != MODE_LIGHTS_OUT;
-        fadeContent(mStatusBarBlocker, isTranslucent ? 1f : 0f);
     }
 
     private float alphaForMode(int mode) {
