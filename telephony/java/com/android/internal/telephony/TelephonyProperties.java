@@ -243,4 +243,9 @@ public interface TelephonyProperties
 
     static final String EXTRA_SKIP_SCHEMA_PARSING =
             "org.codeaurora.extra.SKIP_SCHEMA_PARSING";
+
+    /**
+     * Set to true to indicates support for simultaneous voice and EvDo.
+     */
+    static final String PROPERTY_SVDO = "ro.ril.svdo";
 }
