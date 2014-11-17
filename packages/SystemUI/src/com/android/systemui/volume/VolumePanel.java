@@ -1375,6 +1375,11 @@ public class VolumePanel extends Handler implements DemoMode {
     }
 
     protected void onPlaySound(int streamType, int flags) {
+        // Just return if we disabled slider sound while adjusting volume
+        if (Settings.System.getInt(mContext.getContentResolver(),
+                 Settings.System.VOLUME_ADJUST_SOUND_ENABLED, 1) == 0) {
+             return;
+        }
 
         // If preference is no sound - just exit here
         if (Settings.System.getInt(mContext.getContentResolver(),
