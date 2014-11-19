@@ -2971,6 +2971,12 @@ public final class Settings {
         public static final String EGG_MODE = "egg_mode";
 
         /**
+         * Status bar battery %
+         * @hide
+         */
+        public static final String STATUS_BAR_SHOW_BATTERY_PERCENT = "status_bar_show_battery_percent";
+
+        /**
          *  Enable statusbar double tap gesture on to put device to sleep
          * @hide
          */
@@ -3065,6 +3071,7 @@ public final class Settings {
             VIBRATE_WHEN_RINGING,
             RINGTONE,
             NOTIFICATION_SOUND,
+            STATUS_BAR_SHOW_BATTERY_PERCENT,
             SYSTEM_PROFILES_ENABLED
         };
 
@@ -5255,7 +5262,7 @@ public final class Settings {
          */
         public static final String SLEEP_TIMEOUT = "sleep_timeout";
 
-         /** Protected Components
+        /** Protected Components
          * @hide
          */
         public static final String PROTECTED_COMPONENTS = "protected_components";
