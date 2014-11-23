@@ -349,7 +349,7 @@ public class SignalClusterView
         if (DEBUG) Log.d(TAG, String.format("vpn: %s", mVpnVisible ? "VISIBLE" : "GONE"));
         if (mWifiVisible) {
             mWifi.setImageResource(mWifiStrengthId);
-            mWifiActivity.setImageResource(0/*null*/);
+            mWifiActivity.setImageResource(R.drawable.stat_sys_signal_none/*null*/);
             mWifiGroup.setContentDescription(mWifiDescription);
             mWifiGroup.setVisibility(View.VISIBLE);
         } else {
@@ -402,8 +402,7 @@ public class SignalClusterView
 
         if (mStyle == STATUS_BAR_STYLE_ANDROID_DEFAULT) {
             mMobileType.setVisibility(
-                    ((mRoaming || mMobileTypeId != 0) && !mWifiVisible) ?
-                    View.VISIBLE : View.GONE);
+                    (mRoaming || mMobileTypeId != 0) ? View.VISIBLE : View.GONE);
         } else {
             mMobileType.setVisibility(View.GONE);
         }
@@ -422,7 +421,7 @@ public class SignalClusterView
     private void updateMobile() {
         mMobile.setImageResource(mMobileStrengthId);
         mMobileType.setImageResource(mMobileTypeId);
-        mMobileActivity.setImageResource(0/*null*/);
+        mMobileActivity.setImageResource(R.drawable.stat_sys_signal_none/*null*/);
         mNoSimSlot.setImageResource(mNoSimIconId);
         mMobileGroup.setContentDescription(mMobileTypeDescription + " " + mMobileDescription);
     }
