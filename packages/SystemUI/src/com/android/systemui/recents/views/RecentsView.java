@@ -34,6 +34,7 @@ import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.EventLog;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowInsets;
@@ -381,9 +382,29 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
             }
         }
 
-        if (mClearRecents != null) {
+        boolean showClearAllRecents = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.SHOW_CLEAR_ALL_RECENTS, 1) == 1;
+
+        if (mClearRecents != null && showClearAllRecents) {
+            int clearRecentsLocation = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.RECENTS_CLEAR_ALL_LOCATION, Constants.DebugFlags.App.RECENTS_CLEAR_ALL_BOTTOM_RIGHT);
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)
                     mClearRecents.getLayoutParams();
+            switch (clearRecentsLocation) {
+                case Constants.DebugFlags.App.RECENTS_CLEAR_ALL_TOP_LEFT:
+                    params.gravity = Gravity.TOP | Gravity.LEFT;
+                    break;
+                case Constants.DebugFlags.App.RECENTS_CLEAR_ALL_TOP_RIGHT:
+                    params.gravity = Gravity.TOP | Gravity.RIGHT;
+                    break;
+                case Constants.DebugFlags.App.RECENTS_CLEAR_ALL_BOTTOM_LEFT:
+                    params.gravity = Gravity.BOTTOM | Gravity.LEFT;
+                    break;
+                case Constants.DebugFlags.App.RECENTS_CLEAR_ALL_BOTTOM_RIGHT:
+                default:
+                    params.gravity = Gravity.BOTTOM | Gravity.RIGHT;
+                    break;
+            }
             boolean isLandscape = mContext.getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
             if (mSearchBar == null || isLandscape) {
@@ -394,7 +415,6 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
                     getDimensionPixelSize(com.android.internal.R.dimen.status_bar_height)
                         + searchBarSpaceBounds.height();
             }
-
             if (mSearchBar != null && (searchBarSpaceBounds.width() > taskViewWidth)) {
                 // Adjust to the search bar
                 params.rightMargin = width - searchBarSpaceBounds.right;
@@ -407,6 +427,8 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
                     params.rightMargin = width - taskStackBounds.right;
             }
             mClearRecents.setLayoutParams(params);
+        } else {
+            mClearRecents.setVisibility(View.GONE);
         }
 
         setMeasuredDimension(width, height);
