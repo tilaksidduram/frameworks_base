@@ -187,9 +187,11 @@ public class NotificationPanelView extends PanelView implements
 
     private LockPatternUtils mLockPatternUtils;
     private Handler mHandler = new Handler();
+    private LockPatternUtils mLockPatternUtils;
     private SettingsObserver mSettingsObserver;
 
     private int mOneFingerQuickSettingsIntercept;
+    private boolean mStatusBarLockedOnSecureKeyguard;
     private boolean mDoubleTapToSleepEnabled;
     private int mStatusBarHeaderHeight;
     private GestureDetector mDoubleTapGesture;
@@ -678,6 +680,7 @@ public class NotificationPanelView extends PanelView implements
         if (mBlockTouches) {
             return false;
         }
+
         if (mDoubleTapToSleepEnabled
                 && mStatusBarState == StatusBarState.KEYGUARD
                 && event.getY() < mStatusBarHeaderHeight) {
@@ -693,7 +696,8 @@ public class NotificationPanelView extends PanelView implements
             return true;
         }
 
-        boolean isQSEventBlocked = mLockPatternUtils.isSecure() && mKeyguardShowing;
+        boolean isQSEventBlocked = mLockPatternUtils.isSecure()
+                && mStatusBarLockedOnSecureKeyguard && mKeyguardShowing;
 
         if (event.getActionMasked() == MotionEvent.ACTION_DOWN && getExpandedFraction() == 1f
                 && mStatusBar.getBarState() != StatusBarState.KEYGUARD && !mQsExpanded
@@ -2091,6 +2095,9 @@ public class NotificationPanelView extends PanelView implements
                     Settings.System.QS_QUICK_PULLDOWN), false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.DOUBLE_TAP_SLEEP_GESTURE), false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -2107,6 +2114,9 @@ public class NotificationPanelView extends PanelView implements
                     Settings.System.QS_QUICK_PULLDOWN, 0, UserHandle.USER_CURRENT);
             mDoubleTapToSleepEnabled = Settings.System.getIntForUser(resolver,
                     Settings.System.DOUBLE_TAP_SLEEP_GESTURE, 1, UserHandle.USER_CURRENT) == 1;
+            mStatusBarLockedOnSecureKeyguard = Settings.Secure.getIntForUser(
+                    resolver, Settings.Secure.STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD, 1,
+                    UserHandle.USER_CURRENT) == 1;
         }
     }
 }
