@@ -2182,4 +2182,6 @@
 
   <!-- Proximity check timeout -->
   <java-symbol type="integer" name="config_proximityCheckTimeout" />
+
+  <java-symbol type="bool" name="config_fetch_apn_from_omh_card" />
 </resources>

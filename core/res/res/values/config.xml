@@ -1937,7 +1937,7 @@
     <bool name="config_global_phone_enabled">false</bool>
 
     <!-- Configuartion to support SIM refresh in STK command for dual mode card.-->
-    <bool name="config_sim_refresh_for_dual_mode_card">true</bool>
+    <bool name="config_sim_refresh_for_dual_mode_card">false</bool>
 
     <string-array name="origin_carrier_names">
         <item>CHINA\u0020\u0020MOBILE</item>
@@ -2086,6 +2086,10 @@
     -->
     <bool name="config_proximityCheckOnWake">false</bool>
     <integer name="config_proximityCheckTimeout">250</integer>
+
+    <!-- Support for disabling to fetch APN from OMH card
+         for some cdma carriers -->
+    <bool name="config_fetch_apn_from_omh_card">true</bool>
 
     <!-- Boolean to enable stk functionality on Samsung phones -->
     <bool name="config_samsung_stk">false</bool>
