@@ -21,5 +21,7 @@
 
     <!-- Description of the Random button in a KeyboardView. [CHAR LIMIT=NONE] -->
     <string name="keyboardview_keycode_random">Reload random buttons</string>
+    <!-- Status -->
+    <string name="keyguard_accessibility_status">"Status"</string>
 
 </resources>
