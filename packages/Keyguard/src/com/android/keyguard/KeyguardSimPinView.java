@@ -39,7 +39,6 @@ import com.android.internal.telephony.ITelephony;
 import com.android.internal.telephony.PhoneConstants;
 import com.android.internal.telephony.IccCardConstants;
 
-
 /**
  * Displays a PIN pad for unlocking.
  */
