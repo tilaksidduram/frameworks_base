@@ -2065,6 +2065,10 @@ public class NotificationStackScrollLayout extends ViewGroup
         }
     }
 
+    public boolean getIsExpanded() {
+        return mIsExpanded;
+    }
+
     private void setIsExpanded(boolean isExpanded) {
         boolean changed = isExpanded != mIsExpanded;
         mIsExpanded = isExpanded;
