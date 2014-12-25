@@ -2268,11 +2268,10 @@ public abstract class BaseStatusBar extends SystemUI implements
         boolean interrupt = (isFullscreen || (isHighPriority && (isNoisy || hasTicker))
                 || asHeadsUp == Notification.HEADS_UP_REQUESTED)
                 && isAllowed
-                && !isOngoing
                 && !accessibilityForcesLaunch
                 && mPowerManager.isScreenOn()
                 && !keyguardIsShowing
-                && !isExpanded;
+                && !isExpanded
                 && !zenBlocksHeadsUp;
 
         try {
