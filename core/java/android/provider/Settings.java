@@ -3433,6 +3433,12 @@ public final class Settings {
          */
         public static final String NAVBAR_LEFT_IN_LANDSCAPE = "navigation_bar_left";
 
+        /** Whether to vibrate when quick settings tile is pressed.
+         *
+         * @hide
+         */
+        public static final String QUICK_SETTINGS_TILES_VIBRATE = "quick_settings_vibrate";
+
         /**
          * Locale for secondary overlay on dialer for t9 search input
          * @hide
