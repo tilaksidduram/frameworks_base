@@ -237,6 +237,7 @@ LOCAL_SHARED_LIBRARIES := \
 	libjpeg \
 	libusbhost \
 	libharfbuzz_ng \
+	libdrmframework \
 	libz \
 	libaudioutils \
 	libpdfium \
