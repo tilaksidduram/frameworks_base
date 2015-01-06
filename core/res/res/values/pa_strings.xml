@@ -34,6 +34,7 @@
     <string name="reboot">Reboot</string>
     <string name="reboot_recovery">Recovery</string>
     <string name="reboot_bootloader">Bootloader</string>
+    <string name="reboot_download">Download</string>
 
     <!-- Setting confirmation dialog strings. Shown when any UI interaction can be modified by user input -->
     <string name="setting_confirmation_ask_me_later">Ask later</string>
