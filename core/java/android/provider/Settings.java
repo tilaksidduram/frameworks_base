@@ -3367,6 +3367,12 @@ public final class Settings {
         public static final String QUICK_SETTINGS_COLLAPSE_PANEL = "quick_settings_collapse_panel";
 
         /**
+         * Whether to dismiss all recents tasks
+         * @hide
+         */
+        public static final String RECENTS_CLEAR_ALL_DISMISS_ALL = "recents_clear_all_dismiss_all";
+
+        /**
          * I am the lolrus.
          * <p>
          * Nonzero values indicate that the user has a bukkit.
