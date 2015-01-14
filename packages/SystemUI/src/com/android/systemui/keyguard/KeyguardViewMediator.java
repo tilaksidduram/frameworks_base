@@ -184,6 +184,7 @@ public class KeyguardViewMediator extends SystemUI {
     private AudioManager mAudioManager;
     private StatusBarManager mStatusBarManager;
     private boolean mSwitchingUser;
+
     private ProfileManager mProfileManager;
     private boolean mSystemReady;
     private boolean mBootCompleted;
