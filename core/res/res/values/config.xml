@@ -1813,12 +1813,12 @@
     <string-array translatable="false" name="config_globalActionsList">
         <item>power</item>
         <item>reboot</item>
+        <item>profile</item>
         <item>screenshot</item>
         <item>bugreport</item>
         <item>airplane</item>
         <item>silent</item>
         <item>users</item>
-        <item>profile</item>
     </string-array>
 
     <!-- default telephony hardware configuration for this platform.
