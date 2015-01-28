@@ -567,10 +567,6 @@
 
     <!-- QuickSettings: Airplane mode [CHAR LIMIT=NONE] -->
     <string name="quick_settings_airplane_mode_label">Airplane mode</string>
-    <!-- QuickSettings: Mobile data [CHAR LIMIT=NONE] -->
-    <string name="quick_settings_mobile_data_label">Mobile data</string>
-    <!-- QuickSettings: Roaming [CHAR LIMIT=NONE] -->
-    <string name="quick_settings_roaming_label">Roaming</string>
     <!-- QuickSettings: Battery Charging [CHAR LIMIT=NONE] -->
     <string name="quick_settings_battery_charging_label">Charging, <xliff:g id="number">%d</xliff:g><xliff:g id="percent">%%</xliff:g></string>
     <!-- QuickSettings: Battery Charged [CHAR LIMIT=NONE] -->
@@ -639,8 +635,6 @@
     <string name="quick_settings_brightness_dialog_title">Brightness</string>
     <!-- QuickSettings: Brightness dialog auto brightness button [CHAR LIMIT=NONE] -->
     <string name="quick_settings_brightness_dialog_auto_brightness_label">AUTO</string>
-    <!-- QuickSettings: Apn switch button label [CHAR LIMIT=NONE] -->
-    <string name="quick_settings_apn_switch_label">APN switch</string>
     <!-- QuickSettings: Label for the toggle that controls whether display inversion is enabled. [CHAR LIMIT=NONE] -->
     <string name="quick_settings_inversion_label">Invert colors</string>
     <!-- QuickSettings: Label for the toggle that controls whether display color correction is enabled. [CHAR LIMIT=NONE] -->
@@ -675,9 +669,6 @@
     <string name="quick_settings_cellular_detail_data_limit"><xliff:g id="data_limit" example="2.0 GB">%s</xliff:g> limit</string>
     <!-- QuickSettings: Cellular detail panel, data warning format string [CHAR LIMIT=NONE] -->
     <string name="quick_settings_cellular_detail_data_warning"><xliff:g id="data_limit" example="2.0 GB">%s</xliff:g> warning</string>
-    <!-- QuickSettings: Dds [CHAR LIMIT=NONE] -->
-    <string name="quick_settings_dds_sub">Card <xliff:g id="number">%d</xliff:g> data</string>
-    <string name="quick_settings_data_off">Data off</string>
 
     <!-- Recents: The empty recents string. [CHAR LIMIT=NONE] -->
     <string name="recents_empty_message">Your recent screens appear here</string>
@@ -689,7 +680,6 @@
     <string name="recents_search_bar_label">search</string>
     <!-- Recents: Launch error string. [CHAR LIMIT=NONE] -->
     <string name="recents_launch_error_message">Could not start <xliff:g id="app" example="Calendar">%s</xliff:g>.</string>
-
 
     <!-- Expanded Status Bar Header: Battery Charged [CHAR LIMIT=40] -->
     <string name="expanded_header_battery_charged">Charged</string>
