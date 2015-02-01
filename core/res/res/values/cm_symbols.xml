@@ -216,6 +216,10 @@
     <java-symbol type="string" name="theme_reset_notification_title" />
     <java-symbol type="string" name="theme_reset_notification_body" />
 
+    <!-- Stylus gestures -->
+    <java-symbol type="bool" name="config_stylusGestures" />
+    <java-symbol type="string" name="stylus_app_not_installed" />
+
     <!-- Blur effects -->
     <java-symbol type="bool" name="config_ui_blur_enabled" />
 
