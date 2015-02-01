@@ -385,7 +385,7 @@
     <!-- Dismiss button text in SIM pin/puk unlock view -->
     <string name="kg_dismiss">Dismiss</string>
     <!-- Slot id in SIM pin/puk unlock view -->
-    <string name="kg_slot_name">Slot <xliff:g id="number">%d</xliff:g>: New Sim Card\u0020 </string>
+    <string name="kg_slot_name">Slot <xliff:g id="number">%d</xliff:g>: New SIM Card\u0020 </string>
 
     <!-- Instructions telling the user remaining times when enter SIM PIN view.  -->
     <plurals name="kg_password_default_pin_message">
@@ -394,7 +394,7 @@
     </plurals>
     <!-- Instructions telling the user remaining times when enter SIM PUK view.  -->
     <plurals name="kg_password_default_puk_message">
-        <item quantity="one">SIM is now disabled. Enter PUK code to continue. You have <xliff:g id="number">%d</xliff:g> remaining attempt before SIM becomes permanently unusable. Contact carrier for details.</item>
-        <item quantity="other">SIM is now disabled. Enter PUK code to continue. You have <xliff:g id="number">%d</xliff:g> remaining attempts before SIM becomes permanently unusable. Contact carrier for details.</item>
+        <item quantity="one">SIM is now disabled. Enter PUK code to continue. You have <xliff:g id="number">%d</xliff:g> remaining attempt before SIM becomes permanently unusable. Contact your carrier for details.</item>
+        <item quantity="other">SIM is now disabled. Enter PUK code to continue. You have <xliff:g id="number">%d</xliff:g> remaining attempts before SIM becomes permanently unusable. Contact your carrier for details.</item>
     </plurals>
 </resources>
