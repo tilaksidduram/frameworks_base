@@ -2076,6 +2076,60 @@ public final class Settings {
         public static final String DIM_SCREEN = "dim_screen";
 
         /**
+         * Enable/disable overwrite default value for ambient display
+         * @hide
+         */
+        public static final String DOZE_OVERWRITE_VALUE = "doze_overwrite_value";
+
+        /**
+         * Duration in for ambient display
+         * @hide
+         */
+        public static final String DOZE_PULSE_DURATION_IN = "doze_pulse_duration_in";
+
+        /**
+         * Duration visible for ambient display
+         * @hide
+         */
+        public static final String DOZE_PULSE_DURATION_VISIBLE = "doze_pulse_duration_visible";
+
+        /**
+         * Duration out for ambient display
+         * @hide
+         */
+        public static final String DOZE_PULSE_DURATION_OUT = "doze_pulse_duration_out";
+
+        /**
+         * Pulse if there is notifications for ambient display
+         * @hide
+         */
+        public static final String DOZE_PULSE_ON_NOTIFICATIONS = "doze_pulse_on_notifications";
+
+        /**
+         * Shake threshold for ambient display
+         * @hide
+         */
+        public static final String DOZE_SHAKE_ACC_THRESHOLD = "doze_shake_acc_threshold";
+
+        /**
+         * Pocket mode for ambient display
+         * @hide
+         */
+        public static final String DOZE_POCKET_MODE = "doze_pocket_mode";
+
+        /**
+         * Shake mode for ambient display
+         * @hide
+         */
+        public static final String DOZE_SHAKE_MODE = "doze_shake_mode";
+
+        /**
+         * Time mode for ambient display
+         * @hide
+         */
+        public static final String DOZE_TIME_MODE = "doze_time_mode";
+
+        /**
          * The amount of time in milliseconds before the device goes to sleep or begins
          * to dream after a period of inactivity.  This value is also known as the
          * user activity timeout period since the screen isn't necessarily turned off
@@ -3160,7 +3214,6 @@ public final class Settings {
         public static final String KEY_APP_SWITCH_LONG_PRESS_ACTION = "key_app_switch_long_press_action";
 
         /**
-<<<<<<< HEAD
          * Whether to wake the screen with the home key, the value is boolean.
          * @hide
          */
