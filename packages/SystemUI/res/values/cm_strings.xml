@@ -71,6 +71,7 @@
     <string name="quick_settings_sync_off">Sync off</string>
     <string name="quick_settings_battery_saver">Battery saver</string>
     <string name="quick_settings_battery_saver_off">Battery saver off</string>
+    <string name="quick_settings_brightness">Brightness</string>
 
     <string name="left_shortcut_hint">Swipe right for %1$s</string>
     <string name="right_shortcut_hint">Swipe left for %1$s</string>
