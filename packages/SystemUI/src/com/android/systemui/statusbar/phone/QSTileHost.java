@@ -40,6 +40,7 @@ import com.android.systemui.qs.tiles.AirplaneModeTile;
 import com.android.systemui.qs.tiles.ApnTile;
 import com.android.systemui.qs.tiles.BatterySaverTile;
 import com.android.systemui.qs.tiles.BluetoothTile;
+import com.android.systemui.qs.tiles.BrightnessTile;
 import com.android.systemui.qs.tiles.CastTile;
 import com.android.systemui.qs.tiles.CellularTile;
 import com.android.systemui.qs.tiles.ColorInversionTile;
@@ -331,6 +332,8 @@ public class QSTileHost implements QSTile.Host {
                 return new BatterySaverTile(this);
             case QSConstants.TILE_SCREENSHOT:
                 return new ScreenshotTile(this);
+            case QSConstants.TILE_BRIGHTNESS:
+                return new BrightnessTile(this);
             default:
                 throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
         }
