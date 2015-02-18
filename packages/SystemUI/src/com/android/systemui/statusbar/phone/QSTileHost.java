@@ -53,6 +53,7 @@ import com.android.systemui.qs.tiles.DataTile;
 import com.android.systemui.qs.tiles.DdsTile;
 import com.android.systemui.qs.tiles.FlashlightTile;
 import com.android.systemui.qs.tiles.HotspotTile;
+import com.android.systemui.qs.tiles.ImmersiveTile;
 import com.android.systemui.qs.tiles.LiveDisplayTile;
 import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.NfcTile;
@@ -387,6 +388,8 @@ public class QSTileHost implements QSTile.Host {
                 return new UsbTetherTile(this);
             case QSConstants.TILE_MUSIC:
                 return new MusicTile(this);
+            case QSConstants.TILE_IMMERSIVE:
+                return new ImmersiveTile(this);
             default:
                 throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
         }
