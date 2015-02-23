@@ -2187,12 +2187,6 @@ public final class Settings {
         public static final String STATUS_BAR_TICKER_ENABLED = "status_bar_ticker_enabled";
 
         /**
-         * Timeout for ambient display notification
-         * @hide
-         */
-        public static final String DOZE_TIMEOUT = "doze_timeout";
-
-        /**
          * Deprecated Use {@link android.provider.Settings.Secure.QS_TILES}
          * @hide
          */
@@ -3166,6 +3160,7 @@ public final class Settings {
         public static final String KEY_APP_SWITCH_LONG_PRESS_ACTION = "key_app_switch_long_press_action";
 
         /**
+<<<<<<< HEAD
          * Whether to wake the screen with the home key, the value is boolean.
          * @hide
          */
