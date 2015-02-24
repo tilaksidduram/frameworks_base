@@ -234,7 +234,4 @@
     <!-- Default theme -->
     <string name="def_theme_package"></string>
     <string name="def_theme_components"></string>
-
-    <!-- Defaults for Settings.System.Secure.ADVANCED_MODE. -->
-    <bool name="def_advanced_mode">true</bool>
 </resources>
