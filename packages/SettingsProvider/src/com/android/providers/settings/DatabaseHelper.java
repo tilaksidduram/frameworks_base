@@ -1933,12 +1933,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (upgradeVersion < 123) {
             // only the owner has access to global table, so we need to check that here
-            if (mUserHandle == UserHandle.USER_OWNER) {
-                String[] globalToSecure = new String[] { Settings.Secure.POWER_MENU_ACTIONS };
-
-                moveSettingsToNewTable(db, TABLE_GLOBAL, TABLE_SECURE, globalToSecure, true);
-            }
-
             String[] systemToSecure = new String[] {
                     Secure.DEV_FORCE_SHOW_NAVBAR,
                     Secure.KEYBOARD_BRIGHTNESS,
