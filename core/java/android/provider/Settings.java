@@ -3514,6 +3514,13 @@ public final class Settings {
         public static final String DISABLE_FC_NOTIFICATIONS = "disable_fc_notifications";
 
         /**
+         * Config for advanced power menu
+         *
+         * @hide
+         */
+        public static final String QUICK_TILE_CONFIG = "quick_tile_config";
+
+        /**
          * Locale for secondary overlay on dialer for t9 search input
          * @hide
          */
