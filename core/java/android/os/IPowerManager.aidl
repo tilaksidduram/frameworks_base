@@ -74,4 +74,6 @@ interface IPowerManager
 
     void activityResumed(String componentName);
 
+    // blocked wakelock support
+    String getSeenWakeLocks();
 }
