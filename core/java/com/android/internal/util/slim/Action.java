@@ -292,8 +292,8 @@ public class Action {
     }
 
     public static boolean isNavBarEnabled(Context context) {
-        return Settings.System.getIntForUser(context.getContentResolver(),
-                Settings.System.NAVIGATION_BAR_SHOW,
+        return Settings.Secure.getIntForUser(context.getContentResolver(),
+                Settings.Secure.DEV_FORCE_SHOW_NAVBAR,
                 isNavBarDefault(context) ? 1 : 0, UserHandle.USER_CURRENT) == 1;
     }
 
