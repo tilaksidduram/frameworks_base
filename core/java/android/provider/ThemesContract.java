@@ -589,6 +589,7 @@ public class ThemesContract {
          */
         public static final String ACTION_THEME_ADDED =
                 "android.provider.themes.action.THEME_ADDED";
+    }
 
     public static class Intent {
         /**
