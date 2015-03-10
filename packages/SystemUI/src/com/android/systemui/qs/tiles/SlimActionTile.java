@@ -24,10 +24,10 @@ import android.net.Uri;
 import android.provider.Settings;
 import com.android.systemui.qs.QSTile;
 
-import com.android.internal.util.crdroid.Action;
-import com.android.internal.util.crdroid.ActionConfig;
-import com.android.internal.util.crdroid.ActionConstants;
-import com.android.internal.util.crdroid.ActionHelper;
+import com.android.internal.util.slim.Action;
+import com.android.internal.util.slim.ActionConfig;
+import com.android.internal.util.slim.ActionConstants;
+import com.android.internal.util.slim.ActionHelper;
 
 import java.util.ArrayList;
 
