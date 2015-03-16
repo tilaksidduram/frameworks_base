@@ -478,9 +478,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             update();
         }
 
-        void unobserve() {
+        @Override
+        protected void unobserve() {
+            super.unobserve();
             ContentResolver resolver = mContext.getContentResolver();
             resolver.unregisterContentObserver(this);
+
         }
 
         @Override
@@ -519,14 +522,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     resetHeadsUpDecayTimer();
             }
             update();
-        }
-
-        @Override
-        protected void unobserve() {
-            super.unobserve();
-            ContentResolver resolver = mContext.getContentResolver();
-            resolver.unregisterContentObserver(this);
-
         }
 
         @Override
