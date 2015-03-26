@@ -7830,15 +7830,6 @@ public final class Settings {
         public static final String POLICY_CONTROL = "policy_control";
 
         /**
-         * Defines global runtime overrides to window policy style.
-         *
-         * See {@link android.view.WindowManagerPolicyControl} for value definitions.
-         *
-         * @hide
-         */
-        public static final String POLICY_CONTROL_STYLE = "policy_control_style";
-
-        /**
          * @hide
          */
         public static final String ZEN_DISABLE_DUCKING_DURING_MEDIA_PLAYBACK =
