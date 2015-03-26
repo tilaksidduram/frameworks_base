@@ -5884,12 +5884,6 @@ public final class Settings {
         public static final String THEME_PREV_BOOT_API_LEVEL = "theme_prev_boot_api_level";
 
         /**
-         * Whether to include options in power menu for rebooting into recovery or bootloader
-         * @hide
-         */
-        public static final String ADVANCED_REBOOT = "advanced_reboot";
-
-        /**
          * Whether to display a menu containing 'Wipe data', 'Force close' and other options
          * in the notification area and in the recent app list
          * @hide
@@ -6068,7 +6062,6 @@ public final class Settings {
             UI_NIGHT_MODE,
             SLEEP_TIMEOUT,
             PRIVACY_GUARD_DEFAULT,
-            ADVANCED_REBOOT,
             DEVELOPMENT_SHORTCUT
         };
 
