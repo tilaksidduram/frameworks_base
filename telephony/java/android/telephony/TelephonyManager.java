@@ -1418,24 +1418,13 @@ public class TelephonyManager {
      */
     /** {@hide} */
     public String getIccOperatorNumeric(int subId) {
-        try {
+       try{
             return getITelephony().getIccOperatorNumeric(subId);
-        } catch (RemoteException ex) {
-            return null;
-        } catch (NullPointerException ex) {
-            return null;
-        }
-    }
-
-    /**
-     * {@hide}
-     */
-    public void toggleLTE(boolean on) {
-        try {
-            getITelephony().toggleLTE(on);
-        } catch (RemoteException e) {
-            //Silently fail
-        }
+       } catch (RemoteException ex) {
+           return null;
+       } catch (NullPointerException ex) {
+           return null;
+       }
     }
 
     /** Unknown network class. {@hide} */
