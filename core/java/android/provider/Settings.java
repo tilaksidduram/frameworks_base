@@ -5974,12 +5974,6 @@ public final class Settings {
         public static final String ADVANCED_MODE = "advanced_mode";
 
         /**
-         * String to contain power menu actions
-         * @hide
-         */
-        public static final String POWER_MENU_ACTIONS = "power_menu_actions";
-
-        /**
          * Developer options - Navigation Bar show switch
          * @hide
          */
@@ -6474,14 +6468,6 @@ public final class Settings {
          * Whether ADB is enabled.
          */
         public static final String ADB_ENABLED = "adb_enabled";
-
-        /**
-         * String to contain power menu actions
-         * @deprecated Use {@link android.provider.Settings.Secure#POWER_MENU_ACTIONS} instead
-         * @hide
-         */
-        @Deprecated
-        public static final String POWER_MENU_ACTIONS = Secure.POWER_MENU_ACTIONS;
 
         /**
          * Whether Views are allowed to save their attribute data.
@@ -7976,7 +7962,6 @@ public final class Settings {
         static {
             MOVED_TO_SECURE = new HashSet<String>(1);
             MOVED_TO_SECURE.add(Settings.Global.INSTALL_NON_MARKET_APPS);
-            MOVED_TO_SECURE.add(Settings.Secure.POWER_MENU_ACTIONS);
         }
 
         /**
