@@ -34,6 +34,7 @@ import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -1315,12 +1316,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             }
         }
     };
-
-    protected void updatePowerMenuActions() {
-        ContentResolver resolver = mContext.getContentResolver();
-        mProfilesEnabled = Settings.System.getInt(resolver,
-                Settings.System.SYSTEM_PROFILES_ENABLED, 1) != 0;
-    }
 
     private BroadcastReceiver mThemeChangeReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
