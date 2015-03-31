@@ -40,9 +40,6 @@
      <!-- The title of the profile picker dialog. -->
      <string name="profile_picker_title">Profiles</string>
 
-    <!-- label for item that opens the profile choosing dialog -->
-    <string name="global_action_choose_profile">Profile</string>
-
     <!-- Title of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
     <string name="permlab_accessThemeService">access theme service</string>
     <!-- Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
