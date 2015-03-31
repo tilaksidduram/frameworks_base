@@ -128,7 +128,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashSet;
-import java.util.List;
 import java.lang.reflect.Constructor;
 
 import static android.view.WindowManager.LayoutParams.*;
@@ -1118,7 +1117,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         // taken over the whole screen.
         boolean panic = mImmersiveModeConfirmation.onPowerKeyDown(interactive,
                 event.getDownTime(), isImmersiveMode(mLastSystemUiFlags));
-        if (panic && !WindowManagerPolicyControl.isImmersiveFiltersActive()) {
+        if (panic && !PolicyControl.isImmersiveFiltersActive()) {
             mHandler.post(mRequestTransientNav);
         }
 
