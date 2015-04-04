@@ -3544,6 +3544,12 @@ public final class Settings {
         public static final String DISABLE_FC_NOTIFICATIONS = "disable_fc_notifications";
 
         /**
+         * show the membar in recents
+         *  @hide
+         */
+        public static final String SYSTEMUI_RECENTS_MEM_DISPLAY = "systemui_recents_mem_display";
+
+        /**
          * Config for advanced power menu
          *
          * @hide

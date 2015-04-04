@@ -16,10 +16,14 @@
 
 package com.android.systemui.recents.views;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.MemoryInfo;
 import android.app.ActivityOptions;
 import android.app.TaskStackBuilder;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.ContentResolver;
+import android.content.res.Resources;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -32,6 +36,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowInsets;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import com.android.systemui.recents.Constants;
 import com.android.systemui.recents.RecentsConfiguration;
 import com.android.systemui.recents.misc.SystemServicesProxy;
@@ -42,6 +49,11 @@ import com.android.systemui.recents.model.TaskStack;
 
 import com.android.systemui.R;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
@@ -68,6 +80,11 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
     View mSearchBar;
     RecentsViewCallbacks mCb;
     View mClearRecents;
+    TextView mMemText;
+    ProgressBar mMemBar;
+
+    private ActivityManager mAm;
+    private int mTotalMem;
 
     public RecentsView(Context context) {
         super(context);
@@ -85,6 +102,8 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
         super(context, attrs, defStyleAttr, defStyleRes);
         mConfig = RecentsConfiguration.getInstance();
         mInflater = LayoutInflater.from(context);
+        mAm = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        mTotalMem = getTotalMemory();
     }
 
     /** Sets the callbacks */
@@ -310,6 +329,7 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
      */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        final ContentResolver resolver = mContext.getContentResolver();
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
 
@@ -320,7 +340,15 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
             mSearchBar.measure(
                     MeasureSpec.makeMeasureSpec(searchBarSpaceBounds.width(), MeasureSpec.EXACTLY),
                     MeasureSpec.makeMeasureSpec(searchBarSpaceBounds.height(), MeasureSpec.EXACTLY));
+
+            boolean enableMemDisplay = Settings.System.getInt(resolver,
+                    Settings.System.SYSTEMUI_RECENTS_MEM_DISPLAY, 1) == 1;
+            int padding = enableMemDisplay
+                    ? searchBarSpaceBounds.height() + 25
+                    : mContext.getResources().getDimensionPixelSize(R.dimen.status_bar_header_height);
+            mMemBar.setPadding(0, padding, 0, 0);
         }
+        showMemDisplay();
 
         Rect taskStackBounds = new Rect();
         mConfig.getTaskStackBounds(width, height, mConfig.systemInsets.top,
@@ -365,6 +393,48 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
         setMeasuredDimension(width, height);
     }
 
+    private boolean showMemDisplay() {
+        boolean enableMemDisplay = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.SYSTEMUI_RECENTS_MEM_DISPLAY, 0) == 1;
+
+        if (!enableMemDisplay) {
+            mMemText.setVisibility(View.GONE);
+            mMemBar.setVisibility(View.GONE);
+            return false;
+        }
+        mMemText.setVisibility(View.VISIBLE);
+        mMemBar.setVisibility(View.VISIBLE);
+
+        updateMemoryStatus();
+        return true;
+    }
+
+    private void updateMemoryStatus() {
+        if (mMemText.getVisibility() == View.GONE
+                || mMemBar.getVisibility() == View.GONE) return;
+
+        MemoryInfo memInfo = new MemoryInfo();
+        mAm.getMemoryInfo(memInfo);
+            int available = (int)(memInfo.availMem / 1048576L);
+            mMemText.setText("Free RAM: " + String.valueOf(available) + "MB");
+            mMemBar.setMax(mTotalMem);
+            mMemBar.setProgress(available);
+    }
+
+    public int getTotalMemory() {
+        int memory = 0;
+        try {
+            final FileReader localFileReader = new FileReader("/proc/meminfo");
+            final BufferedReader localBufferedReader = new BufferedReader(localFileReader, 8192);
+            String str2 = localBufferedReader.readLine(); // meminfo
+            String[] arrayOfString = str2.split("\\s+");
+            memory = Integer.valueOf(arrayOfString[1]).intValue() * 1024;
+            localBufferedReader.close();
+        } catch (IOException e) {
+        }
+        return memory / 1048576;
+    }
+
     public void noUserInteraction() {
         if (mClearRecents != null) {
             mClearRecents.setVisibility(View.VISIBLE);
@@ -385,8 +455,11 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
                 startHideClearRecentsButtonAnimation();
 
                 dismissAllTasksAnimated();
+                updateMemoryStatus();
             }
         });
+        mMemText = (TextView) ((View)getParent()).findViewById(R.id.recents_memory_text);
+        mMemBar = (ProgressBar) ((View)getParent()).findViewById(R.id.recents_memory_bar);
     }
 
     /**
@@ -627,6 +700,8 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
 
         // Remove the old task from activity manager
         loader.getSystemServicesProxy().removeTask(t.key.id);
+
+        updateMemoryStatus();
     }
 
     @Override
