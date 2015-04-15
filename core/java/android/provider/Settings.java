@@ -2176,6 +2176,18 @@ public final class Settings {
         public static final String DOZE_TIME_MODE = "doze_time_mode";
 
         /**
+         * Brigthness level for ambient display
+         * @hide
+         */
+        public static final String DOZE_BRIGHTNESS = "doze_brightness";
+
+        /**
+         * Auto brigthness for ambient display
+         * @hide
+         */
+        public static final String DOZE_AUTO_BRIGHTNESS = "doze_auto_brightness";
+
+        /**
          * The amount of time in milliseconds before the device goes to sleep or begins
          * to dream after a period of inactivity.  This value is also known as the
          * user activity timeout period since the screen isn't necessarily turned off
