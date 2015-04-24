@@ -3636,6 +3636,18 @@ public final class Settings {
         public static final String T9_SEARCH_INPUT_LOCALE = "t9_search_input_locale";
 
         /**
+         * OverScroll effects configuration
+         * @hide
+         */
+        public static final String OVERSCROLL_EFFECT = "overscroll_effect";
+
+        /**
+         * Sets the overscroller weight (edge bounce effect on lists)
+         * @hide
+         */
+        public static final String OVERSCROLL_WEIGHT = "overscroll_weight";
+
+        /**
          * Whether to use gesture anywhere feature.
          * @hide
          */
