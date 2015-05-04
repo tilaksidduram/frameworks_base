@@ -2781,6 +2781,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     R.bool.def_advanced_mode);
 
             loadDefaultThemeSettings(stmt);
+
+            loadStringSetting(stmt, Settings.Secure.QS_TILES,
+                    com.android.internal.R.string.config_defaultQuickSettingsTiles);
         } finally {
             if (stmt != null) stmt.close();
         }
