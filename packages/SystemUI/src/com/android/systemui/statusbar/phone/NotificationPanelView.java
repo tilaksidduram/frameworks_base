@@ -187,7 +187,6 @@ public class NotificationPanelView extends PanelView implements
 
     private LockPatternUtils mLockPatternUtils;
     private Handler mHandler = new Handler();
-    private LockPatternUtils mLockPatternUtils;
     private SettingsObserver mSettingsObserver;
 
     private int mOneFingerQuickSettingsIntercept;
