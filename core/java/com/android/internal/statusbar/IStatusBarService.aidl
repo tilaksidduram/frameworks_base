@@ -68,4 +68,5 @@ interface IStatusBarService
     void toggleKillApp();
     void toggleScreenshot();
     void toggleSmartPulldown();
+    void toggleOrientationListener(boolean enable);
 }

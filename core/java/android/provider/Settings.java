@@ -4486,6 +4486,25 @@ public final class Settings {
         */
         public static final String DISABLE_IMMERSIVE_MESSAGE = "disable_immersive_message";
 
+       /**
+        * PA Pie control panel. Meet him on the spot.
+        * 0 = off
+        * 1 = on
+        * Changes aspect depends on status bar visibility.
+        * @hide
+        */
+        public static final String PIE_STATE = "pie_state";
+
+        /**
+         * Locations of the Pa Pie in the screen.
+         * (1<<0) = BOTTOM
+         * (1<<1) = LEFT
+         * (1<<2) = RIGHT
+         * Default: BOTTOM
+         * @hide
+         */
+        public static final String PIE_GRAVITY = "pie_gravity";
+
         /**
          * Allows to show the background activity back the lockscreen
          * 0 = off

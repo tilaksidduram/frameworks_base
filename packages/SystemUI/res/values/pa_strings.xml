@@ -140,4 +140,10 @@
     <!-- Torch detail tile -->
     <string name="disable_torch_screen_off_title">Disable torch on screen off</string>
 
+    <!-- Pie controls -->
+    <string name="pie_date_format">ccc, dd MMM yyyy</string>
+    <string name="pie_hour_format_12">hh:mm</string>
+    <string name="pie_hour_format_24">HH:mm</string>
+    <string name="pie_am_pm">a</string>
+
 </resources>

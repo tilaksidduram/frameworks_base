@@ -50,5 +50,6 @@ oneway interface IStatusBar
     void toggleKillApp();
     void toggleScreenshot();
     void toggleSmartPulldown();
+    void toggleOrientationListener(boolean enable);
 }
 
