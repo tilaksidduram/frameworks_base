@@ -140,4 +140,6 @@
   <java-symbol type="style" name="PowerMenuflyAnimation" />
   <java-symbol type="style" name="PowerMenuCardAnimation" />
 
+  <java-symbol type="integer" name="config_notificationsBatteryReallyFullARGB" />
+
 </resources>
