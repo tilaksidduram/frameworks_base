@@ -521,10 +521,17 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
         @Override
         public void onPress() {
             if ((mKeyguardShowing && mKeyguardSecure) || !isAdvancedRebootEnabled()) {
+                try {
+                    IPowerManager pm = IPowerManager.Stub.asInterface(ServiceManager
+                            .getService(Context.POWER_SERVICE));
+                    pm.reboot(true /*confirm*/, REBOOT, false);
+                } catch (RemoteException e) {
+                    Log.e(TAG, "PowerManager service died!", e);
+                    return;
+                }
             } else {
                 showDialog(mKeyguardShowing, mKeyguardSecure, mDeviceProvisioned, true);
             }
-            mWindowManagerFuncs.reboot();
         }
     }
 
