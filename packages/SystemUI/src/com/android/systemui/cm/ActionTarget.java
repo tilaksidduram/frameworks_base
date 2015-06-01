@@ -21,6 +21,7 @@ import android.app.ActivityManager;
 import android.app.KeyguardManager;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -39,6 +40,7 @@ import android.os.ServiceManager;
 import android.os.SystemClock;
 import android.os.UserHandle;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.InputDevice;
@@ -163,7 +165,15 @@ public class ActionTarget {
                 windowManagerService.toggleGlobalMenu();
             } catch (RemoteException e) {
             }
-             return true;
+            return true;
+        } else if (action.equals(ACTION_LAST_APP)){
+            try {
+                dismissKeyguard();
+                getStatusBarService().toggleLastApp();
+            } catch (RemoteException e) {
+                // Do nothing here
+            }
+            return true;
         } else {
             try {
                 Intent intent = Intent.parseUri(action, 0);

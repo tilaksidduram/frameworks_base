@@ -89,7 +89,8 @@
     <string name="tasklist_memory_usage">"Free/Total Memory: <xliff:g id="number">%s</xliff:g> / <xliff:g id="name">%s</xliff:g>"</string>
     <string name="message_keep_one_launcher">Should keep at lease one home activity!</string>
 
-    <!-- Power menu on navring targets -->
+    <!-- Additional navring targets -->
     <string name="navring_action_power_menu">Power Menu</string>
+    <string name="navring_action_last_app">Last app</string>
 
 </resources>
