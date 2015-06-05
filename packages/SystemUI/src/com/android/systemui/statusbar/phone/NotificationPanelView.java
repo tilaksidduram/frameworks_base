@@ -51,6 +51,8 @@ import android.widget.TextView;
 import com.android.internal.util.cm.LockscreenShortcutsHelper;
 import com.android.internal.widget.LockPatternUtils;
 import com.android.keyguard.KeyguardStatusView;
+import com.android.keyguard.KeyguardUpdateMonitor;
+import com.android.keyguard.KeyguardUpdateMonitorCallback;
 import com.android.systemui.R;
 import com.android.systemui.cm.UserContentObserver;
 import com.android.systemui.qs.QSContainer;
@@ -365,6 +367,7 @@ public class NotificationPanelView extends PanelView implements
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         mSecureCameraLaunchManager.create();
+        KeyguardUpdateMonitor.getInstance(mContext).registerCallback(mInfoCallback);
         mSettingsObserver.observe();
 
         mNotificationStackScroller.setOnHeightChangedListener(this);
@@ -395,6 +398,7 @@ public class NotificationPanelView extends PanelView implements
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         mSecureCameraLaunchManager.destroy();
+        KeyguardUpdateMonitor.getInstance(mContext).removeCallback(mInfoCallback);
         mSettingsObserver.unobserve();
 
         mNotificationStackScroller.setOnHeightChangedListener(null);
@@ -2213,4 +2217,13 @@ public class NotificationPanelView extends PanelView implements
                     UserHandle.USER_CURRENT);
         }
     }
+
+    private KeyguardUpdateMonitorCallback mInfoCallback = new KeyguardUpdateMonitorCallback() {
+        @Override
+        public void onFingerprintAttemptFailed(boolean error, int errorCode) {
+            if (!error && !mStatusBar.isBouncerShowing() && mStatusBar.isScreenOnFromKeyguard()) {
+                NotificationPanelView.super.startHintAnimation(true /* fingerprintHint */);
+            }
+        }
+    };
 }

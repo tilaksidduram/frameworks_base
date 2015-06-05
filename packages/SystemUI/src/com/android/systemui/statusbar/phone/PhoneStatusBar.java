@@ -5499,6 +5499,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mKeyguardIndicationController.showTransientIndication(hint);
     }
 
+    public void onFingerprintHintStarted() {
+        mKeyguardIndicationController.showTransientIndication(R.string.fingerprint_try_again_hint);
+    }
+
     public void onTrackingStopped(boolean expand) {
         if (mState == StatusBarState.KEYGUARD || mState == StatusBarState.SHADE_LOCKED) {
             if (!expand && !mUnlockMethodCache.isCurrentlyInsecure()) {
@@ -5641,6 +5645,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mNotificationPanel.setTouchDisabled(false);
         updateVisibleToUser();
         mVisualizerView.setVisible(true);
+    }
+
+    public boolean isScreenOnFromKeyguard() {
+        return mScreenOnFromKeyguard;
     }
 
     /**
