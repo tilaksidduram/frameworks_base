@@ -99,13 +99,13 @@ public class ImmersiveTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     public void handleClick() {
-        setEnabled(!mState.value);
+        showDetail(true);
         qsCollapsePanel();
     }
 
     @Override
     protected void handleSecondaryClick() {
-         showDetail(true);
+
     }
 
     private void setEnabled(boolean enabled) {
