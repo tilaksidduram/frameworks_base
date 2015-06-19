@@ -60,6 +60,7 @@ public class QSConstants {
     public static final String TILE_USB_TETHER = "usb_tether";
     public static final String TILE_MUSIC = "music";
     public static final String TILE_IMMERSIVE = "immersive";
+    public static final String TILE_SYSTEMUI_RESTART = "reboot_systemui";
 
     protected static final ArrayList<String> TILES_AVAILABLE = new ArrayList<String>();
 
@@ -103,5 +104,6 @@ public class QSConstants {
         TILES_AVAILABLE.add(TILE_USB_TETHER);
         TILES_AVAILABLE.add(TILE_MUSIC);
         TILES_AVAILABLE.add(TILE_IMMERSIVE);
+        TILES_AVAILABLE.add(TILE_SYSTEMUI_RESTART);
     }
 }
