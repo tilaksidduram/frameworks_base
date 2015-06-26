@@ -147,7 +147,7 @@ public class Action {
                 }
                 return;
             } else if (action.equals(ActionConstants.ACTION_RESTARTUI)) {
-                if (isKeyguardShowing && isKeyguardSecure) {
+                if (isKeyguardShowing) {
                     return;
                 }
                 Helpers.restartSystemUI();
