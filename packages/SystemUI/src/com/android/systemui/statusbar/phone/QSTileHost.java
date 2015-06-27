@@ -69,6 +69,7 @@ import com.android.systemui.qs.tiles.ScreenshotTile;
 import com.android.systemui.qs.tiles.ScreenrecordTile;
 import com.android.systemui.qs.tiles.ScreenTimeoutTile;
 import com.android.systemui.qs.tiles.SystemUIRestartTile;
+import com.android.systemui.qs.tiles.SlimFloatsTile;
 import com.android.systemui.qs.tiles.NavBarTile;
 import com.android.systemui.qs.tiles.AppCircleBarTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
@@ -405,6 +406,8 @@ public class QSTileHost implements QSTile.Host {
                 return new ImmersiveTile(this);
             case QSConstants.TILE_SYSTEMUI_RESTART:
                 return new SystemUIRestartTile(this);
+            case QSConstants.TILE_SLIM_FLOATS:
+                return new SlimFloatsTile(this);
             default:
                 throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
         }
