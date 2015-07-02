@@ -204,4 +204,7 @@
     (not shown on the screen). [CHAR LIMIT=NONE] -->
     <string name="accessibility_app_picker">Application picker</string>
 
+    <!-- Title shown in recents popup for showing app launch in floating mode -->
+    <string name="recent_float_mode_title">Floating mode</string>
+
 </resources>
