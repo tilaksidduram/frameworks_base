@@ -1117,11 +1117,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         addGestureAnywhereView();
         addAppCircleSidebar();
-
-        if (mRecreating) {
-            removeSidebarView();
-        }
-
         addSidebarView();
 
         try {
@@ -4342,6 +4337,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         if (updateStatusBar) {
             mContext.recreateTheme();
             recreateStatusBar();
+            addSidebarView();
+
         } else {
             loadDimens();
         }
