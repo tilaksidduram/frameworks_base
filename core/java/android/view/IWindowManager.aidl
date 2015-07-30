@@ -280,6 +280,13 @@ interface IWindowManager
      */
     WindowContentFrameStats getWindowContentFrameStats(IBinder token);
 
+    /**
+     * Toggle global menu
+     *
+     * @hide
+     */
+    void toggleGlobalMenu();
+
     /** FLOAT VIEW **/
     Rect getAppFullscreenViewRect();
     Rect getAppMinimumViewRect();
