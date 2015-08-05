@@ -4419,6 +4419,12 @@ public final class Settings {
          */
         public static final String SHOW_HEADSET_ICON = "show_headset_icon";
 
+       /**
+        * Disable Immersive Message
+        * @hide
+        */
+        public static final String DISABLE_IMMERSIVE_MESSAGE = "disable_immersive_message";
+
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
@@ -4530,7 +4536,8 @@ public final class Settings {
          */
         public static final String[] SETTINGS_TO_RESET = {
             SHAKE_TO_CLEAN_RECENTS,
-            SHAKE_TO_CLEAN_NOTIFICATIONS
+            SHAKE_TO_CLEAN_NOTIFICATIONS,
+            DISABLE_IMMERSIVE_MESSAGE
         };
 
         // Settings moved to Settings.Secure

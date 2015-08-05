@@ -116,4 +116,7 @@
     <string name="shake_to_clean_notifications_title">Shake To Clear Notifications</string>
     <string name="shake_to_clean_notifications_message">Would you like to clear the Expanded Notifications by shaking the phone? Enabling it might drain your battery!</string>
 
+    <!-- Names to be shown on settings, they must match with Settings.SETTINGS_TO_RESET array -->
+    <string name="disable_immersive_message" translatable="false">@*android:string/immersive_mode_confirmation_title</string>
+
 </resources>
