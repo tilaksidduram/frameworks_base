@@ -187,7 +187,7 @@ public class NavigationBarView extends LinearLayout {
                 mHomeAppearing = false;
             }
 
-            if (view.getId() == R.id.home)
+            if (NavbarEditor.NAVBAR_HOME.equals(view.getTag()))
                 onNavButtonTouched();
         }
 
@@ -351,7 +351,8 @@ public class NavigationBarView extends LinearLayout {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         mSettingsObserver.unobserve();
-        mContext.unregisterReceiver(mNavBarReceiver, mBatteryDimReceiver);
+        mContext.unregisterReceiver(mNavBarReceiver);
+        mContext.unregisterReceiver(mBatteryDimReceiver);
     }
 
     public BarTransitions getBarTransitions() {
