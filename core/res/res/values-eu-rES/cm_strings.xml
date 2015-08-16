@@ -49,8 +49,6 @@
   <string name="permdesc_changePrivacyGuardState">Aplikazioa beste aplikazioen pribatutasun egoera aldatzera baimentzen du. Aplikazio bat pribatutasuna gaituta izanik abiatzen denean ezingo du datu pertsonalik ikusi, ez kontakturik, ez mezurik ezta dei erregistrorik ere.</string>
   <string name="privacy_guard_notification">Pribatutasuna gaituta</string>
   <string name="privacy_guard_notification_detail"><xliff:g id="app">%1$s</xliff:g> -k ezingo du datu pertsonalik irakurri</string>
-  <string name="permlab_useHardwareFramework">Hardware markoa erabili</string>
-  <string name="permdesc_useHardwareFramework">Aplikazioari hardware markorako sarbidea gaitzen dio.</string>
   <string name="permlab_setKeyguardWallpaper">Lokatze pantailarako hormairudia ezarri</string>
   <string name="permdesc_setKeyguardWallpaper">Aplikazioa lokatze pantailarako hormairudia ezartzera baimentzen du.</string>
   <string name="privacy_guard_dialog_title">Pribatutasuna</string>

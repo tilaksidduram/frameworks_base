@@ -49,8 +49,6 @@
   <string name="permdesc_changePrivacyGuardState">Tətbiqetməyə başqa bir tətbiqetmənin Gizlilik Qorumasını işlədib işlədə bilməyəcəyini dəyişmə icazəsi verər. Əgər tətbiqetmə Gizlilik Qoruması ilə işləyərsə şəxslər, zəng qeydləri və ya mesajlar kimi şəxsi məlumatlara daxil ola bilməyəcək.</string>
   <string name="privacy_guard_notification">Gizlilik Qoruması aktivdir</string>
   <string name="privacy_guard_notification_detail"><xliff:g id="app">%1$s</xliff:g> məxfi məlumatlara daxil olmayacaq</string>
-  <string name="permlab_useHardwareFramework">təchizat altsistemini işlət</string>
-  <string name="permdesc_useHardwareFramework">Tətbiqetmənin CM təchizat altsisteminə girişinə icazə verər.</string>
   <string name="permlab_setKeyguardWallpaper">klaviatura divar kağızını nizamla</string>
   <string name="permdesc_setKeyguardWallpaper">Tətbiqetmənin kilit ekranı divar kağızını dəyişdirməsinə icazə verər.</string>
   <string name="privacy_guard_dialog_title">Gizlilik Qoruması</string>
