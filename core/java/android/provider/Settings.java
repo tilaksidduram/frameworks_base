@@ -3641,6 +3641,21 @@ public final class Settings {
          */
         public static final String VOICE_LAUNCH_INTENT = "voice_launch_intent";
 
+
+        /**
+         * Shake to clean recents app screen
+         * @hide
+         *
+         */
+        public static final String SHAKE_TO_CLEAN_RECENTS = "shake_to_clean_recents";
+
+        /**
+         * Shake to clean notifications
+         * @hide
+         *
+         */
+        public static final String SHAKE_TO_CLEAN_NOTIFICATIONS = "shake_to_clean_notifications";
+
         /**
          * Whether to mute annoying notifications
          * @hide
@@ -4437,6 +4452,8 @@ public final class Settings {
          * @hide
          */
         public static final String[] SETTINGS_TO_RESET = {
+            SHAKE_TO_CLEAN_RECENTS,
+            SHAKE_TO_CLEAN_NOTIFICATIONS
         };
 
         // Settings moved to Settings.Secure
