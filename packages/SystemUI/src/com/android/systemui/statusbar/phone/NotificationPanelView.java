@@ -364,9 +364,6 @@ public class NotificationPanelView extends PanelView implements
         // animation is finished but the detail view is still being animated away (this animation
         // takes longer than the size change animation).
 
-	if (mQsSizeChangeAnimator == null) {
-	    mQsContainer.setHeightOverride(mQsContainer.getDesiredHeight());
-        }
         requestPanelHeightUpdate();
         if (mQsSizeChangeAnimator == null) {
             mQsContainer.setHeightOverride(mQsContainer.getDesiredHeight());
