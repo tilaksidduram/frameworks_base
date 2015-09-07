@@ -24,9 +24,11 @@ import android.animation.ValueAnimator;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.os.UserHandle;
@@ -42,6 +44,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -1429,6 +1432,21 @@ public class NotificationPanelView extends PanelView implements
                     ? View.VISIBLE : View.GONE);
             mTaskManagerPanel.setVisibility(expandVisually && taskManagerShowing
                     && !mKeyguardShowing ? View.VISIBLE : View.GONE);
+            updateTaskQSButton();
+        }
+    }
+
+    private void updateTaskQSButton() {
+        Resources res = mContext.getResources();
+        ImageView image = (ImageView)
+                mHeader.findViewById(R.id.task_manager_button);
+        boolean expandVisually = mQsExpanded || mStackScrollerOverscrolling;
+        if (!mTaskManagerShowing) {
+            image.setImageDrawable(res.getDrawable(
+                R.drawable.ic_tasklist_switch_normal));
+        } else {
+            image.setImageDrawable(
+                    res.getDrawable(R.drawable.ic_quick_settings));
         }
     }
 
