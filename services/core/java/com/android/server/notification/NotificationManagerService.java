@@ -950,6 +950,7 @@ public class NotificationManagerService extends SystemService {
                 mAnnoyingNotificationThreshold = Settings.System.getLongForUser(resolver,
                        Settings.System.MUTE_ANNOYING_NOTIFICATIONS_THRESHOLD, 0,
                        UserHandle.USER_CURRENT_OR_SELF);
+            }
 
             // Notification LED brightness
             if (mAdjustableNotificationLedBrightness) {
