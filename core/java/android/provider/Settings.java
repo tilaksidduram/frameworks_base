@@ -4132,6 +4132,12 @@ public final class Settings {
         public static final String LOCK_SCREEN_HIDE_CARRIER = "lock_screen_hide_carrier";
 
         /**
+         * Whether to show media art on lockscreen
+         * @hide
+         */
+        public static final String LOCKSCREEN_MEDIA_METADATA = "lockscreen_media_metadata";
+
+        /**
          * show carrier in statusbar while on lockscreen. The value is
          * 0 = Hide
          * 1 = Show only on keyguard
