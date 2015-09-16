@@ -4124,6 +4124,15 @@ public final class Settings {
         public static final String LOCK_SCREEN_HIDE_CARRIER = "lock_screen_hide_carrier";
 
         /**
+         * show carrier in statusbar while on lockscreen. The value is
+         * 0 = Hide
+         * 1 = Show only on keyguard
+         * 2 = Show only on statusbar
+         * 3 = Show on keyguard and statusbar
+         */
+        public static final String STATUS_BAR_CUSTOM_CARRIER = "status_bar_custom_carrier";
+
+        /**
          * Whether the user has enabled headsup (Default 1)
          * HeadsUp is enabled by default within its Settings.Global.HEADS_UP_NOTIFICATIONS_ENABLED
          * setting. Avoid changing low level implementations and use a System setting to

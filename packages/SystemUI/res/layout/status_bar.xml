@@ -74,13 +74,14 @@
                     android:visibility="gone"
                     />
 
-                <com.android.systemui.statusbar.widget.CarrierLabel
-                    android:id="@+id/status_bar_carrier_label"
+               <com.android.systemui.statusbar.widget.CarrierLabel
+                    android:id="@+id/statusbar_carrier_text"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:textAppearance="@style/TextAppearance.StatusBar.Clock"
+                    android:layout_height="fill_parent"
+                    android:ellipsize="end"
+                    android:textAppearance="@style/TextAppearance.StatusBar.CarrierLabel"
                     android:visibility="gone"
+                    android:gravity="center"
                     android:singleLine="true"
                 />
 
