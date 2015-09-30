@@ -152,7 +152,7 @@ public class Action {
                 }
                 Helpers.restartSystemUI();
             } else if (action.equals(ActionConstants.ACTION_SMART_PULLDOWN)) {
-                if (isKeyguardShowing && isKeyguardSecure) {
+                if (isKeyguardShowing) {
                     return;
                 }
                 try {
