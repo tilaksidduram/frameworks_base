@@ -19,6 +19,7 @@ package android.widget;
 
 import android.annotation.IntDef;
 import android.annotation.StringRes;
+import android.app.ActivityManager;
 import android.app.INotificationManager;
 import android.app.ITransientNotification;
 import android.content.Context;
@@ -409,15 +410,19 @@ public class Toast {
                 if ((Settings.System.getInt(context.getContentResolver(),
                         Settings.System.TOAST_ICON, 1) == 1)) {
                     if (appIcon != null) {
-                        PackageManager pm = context.getPackageManager();
-                        Drawable icon = null;
-                        try {
-                            icon = pm.getApplicationIcon(packageName);
-                        } catch (PackageManager.NameNotFoundException e) {
-                            // nothing to do
-                        }
-                        appIcon.setImageDrawable(icon);
-                    }
+                    	ActivityManager am =
+                            	(ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+                    	if (!am.isPackageInForeground(packageName)) {
+                        	PackageManager pm = context.getPackageManager();
+                        	Drawable icon = null;
+                        	try {
+                            	     icon = pm.getApplicationIcon(packageName);
+                        	} catch (PackageManager.NameNotFoundException e) {
+                            	// nothing to do
+                        	}
+                        	appIcon.setImageDrawable(icon);
+                    	}
+		    }
                 }
                 mWM = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
                 // We can resolve the Gravity here by using the Locale for getting
