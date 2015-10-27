@@ -30,6 +30,7 @@ import android.os.Message;
 import android.os.Process;
 import android.os.UserHandle;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
