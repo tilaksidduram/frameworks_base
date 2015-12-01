@@ -3774,6 +3774,20 @@ public final class Settings {
         public static final String STATUS_BAR_CARRIER_COLOR = "status_bar_carrier_color";
 
         /**
+         * Allows to show the background activity back the lockscreen
+         * 0 = off
+         * 1 = on
+         * @hide
+         */
+        public static final String LOCKSCREEN_SEE_THROUGH = "lockscreen_see_through";
+
+        /**
+         * Allows setting the radius for lockscreen blur
+         * @hide
+         */
+        public static final String LOCKSCREEN_BLUR_RADIUS = "lockscreen_blur_radius";
+
+        /**
          * Volume key controls ringtone or media sound stream
          * @hide
          */
