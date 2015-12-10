@@ -2545,5 +2545,8 @@
     <integer name="config_dayColorTemperature">6500</integer>
 
     <!-- Sets whether IME switcher on statusbar should be shown or not. -->
-	<bool name="config_show_IMESwitcher">true</bool>
+    <bool name="config_show_IMESwitcher">true</bool>
+
+    <!-- Use alternative way to blur lockscreen -->
+    <bool name="config_use_stackblur">false</bool>
 </resources>
