@@ -76,6 +76,7 @@ import com.android.systemui.qs.tiles.ProfilesTile;
 import com.android.systemui.qs.tiles.RebootTile;
 import com.android.systemui.qs.tiles.RotationLockTile;
 import com.android.systemui.qs.tiles.ScreenOffTile;
+import com.android.systemui.qs.tiles.ScreenrecordTile;
 import com.android.systemui.qs.tiles.PowerMenuTile;
 import com.android.systemui.qs.tiles.ScreenshotTile;
 import com.android.systemui.qs.tiles.ScreenTimeoutTile;
@@ -425,6 +426,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("caffeine")) return new CaffeineTile(this);
    	else if (tileSpec.equals("hw_keys")) return new HardwareKeysTile(this);
         else if (tileSpec.equals("sound")) return new SoundTile(this);
+        else if (tileSpec.equals("screenrecord")) return new ScreenrecordTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
     }
@@ -537,6 +539,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("caffeine")) return R.string.quick_settings_caffeine_label;
         else if (spec.equals("hw_keys")) return R.string.quick_settings_hwkeys_title;
         else if (spec.equals("sound")) return R.string.quick_settings_sound_label;
+        else if (spec.equals("screenrecord")) return R.string.quick_settings_screenrecord_label;
         return 0;
     }
 
@@ -586,6 +589,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("caffeine")) return R.drawable.ic_qs_caffeine_on;
 	else if (spec.equals("hw_keys")) return R.drawable.ic_qs_hwkeys_on;
         else if (spec.equals("sound")) return R.drawable.ic_qs_ringer_audible;
+        else if (spec.equals("screenrecord")) return R.drawable.ic_qs_screenrecord;
         return 0;
     }
 
