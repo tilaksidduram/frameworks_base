@@ -4068,6 +4068,18 @@ public final class Settings {
                 "volume_keys_control_ring_stream";
 
         /**
+         * enable custom lockscreen max notifications config
+         * @hide
+         */
+        public static final String LOCK_SCREEN_CUSTOM_NOTIF = "lock_screen_custom_notif";
+
+        /**
+         * custom lockscreen max notification config
+         * @hide
+         */
+        public static final String LOCKSCREEN_MAX_NOTIF_CONFIG = "lockscreen_max_notif_cofig";
+
+        /**
          * Timeout for ambient display notification
          * @hide
          */
