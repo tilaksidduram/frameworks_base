@@ -3881,10 +3881,14 @@ public final class Settings {
         public static final String RECENTS_CLEAR_ALL_DISMISS_ALL = "recents_clear_all_dismiss_all";
 
         /**
-         * Whether to display recents in full screen
-         * @hide
+         * Immersive recents options
+         *
+         * 0 = Default AOSP look
+         * 1 = Statusbar only
+         * 2 = Navbar only
+         * 3 = Fullscreen
          */
-        public static final String RECENTS_FULL_SCREEN = "recents_full_screen";
+        public static final String IMMERSIVE_RECENTS = "immersive_recents";
 
         /**
          * Whether to display clock while recents are in full screen
