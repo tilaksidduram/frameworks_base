@@ -64,6 +64,7 @@ import com.android.systemui.qs.tiles.SystemUIRestartTile;
 import com.android.systemui.qs.tiles.PieTile;
 import com.android.systemui.qs.tiles.LockscreenToggleTile;
 import com.android.systemui.qs.tiles.MusicTile;
+import com.android.systemui.qs.tiles.LteTile;
 import com.android.systemui.qs.tiles.NfcTile;
 import com.android.systemui.qs.tiles.PerfProfileTile;
 import com.android.systemui.qs.tiles.ProfilesTile;
@@ -90,10 +91,12 @@ import com.android.systemui.statusbar.policy.UserSwitcherController;
 import com.android.systemui.statusbar.policy.ZenModeController;
 import com.android.systemui.tuner.TunerService;
 import com.android.systemui.tuner.TunerService.Tunable;
+import android.telephony.TelephonyManager;
 
 import cyanogenmod.app.CustomTileListenerService;
 import cyanogenmod.app.StatusBarPanelCustomTile;
 import cyanogenmod.providers.CMSettings;
+import com.android.internal.telephony.PhoneConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -206,6 +209,20 @@ public class QSTileHost implements QSTile.Host, Tunable {
     @Override
     public void startActivityDismissingKeyguard(final Intent intent) {
         mStatusBar.postStartActivityDismissingKeyguard(intent, 0);
+    }
+
+    public static boolean deviceSupportsLte(Context ctx) {
+        final TelephonyManager tm = (TelephonyManager)
+                ctx.getSystemService(Context.TELEPHONY_SERVICE);
+        return (tm.getLteOnCdmaMode() == PhoneConstants.LTE_ON_CDMA_TRUE)
+                || tm.getLteOnGsmMode() != 0;
+    }
+
+    public static boolean deviceSupportsDdsSupported(Context context) {
+        TelephonyManager tm = (TelephonyManager)
+                context.getSystemService(Context.TELEPHONY_SERVICE);
+        return tm.isMultiSimEnabled()
+                && tm.getMultiSimConfiguration() == TelephonyManager.MultiSimVariants.DSDA;
     }
 
     @Override
@@ -378,6 +395,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("expanded_desktop")) return new ExpandedDesktopTile(this);
         else if (tileSpec.equals("music")) return new MusicTile(this);
         else if (tileSpec.equals("reboot")) return new RebootTile(this);
+        else if (tileSpec.equals("lte")) return new LteTile(this);
         else if (tileSpec.equals("navbar")) return new NavBarTile(this);
         else if (tileSpec.equals("appcirclebar")) return new AppCircleBarTile(this);
         else if (tileSpec.equals("appsidebar")) return new AppsidebarTile(this);
@@ -477,6 +495,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("screenshot")) return R.string.quick_settings_screenshot_label;
         else if (spec.equals("expanded_desktop")) return R.string.quick_settings_expanded_desktop_label;
         else if (spec.equals("reboot")) return R.string.quick_settings_reboot_label;
+        else if (spec.equals("lte")) return R.string.qs_lte_label;
         else if (spec.equals("navbar")) return R.string.quick_settings_navbar_title;
         else if (spec.equals("appcirclebar")) return R.string.quick_settings_appcirclebar_title;
         else if (spec.equals("appsidebar")) return R.string.quick_settings_app_sidebar;
@@ -518,6 +537,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("screenshot")) return R.drawable.ic_qs_screenshot;
         else if (spec.equals("expanded_desktop")) return R.drawable.ic_qs_expanded_desktop;
         else if (spec.equals("reboot")) return R.drawable.ic_qs_reboot;
+        else if (spec.equals("lte")) return R.drawable.ic_qs_lte_on;
         else if (spec.equals("navbar")) return R.drawable.ic_qs_navbar_on;
         else if (spec.equals("appcirclebar")) return R.drawable.ic_qs_appcirclebar_on;
         else if (spec.equals("appsidebar")) return R.drawable.ic_qs_appsidebar_on;
