@@ -1902,7 +1902,8 @@ public class PackageManagerService extends IPackageManager.Stub {
         mFactoryTest = factoryTest;
         mOnlyCore = onlyCore;
         mLazyDexOpt = "eng".equals(SystemProperties.get("ro.build.type")) ||
-                ("userdebug".equals(SystemProperties.get("ro.build.type")) &&
+                ("userdebug".equals(SystemProperties.get("ro.build.type")) ||
+                ("user".equals(SystemProperties.get("ro.build.type")) &&
                 SystemProperties.getBoolean("persist.sys.lazy.dexopt", false));
         mMetrics = new DisplayMetrics();
         mSettings = new Settings(mPackages);
