@@ -973,6 +973,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.PA_PIE_STATE), false, this,
+                    UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.KEYGUARD_TOGGLE_TORCH), false, this,
                     UserHandle.USER_ALL);
@@ -1454,7 +1455,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 }
                 boolean locked = isStatusBarKeyguard() && isKeyguardSecure();
                 boolean globalActionsOnLockScreen = Settings.System.getIntForUser(mContext.getContentResolver(),
-                            Settings.System.POWER_MENU_LOCKSCREEN, 1, UserHandle.USER_CURRENT) == 1;
+                            Settings.System.LOCKSCREEN_ENABLE_POWER_MENU, 1, UserHandle.USER_CURRENT) == 1;
                 if (locked && !globalActionsOnLockScreen) {
                     behavior = LONG_PRESS_POWER_NOTHING;
                 } else {
