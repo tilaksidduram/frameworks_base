@@ -219,12 +219,6 @@ public class QSTileHost implements QSTile.Host, Tunable {
         return (tm.getLteOnCdmaMode() == PhoneConstants.LTE_ON_CDMA_TRUE)
                 || tm.getLteOnGsmMode() != 0;
     }
- public static boolean deviceSupportsDdsSupported(Context context) {
-        TelephonyManager tm = (TelephonyManager)
-                context.getSystemService(Context.TELEPHONY_SERVICE);
-        return tm.isMultiSimEnabled()
-                && tm.getMultiSimConfiguration() == TelephonyManager.MultiSimVariants.DSDA;
-    }
 
     public static boolean deviceSupportsDdsSupported(Context context) {
         TelephonyManager tm = (TelephonyManager)
