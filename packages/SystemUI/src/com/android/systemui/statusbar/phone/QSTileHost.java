@@ -44,6 +44,7 @@ import com.android.systemui.qs.tiles.AppPickerTile;
 import com.android.systemui.qs.tiles.BatterySaverTile;
 import com.android.systemui.qs.tiles.BluetoothTile;
 import com.android.systemui.qs.tiles.BrightnessTile;
+import com.android.systemui.qs.tiles.CaffeineTile;
 import com.android.systemui.qs.tiles.CastTile;
 import com.android.systemui.qs.tiles.CellularTile;
 import com.android.systemui.qs.tiles.ColorInversionTile;
@@ -409,6 +410,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("power_menu")) return new PowerMenuTile(this);
 	else if (tileSpec.equals("themes")) return new ThemesTile(this);
         else if (tileSpec.equals("app_picker")) return new AppPickerTile(this);
+        else if (tileSpec.equals("caffeine")) return new CaffeineTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
     }
@@ -517,6 +519,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("power_menu")) return R.string.quick_settings_power_menu_label;
 	else if (spec.equals("themes")) return R.string.quick_settings_themes;
         else if (spec.equals("app_picker")) return R.string.navbar_app_picker;
+        else if (spec.equals("caffeine")) return R.string.quick_settings_caffeine_label;
         return 0;
     }
 
@@ -562,6 +565,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("power_menu")) return R.drawable.ic_qs_power_menu;
 	else if (spec.equals("themes")) return R.drawable.ic_qs_themes;
         else if (spec.equals("app_picker")) return R.drawable.ic_sysbar_app_picker;
+        else if (spec.equals("caffeine")) return R.drawable.ic_qs_caffeine_on;
         return 0;
     }
 
