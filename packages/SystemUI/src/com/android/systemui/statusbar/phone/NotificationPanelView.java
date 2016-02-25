@@ -115,6 +115,8 @@ public class NotificationPanelView extends PanelView implements
 
     public static final long DOZE_ANIMATION_DURATION = 700;
 
+    private boolean mQsColorSwitch = false;
+
 
     // Layout params for external keyguard view
     private static final FrameLayout.LayoutParams EXTERNAL_KEYGUARD_VIEW_PARAMS =
@@ -273,6 +275,8 @@ public class NotificationPanelView extends PanelView implements
     // QS alpha
     private int mQSShadeAlpha;
 
+    private int mQSBackgroundColor;
+
     public NotificationPanelView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(!DEBUG);
@@ -339,6 +343,11 @@ public class NotificationPanelView extends PanelView implements
             }
         });
         setQSBackgroundAlpha();
+	mQsColorSwitch = Settings.System.getInt(getContext().getContentResolver(),
+                Settings.System.QS_COLOR_SWITCH, 0) == 1;
+        if (mQsColorSwitch) {
+            setQSBackgroundColor();
+        }
 
         mLockPatternUtils = new CmLockPatternUtils(getContext());
         if (mLockPatternUtils.isThirdPartyKeyguardEnabled() && mLiveLockScreenEnabled) {
@@ -2689,7 +2698,21 @@ public class NotificationPanelView extends PanelView implements
 
         @Override
         public void onChange(boolean selfChange, Uri uri) {
+	   ContentResolver resolver = mContext.getContentResolver();
             update();
+	  if (uri.equals(Settings.System.getUriFor(
+                        Settings.System.QS_HEADER_TEXT_COLOR))
+                    || uri.equals(Settings.System.getUriFor(
+                        Settings.System.QS_HEADER_COLOR))) {
+                    mQSBackgroundColor = Settings.System.getInt(
+                            resolver, Settings.System.QS_BACKGROUND_COLOR, 0xff263238);
+                    setQSBackgroundColor();
+                } else if (uri.equals(Settings.System.getUriFor(
+                        Settings.System.QS_ICON_COLOR))
+                    || uri.equals(Settings.System.getUriFor(
+                        Settings.System.QS_TEXT_COLOR))) {
+                    setQSColors();
+                }
         }
 
         public void update() {
@@ -2707,6 +2730,14 @@ public class NotificationPanelView extends PanelView implements
             mQsSmartPullDown = Settings.System.getIntForUser(
                     resolver, Settings.System.QS_SMART_PULLDOWN, 0,
                     UserHandle.USER_CURRENT);
+  	    mQsColorSwitch = Settings.System.getInt(
+                    resolver, Settings.System.QS_COLOR_SWITCH, 0) == 1;
+            int mQSBackgroundColor = Settings.System.getInt(
+                    resolver, Settings.System.QS_BACKGROUND_COLOR, 0xff263238);
+	    if (mQsColorSwitch) {
+                setQSBackgroundColor();
+                setQSColors();
+            }
 
             boolean liveLockScreenEnabled = CMSettings.Secure.getInt(
                     resolver, CMSettings.Secure.LIVE_LOCK_SCREEN_ENABLED, 0) == 1;
@@ -2835,6 +2866,25 @@ public class NotificationPanelView extends PanelView implements
                     mKeyguardExternalView = null;
                 }
             }
+        }
+    }
+
+ private void setQSBackgroundColor() {
+        ContentResolver resolver = mContext.getContentResolver();
+        int mQSBackgroundColor = Settings.System.getInt( mContext.getContentResolver(), 
+			Settings.System.QS_BACKGROUND_COLOR, 0xff263238);
+        if (mQsContainer != null) {
+                mQsContainer.getBackground().setColorFilter(
+                        mQSBackgroundColor, Mode.SRC_OVER);
+            }
+        if (mQsPanel != null) {
+            mQsPanel.setDetailBackgroundColor(mQSBackgroundColor);
+        }
+    }
+
+    private void setQSColors() {
+        if (mQsPanel != null) {
+            mQsPanel.refreshAllTiles();
         }
     }
 }

@@ -35,6 +35,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.PorterDuff.Mode;
 import android.os.Handler;
 import android.os.UserHandle;
 import android.os.Vibrator;
@@ -115,7 +116,9 @@ public class QSDragPanel extends QSPanel implements View.OnDragListener, View.On
     private int moreSlots;
 
     protected Vibrator mVibrator;
-    private boolean mQsVibSignlepress = false;		
+    private boolean mQsVibSignlepress = false;	
+
+    private boolean mQsColorSwitch = false;	
 
     private boolean mRestored;
     private boolean mRestoring;
@@ -162,6 +165,15 @@ public class QSDragPanel extends QSPanel implements View.OnDragListener, View.On
         updateDetailText();
         mDetail.setVisibility(GONE);
         mDetail.setClickable(true);
+	mQsColorSwitch = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.QS_COLOR_SWITCH, 0) == 1;
+	int QsTextColor = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.QS_TEXT_COLOR, 0xFFFFFFFF);
+	 if (mQsColorSwitch) {
+            mDetailDoneButton.setTextColor(QsTextColor);
+            mDetailSettingsButton.setTextColor(QsTextColor);
+	    mDetailRemoveButton.setTextColor(QsTextColor);
+        }
 
 	mQsVibSignlepress = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.QUICK_SETTINGS_SP_VIBRATE, 0) == 1;
@@ -370,6 +382,17 @@ public class QSDragPanel extends QSPanel implements View.OnDragListener, View.On
     @Override
     public boolean hasOverlappingRendering() {
         return mClipper.isAnimating() || mEditing;
+    }
+
+  public void setDetailBackgroundColor(int color) {
+        mQsColorSwitch = Settings.System.getInt(getContext().getContentResolver(),
+                Settings.System.QS_COLOR_SWITCH, 0) == 1;
+        if (mQsColorSwitch) {
+            if (mDetail != null) {
+                    mDetail.getBackground().setColorFilter(
+                            color, Mode.MULTIPLY);
+                }
+            }
     }
 
     @Override
@@ -750,9 +773,19 @@ public class QSDragPanel extends QSPanel implements View.OnDragListener, View.On
         r.tileView.init(click, clickSecondary, longClick);
         r.tile.setListening(mListening);
         r.tile.refreshState();
+	int mQsText = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.QS_TEXT_COLOR, 0xFFFFFFFF);
+	int mQsIcon = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.QS_ICON_COLOR, 0xFFFFFFFF);
+        mQsColorSwitch = Settings.System.getInt(mContext.getContentResolver(),
+		Settings.System.QS_COLOR_SWITCH, 0) == 1;
+	 if (mQsColorSwitch) {
+                 r.tileView.setLabelColor();
+                 r.tileView.setIconColor();
+            }
         r.tileView.setVisibility(mEditing ? View.VISIBLE : View.GONE);
         callback.onStateChanged(r.tile.getState());
-
+	
         if (DEBUG_TILES) {
             Log.d(TAG, "--- makeRecord() called with " + "tile = [" + tile + "]");
         }
@@ -2188,6 +2221,9 @@ public class QSDragPanel extends QSPanel implements View.OnDragListener, View.On
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(CMSettings.Secure.getUriFor(
                     CMSettings.Secure.QS_USE_MAIN_TILES), false, this, UserHandle.USER_ALL);
+	    resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_COLOR_SWITCH),
+                    false, this, UserHandle.USER_ALL);	
             update();
         }
 
@@ -2205,6 +2241,8 @@ public class QSDragPanel extends QSPanel implements View.OnDragListener, View.On
             int currentUserId = ActivityManager.getCurrentUser();
             boolean firstRowLarge = CMSettings.Secure.getIntForUser(resolver,
                     CMSettings.Secure.QS_USE_MAIN_TILES, 1, currentUserId) == 1;
+	    mQsColorSwitch = Settings.System.getInt(mContext.getContentResolver(), 
+		    Settings.System.QS_COLOR_SWITCH, 0) == 1;
             if (firstRowLarge != mFirstRowLarge) {
                 mFirstRowLarge = firstRowLarge;
                 setTiles(mHost.getTiles());

@@ -4951,6 +4951,48 @@ public final class Settings {
         public static final String QS_NUM_TILE_COLUMNS = "sysui_qs_num_tile_columns";
 
         /**
+         * Quick Settings Color Switch
+         * @hide
+         */
+        public static final String QS_COLOR_SWITCH = "qs_color_switch";
+
+        /**
+         * Quick Settings Header Text Color
+         * @hide
+         */
+        public static final String QS_HEADER_TEXT_COLOR = "qs_header_text_color";
+
+        /**
+         * Quick Settings Header Color
+         * @hide
+         */
+        public static final String QS_HEADER_COLOR = "qs_header_color";
+
+        /**
+         * Quick Settings Text Color
+         * @hide
+         */
+        public static final String QS_TEXT_COLOR = "qs_text_color";
+
+        /**
+         * Quick Settings Icon Color
+         * @hide
+         */
+        public static final String QS_ICON_COLOR = "qs_icon_color";
+
+        /**
+         * Quick Settings BG Color
+         * @hide
+         */
+        public static final String QS_BACKGROUND_COLOR = "qs_bg_color";
+
+        /**
+         * Quick Settings Brightness Icon Color
+         * @hide
+         */
+        public static final String QS_BRIGHTNESS_ICON_COLOR = "qs_brightness_icon_color";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
