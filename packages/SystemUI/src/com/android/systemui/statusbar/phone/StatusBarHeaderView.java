@@ -143,6 +143,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     private int mClockExpandedSize;
 
     protected Vibrator mVibrator;
+    private boolean mQsVibLongpress = false;	
 
     // Task manager
     private boolean mShowTaskManager;
@@ -708,7 +709,18 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             startForecastActivity();
         }
         vibrateheader(20);
+	checktile();	
     }
+	
+     public void checktile() {
+	   mQsVibLongpress = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.QUICK_SETTINGS_ICON_VIBRATE, 0) == 1;
+		if (mQsVibLongpress) {
+		 mQSPanel.vibrateTile(20);
+		} else { 
+		 mQSPanel.vibrateTile(0);
+		}
+	}
 
     @Override
     public boolean onLongClick(View v) {
