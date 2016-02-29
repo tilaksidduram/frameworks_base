@@ -207,4 +207,13 @@
     <!-- Title shown in recents popup for showing app launch in floating mode -->
     <string name="recent_float_mode_title">Floating mode</string>
 
+    <!-- headset icon switch -->
+    <string name="status_bar_headset">Wired headset</string>
+
+    <!-- vpn icon switch -->
+    <string name="status_bar_vpn">VPN</string>
+
+    <!-- vpn icon switch -->
+    <string name="status_bar_volume">Vibration</string>
+
 </resources>
