@@ -83,7 +83,7 @@ public class AppPickerTile extends QSTile<QSTile.BooleanState> {
     @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
         state.visible = true;
-        state.icon = ResourceIcon.get(R.drawable.ic_sysbar_app_picker);
+        state.icon = ResourceIcon.get(R.drawable.ic_qs_app_picker);
         state.label = mContext.getString(R.string.navbar_app_picker);
     }
 

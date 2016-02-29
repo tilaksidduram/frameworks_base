@@ -573,7 +573,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("battery_saver")) return R.drawable.ic_qs_battery_saver_on;
         else if (spec.equals("power_menu")) return R.drawable.ic_qs_power_menu;
 	else if (spec.equals("themes")) return R.drawable.ic_qs_themes;
-        else if (spec.equals("app_picker")) return R.drawable.ic_sysbar_app_picker;
+        else if (spec.equals("app_picker")) return R.drawable.ic_qs_app_picker;
  	else if (spec.equals("kill_app")) return R.drawable.ic_app_kill;
         else if (spec.equals("caffeine")) return R.drawable.ic_qs_caffeine_on;
 	else if (spec.equals("hw_keys")) return R.drawable.ic_qs_hwkeys_on;
