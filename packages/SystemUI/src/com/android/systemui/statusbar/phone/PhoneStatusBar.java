@@ -677,17 +677,35 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.SHOW_CUSTOM_LOGO))) {
                 recreateStatusBar();
-                updateRowStates();
-                updateSpeedbump();
-                updateClearAll();
-                updateEmptyShadeView();
+        // lets handle the child notifications now
+        updateNotificationShadeForChildren();
+
+        // clear the map again for the next usage
+        mTmpChildOrderMap.clear();
+
+        updateRowStates();
+        updateSpeedbump();
+        updateClearAll();
+        updateEmptyShadeView();
+
+        updateQsExpansionEnabled();
+        mShadeUpdates.check();
 	   } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.CUSTOM_LOGO_STYLE))) {
                 recreateStatusBar();
-                updateRowStates();
-                updateSpeedbump();
-                updateClearAll();
-                updateEmptyShadeView();
+        // lets handle the child notifications now
+        updateNotificationShadeForChildren();
+
+        // clear the map again for the next usage
+        mTmpChildOrderMap.clear();
+
+        updateRowStates();
+        updateSpeedbump();
+        updateClearAll();
+        updateEmptyShadeView();
+
+        updateQsExpansionEnabled();
+        mShadeUpdates.check();
 	   }
             update();
         }
