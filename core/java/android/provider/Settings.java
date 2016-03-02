@@ -3936,6 +3936,25 @@ public final class Settings {
         public static final String NETWORK_TRAFFIC_HIDEARROW = "network_traffic_hidearrow";
 
         /**
+         * Statusbar Custom logos
+         * @hide
+         */
+        public static final String SHOW_CUSTOM_LOGO = "show_custom_logo";
+
+	/**
+         * Statusbar Custom logos Color
+         * @hide
+         */
+
+	public static final String CUSTOM_LOGO_COLOR = "custom_logo_color";
+
+ 	 /**
+         * Take your Pick 
+         * @hide
+         */
+        public static final String CUSTOM_LOGO_STYLE = "custom_logo_style";
+
+        /**
          * show clear all recents button
          *  @hide
          */
