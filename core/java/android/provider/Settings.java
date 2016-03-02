@@ -3697,6 +3697,13 @@ public final class Settings {
         public static final String VOICE_LAUNCH_INTENT = "voice_launch_intent";
 
         /**
+	 *
+         * Navbar Recents Switch
+         * @hide
+         */
+        public static final String NAVBAR_RECENTS_SWITCH = "navbar_recents_switch";
+
+        /**
          * @hide
          */
         public static final String SHOW_SU_INDICATOR = "show_su_indicator";
