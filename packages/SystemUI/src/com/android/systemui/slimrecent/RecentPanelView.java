@@ -54,6 +54,8 @@ import com.android.cards.internal.CardArrayAdapter;
 import com.android.cards.view.CardListView;
 import com.android.systemui.R;
 
+import cyanogenmod.providers.CMSettings;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -305,8 +307,8 @@ public class RecentPanelView {
         popup.getMenu().add(0, MENU_APP_FLOATING_ID, 0,
                 mContext.getResources().getString(R.string.recent_float_mode_title));
         
-        if (Settings.Secure.getInt(mContext.getContentResolver(),
-                Settings.Secure.DEVELOPMENT_SHORTCUT, 0) == 1) {
+        if (CMSettings.Secure.getInt(mContext.getContentResolver(),
+                CMSettings.Secure.DEVELOPMENT_SHORTCUT, 0) == 1) {
             popup.getMenu().add(0, MENU_APP_STOP_ID, 0,
                     mContext.getResources().getString(R.string.advanced_dev_option_force_stop));
             try {
