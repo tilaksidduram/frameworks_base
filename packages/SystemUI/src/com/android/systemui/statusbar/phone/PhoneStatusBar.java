@@ -4804,6 +4804,19 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         if (newTheme != null) mCurrentTheme = (ThemeConfig) newTheme.clone();
         if (updateStatusBar) {
             recreateStatusBar();
+        // lets handle the child notifications now
+        updateNotificationShadeForChildren();
+
+        // clear the map again for the next usage
+        mTmpChildOrderMap.clear();
+
+        updateRowStates();
+        updateSpeedbump();
+        updateClearAll();
+        updateEmptyShadeView();
+
+        updateQsExpansionEnabled();
+        mShadeUpdates.check();
         } else {
             loadDimens();
         }
