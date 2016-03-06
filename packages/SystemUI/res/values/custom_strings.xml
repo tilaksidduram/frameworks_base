@@ -141,9 +141,6 @@
     <!-- Power Menu -->
     <string name="quick_settings_power_menu_label">Power Menu</string>
 
-    <!-- Themes tile -->
-    <string name="quick_settings_themes">Themes</string>
-
     <!-- Hw Keys tile -->
     <string name="quick_settings_hwkeys_title">Hardware Keys</string>	
     <string name="quick_settings_hwkeys_on">Hardware Keys On</string>
