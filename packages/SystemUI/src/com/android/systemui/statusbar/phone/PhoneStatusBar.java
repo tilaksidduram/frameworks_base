@@ -706,7 +706,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         updateQsExpansionEnabled();
         mShadeUpdates.check();
 	   }
-            update();
+           // lets handle the child notifications now
+           updateNotificationShadeForChildren();
+           // clear the map again for the next usage
+           mTmpChildOrderMap.clear();
+           update();
         }
 
         @Override
