@@ -213,7 +213,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingEnd="20dp"
+        android:paddingEnd="10dp"
         android:gravity="center">
 
      <ImageView
@@ -221,11 +221,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:clickable="true"
-        android:paddingEnd="20dp"
+        android:paddingEnd="10dp"
         android:visibility="gone"
-        android:background="@drawable/weather_off"
-        android:importantForAccessibility="noHideDescendants"/>
+        android:background="@drawable/ripple_drawable"
+        android:src="@drawable/weather_off"/>
         
 </FrameLayout>
 
