@@ -135,7 +135,6 @@ import com.android.internal.statusbar.NotificationVisibility;
 import com.android.internal.statusbar.IStatusBarService;
 import com.android.internal.statusbar.StatusBarIcon;
 import com.android.internal.util.cm.ActionUtils;
-import com.android.internal.util.temasek.DUPackageMonitor;
 import com.android.internal.util.temasek.WeatherController;
 import com.android.internal.util.temasek.WeatherController.WeatherInfo;
 import com.android.internal.util.temasek.WeatherControllerImpl;
@@ -198,9 +197,8 @@ import com.android.systemui.statusbar.policy.KeyButtonView;
 import com.android.systemui.statusbar.policy.KeyguardMonitor;
 import com.android.systemui.statusbar.policy.KeyguardUserSwitcher;
 import com.android.systemui.statusbar.policy.LocationControllerImpl;
-import com.android.systemui.statusbar.policy.MinitBattery;
-import com.android.systemui.statusbar.policy.MinitBatteryController;
 import com.android.systemui.statusbar.policy.NetworkController;
+import com.android.systemui.statusbar.policy.MinitBattery;
 import com.android.systemui.statusbar.policy.NetworkControllerImpl;
 import com.android.systemui.statusbar.policy.NextAlarmController;
 import com.android.systemui.statusbar.policy.PreviewInflater;
@@ -384,7 +382,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     AccessibilityController mAccessibilityController;
     SuControllerImpl mSuController;
     FingerprintUnlockController mFingerprintUnlockController;
-    MinitBatteryController mMinitBatteryController;
 
     int mNaturalBarHeight = -1;
 
@@ -540,8 +537,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mLinger = BRIGHTNESS_CONTROL_LINGER_THRESHOLD + 1;
         }
     };
-
-    private DUPackageMonitor mPackageMonitor;
 
     // Custom Recents Long Press
     // - Tracks Event state for custom (user-configurable) Long Presses.
@@ -1313,10 +1308,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mStatusBarView = (PhoneStatusBarView) mStatusBarWindowContent.findViewById(R.id.status_bar);
         mStatusBarView.setBar(this);
 
-        mPackageMonitor = new DUPackageMonitor();
-        mPackageMonitor.register(mContext, mHandler);
-
         PanelHolder holder = (PanelHolder) mStatusBarWindowContent.findViewById(R.id.panel_holder);
+
         mStatusBarView.setPanelHolder(holder);
 
         mNotificationPanel = (NotificationPanelView) mStatusBarWindowContent.findViewById(
@@ -1459,9 +1452,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         // set the inital view visibility
         setAreThereNotifications();
-
-        mMinitBatteryController = new MinitBatteryController(mContext, mStatusBarView, mHeader, mKeyguardStatusBar);
-        mPackageMonitor.addListener(mMinitBatteryController);
 
         mIconController = new StatusBarIconController(
                 mContext, mStatusBarView, mKeyguardStatusBar, this);
@@ -1814,6 +1804,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mVisualizerView.setKeyguardMonitor(mKeyguardMonitor);
         mHeader.setNextAlarmController(mNextAlarmController);
         mHeader.setWeatherController(mWeatherController);
+
+        MinitBattery mb = (MinitBattery) mStatusBarView.findViewById(R.id.minitBattery);
+        if (!mb.isSetup()) {
+            BatteryMeterView bmv = (BatteryMeterView) mStatusBarView.findViewById(R.id.battery);
+            bmv.setVisibility(View.VISIBLE);
+        }
 
         PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
         mBroadcastReceiver.onReceive(mContext,
@@ -5087,8 +5083,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
         mContext.unregisterReceiver(mBroadcastReceiver);
         mContext.unregisterReceiver(mDemoReceiver);
-        mPackageMonitor.removeListener(mMinitBatteryController);
-        mPackageMonitor.unregister();
         mAssistManager.destroy();
 
         final SignalClusterView signalCluster =
