@@ -131,6 +131,7 @@ public  class RecentsView extends FrameLayout implements TaskStackView.TaskStack
     private ImageButton button;
     private boolean mButtonsRotation;
     private boolean mClearallRotation;
+    private boolean ClearallTasks;
 
     TextClock mClock;
     TextView mDate;
@@ -613,6 +614,8 @@ public  class RecentsView extends FrameLayout implements TaskStackView.TaskStack
                 Settings.System.RECENTS_CLOCK_COLOR, 0xFFFFFFFF);
 	int mDatecolor = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.RECENTS_DATE_COLOR, 0xFFFFFFFF);
+        ClearallTasks =   Settings.System.getInt(mContext.getContentResolver(),
+		     Settings.System.RECENTS_CLEAR_ALL_DISMISS_ALL, 1) == 1;	
 	int mDefaultcolor = res.getColor(R.color.recents_membar_text_color);
 	int mSetfabcolor = res.getColor(R.color.fab_color);
 
@@ -898,6 +901,8 @@ public  class RecentsView extends FrameLayout implements TaskStackView.TaskStack
 		int mAnimStyle =  Settings.System.getIntForUser(
                     resolver, Settings.System.FAB_ANIMATION_STYLE, 0,
                     UserHandle.USER_CURRENT);
+                boolean ClearallTasks =   Settings.System.getInt(mContext.getContentResolver(),
+		     Settings.System.RECENTS_CLEAR_ALL_DISMISS_ALL, 0) == 1;	
 		if(mButtonsRotation) {	
 			if (mAnimStyle ==0) {	
 			mFloatingButton.startAnimation(animation);
@@ -970,10 +975,13 @@ public  class RecentsView extends FrameLayout implements TaskStackView.TaskStack
 		} else {
 		mFloatingButton.startAnimation(animationdefault);
 		mClearRecents.startAnimation(animationdefault); 
-		}
+		}	
+		if (ClearallTasks) {
+		mFloatingButton.setVisibility(View.GONE);
 		mClearRecents.setVisibility(View.GONE);	
-		mFloatingButton.setVisibility(View.GONE);		
+		} 	  
    }	
+   
 
     public void updateTimeVisibility() {
         boolean showClock = Settings.System.getIntForUser(mContext.getContentResolver(),
