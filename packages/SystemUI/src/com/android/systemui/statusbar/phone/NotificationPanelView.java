@@ -2801,6 +2801,8 @@ public class NotificationPanelView extends PanelView implements
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_SMART_PULLDOWN),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.ENABLE_TASK_MANAGER), false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -2856,6 +2858,8 @@ public class NotificationPanelView extends PanelView implements
                 setQSBackgroundColor();
                 setQSColors();
             }
+	    mShowTaskManager = Settings.System.getIntForUser(resolver,
+                    Settings.System.ENABLE_TASK_MANAGER, 0, UserHandle.USER_CURRENT) == 1;
 
             boolean liveLockScreenEnabled = CMSettings.Secure.getInt(
                     resolver, CMSettings.Secure.LIVE_LOCK_SCREEN_ENABLED, 0) == 1;
