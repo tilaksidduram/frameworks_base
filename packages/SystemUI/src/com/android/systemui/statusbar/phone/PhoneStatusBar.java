@@ -3920,19 +3920,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 : MODE_OPAQUE;
     }
 
-    private void DontStressOnRecreate() { // Update maps and remove children,views after the recreate statusbar .Provides to rest in the recreate
-        recreateStatusBar();
-        updateNotificationShadeForChildren();
-        mTmpChildOrderMap.clear();
-        updateRowStates();
-        updateSpeedbump();
-        updateClearAll();
-        updateEmptyShadeView();
-        updateQsExpansionEnabled();
-        mShadeUpdates.check();
-        mNotificationPanel.resetViews();
-    }
-
     private void checkBarModes() {
         if (mDemoMode) return;
         checkBarMode(mStatusBarMode, mStatusBarWindowState, mStatusBarView.getBarTransitions(),
@@ -4864,6 +4851,33 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         if (mNavigationBarView != null && updateNavBar)  {
             mNavigationBarView.updateResources(getNavbarThemedResources());
         }
+    }
+
+    private void DontStressOnRecreate() {
+        recreateStatusBar();
+        RemoveViews();
+
+    }   
+
+    private void RemoveViews() {
+        updateRowStates();
+        updateSpeedbump();
+        checkBarModes();
+        updateClearAll();
+        updateEmptyShadeView();
+        clearNotificationEffects();
+        updateDozingState();
+        updatePublicMode();
+        updateNotifications();
+        updateMediaMetaData(true);
+        resetQsPanelVisibility();
+        updateQsExpansionEnabled();
+        mShadeUpdates.check();
+        mQSPanel.refreshAllTiles();
+        mNotificationPanel.resetViews();
+        updateNotificationShadeForChildren();
+        mTmpChildOrderMap.clear();
+
     }
 
     /**
@@ -5846,6 +5860,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mWakeUpComingFromTouch = false;
         mWakeUpTouchLocation = null;
         mStackScroller.setAnimationsEnabled(false);
+        RemoveViews();
         updateVisibleToUser();
         if (mQSTileHost.isEditing()) {
             mQSTileHost.setEditing(false);
@@ -5868,6 +5883,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mDeviceInteractive = true;
         mStackScroller.setAnimationsEnabled(true);
         mNotificationPanel.setTouchDisabled(false);
+        RemoveViews();
         updateVisibleToUser();
     }
 
