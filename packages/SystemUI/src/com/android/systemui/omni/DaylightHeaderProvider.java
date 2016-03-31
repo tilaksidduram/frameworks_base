@@ -51,26 +51,32 @@ public class DaylightHeaderProvider implements
     private static final int DRAWABLE_SUNRISE = R.drawable.notifhead_sunrise;
     private static final int DRAWABLE_SUNRISE_1 = R.drawable.notifhead_sunrise_1;
     private static final int DRAWABLE_SUNRISE_HD = R.drawable.notifhead_sunrise_hd;
+    private static final int DRAWABLE_SUNRISE_SCREWD = R.drawable.notifhead_screwd_sunrise_hd;
     private static final int TIME_MORNING = 9;
     private static final int DRAWABLE_MORNING = R.drawable.notifhead_morning;
     private static final int DRAWABLE_MORNING_1 = R.drawable.notifhead_morning_1;
     private static final int DRAWABLE_MORNING_HD = R.drawable.notifhead_morning_hd;
+    private static final int DRAWABLE_MORNING_SCREWD = R.drawable.notifhead_screwd_morning_hd;
     private static final int TIME_NOON = 11;
     private static final int DRAWABLE_NOON = R.drawable.notifhead_noon;
     private static final int DRAWABLE_NOON_1 = R.drawable.notifhead_noon_1;
     private static final int DRAWABLE_NOON_HD = R.drawable.notifhead_noon_hd;
+    private static final int DRAWABLE_NOON_SCREWD = R.drawable.notifhead_screwd_noon_hd;
     private static final int TIME_AFTERNOON = 13;
     private static final int DRAWABLE_AFTERNOON = R.drawable.notifhead_afternoon;
     private static final int DRAWABLE_AFTERNOON_1 = R.drawable.notifhead_afternoon_1;
     private static final int DRAWABLE_AFTERNOON_HD = R.drawable.notifhead_afternoon_hd;
+    private static final int DRAWABLE_AFTERNOON_SCREWD = R.drawable.notifhead_screwd_afternoon_hd;
     private static final int TIME_SUNSET = 19;
     private static final int DRAWABLE_SUNSET = R.drawable.notifhead_sunset;
     private static final int DRAWABLE_SUNSET_1 = R.drawable.notifhead_sunset_1;
     private static final int DRAWABLE_SUNSET_HD = R.drawable.notifhead_sunset_hd;
+    private static final int DRAWABLE_SUNSET_SCREWD = R.drawable.notifhead_screwd_sunset_hd;
     private static final int TIME_NIGHT = 21;
     private static final int DRAWABLE_NIGHT = R.drawable.notifhead_night;
     private static final int DRAWABLE_NIGHT_1 = R.drawable.notifhead_night_1;
     private static final int DRAWABLE_NIGHT_HD = R.drawable.notifhead_night_hd;
+    private static final int DRAWABLE_NIGHT_SCREWD = R.drawable.notifhead_screwd_night_hd;
 
     // Special events
     // Christmas is on Dec 25th
@@ -193,6 +199,21 @@ public class DaylightHeaderProvider implements
                 return loadOrFetch(DRAWABLE_AFTERNOON_HD);
             } else if (hour >= TIME_SUNSET && hour < TIME_NIGHT) {
                 return loadOrFetch(DRAWABLE_SUNSET_HD);
+            }
+        }
+	if (headerdefault == 3) {
+            if (hour < TIME_SUNRISE || hour >= TIME_NIGHT) {
+                return loadOrFetch(DRAWABLE_NIGHT_SCREWD);
+            } else if (hour >= TIME_SUNRISE && hour < TIME_MORNING) {
+                return loadOrFetch(DRAWABLE_SUNRISE_SCREWD);
+            } else if (hour >= TIME_MORNING && hour < TIME_NOON) {
+                return loadOrFetch(DRAWABLE_MORNING_SCREWD);
+            } else if (hour >= TIME_NOON && hour < TIME_AFTERNOON) {
+                return loadOrFetch(DRAWABLE_NOON_SCREWD);
+            } else if (hour >= TIME_AFTERNOON && hour < TIME_SUNSET) {
+                return loadOrFetch(DRAWABLE_AFTERNOON_SCREWD);
+            } else if (hour >= TIME_SUNSET && hour < TIME_NIGHT) {
+                return loadOrFetch(DRAWABLE_SUNSET_SCREWD);
             }
         }
 
