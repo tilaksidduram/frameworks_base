@@ -4829,9 +4829,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         final boolean updateNavBar = shouldUpdateNavbar(mCurrentTheme, newTheme);
         if (newTheme != null) mCurrentTheme = (ThemeConfig) newTheme.clone();
         if (updateStatusBar) {
-            recreateStatusBar();
-            updateNotificationShadeForChildren();
-            mTmpChildOrderMap.clear();
+            DontStressOnRecreate();
         } else {
             loadDimens();
         }
@@ -4857,29 +4855,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     private void DontStressOnRecreate() {
         recreateStatusBar();
-        RemoveViews();
-
-    }   
-
-    private void RemoveViews() {
         updateRowStates();
         updateSpeedbump();
         checkBarModes();
         updateClearAll();
         updateEmptyShadeView();
-        clearNotificationEffects();
-        updateDozingState();
-        updatePublicMode();
-        updateNotifications();
-        updateMediaMetaData(true);
-        resetQsPanelVisibility();
-        updateQsExpansionEnabled();
-        mShadeUpdates.check();
-        mQSPanel.refreshAllTiles();
-        mNotificationPanel.resetViews();
-        updateNotificationShadeForChildren();
-        mTmpChildOrderMap.clear();
-
     }
 
     /**
@@ -5862,7 +5842,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mWakeUpComingFromTouch = false;
         mWakeUpTouchLocation = null;
         mStackScroller.setAnimationsEnabled(false);
-        RemoveViews();
         updateVisibleToUser();
         if (mQSTileHost.isEditing()) {
             mQSTileHost.setEditing(false);
@@ -5885,7 +5864,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mDeviceInteractive = true;
         mStackScroller.setAnimationsEnabled(true);
         mNotificationPanel.setTouchDisabled(false);
-        RemoveViews();
         updateVisibleToUser();
     }
 
