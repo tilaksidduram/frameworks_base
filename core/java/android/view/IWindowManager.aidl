@@ -294,6 +294,8 @@ interface IWindowManager
     Rect getFloatViewRect();
     void notifyFloatActivityTouched(IBinder token, boolean force);
 
+    void setLiveLockscreenEdgeDetector(boolean enable);
+
     /**
      * Get current system ui visibility mode.
      *
