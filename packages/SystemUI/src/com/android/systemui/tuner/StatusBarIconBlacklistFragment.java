@@ -27,6 +27,8 @@ import android.preference.SwitchPreference;
 import android.provider.Settings;
 
 import com.android.internal.util.temasek.TemasekUtils;
+import android.view.MenuItem;
+
 import com.android.systemui.R;
 import com.android.systemui.statusbar.phone.StatusBarIconController;
 
@@ -51,6 +53,7 @@ public class StatusBarIconBlacklistFragment extends PreferenceFragment {
             mShowFourG.setChecked((Settings.System.getInt(resolver,
                     Settings.System.SHOW_FOURG, 0) == 1));
         }
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -100,5 +103,15 @@ public class StatusBarIconBlacklistFragment extends PreferenceFragment {
             return true;
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                getFragmentManager().popBackStack();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
