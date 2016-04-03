@@ -5728,14 +5728,19 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     protected int getMaxKeyguardNotifications() {
         mCustomMaxKeyguard = Settings.System.getIntForUser(mContext.getContentResolver(),
             Settings.System.LOCK_SCREEN_CUSTOM_NOTIF, 0, UserHandle.USER_CURRENT) == 1;
-        int max = mKeyguardMaxNotificationCount;
+
         if (mCustomMaxKeyguard) {
             return mMaxKeyguardNotifConfig;
-        } else if (mLiveLockScreenController.isLiveLockScreenInteractive()) {
-            max--;
-        } else {
+        } else {        
+            int max = mKeyguardMaxNotificationCount;
+            // When an interactive live lockscreen is showing
+            // we want to limit the number of maximum notifications
+            // by 1 so there is additional space for the user to dismiss keygard
+            if (mLiveLockScreenController.isLiveLockScreenInteractive()) {
+                max--;
+            }
             return max;
-        }       
+        }
     }
 
     public NavigationBarView getNavigationBarView() {
