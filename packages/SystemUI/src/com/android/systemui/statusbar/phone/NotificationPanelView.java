@@ -2957,4 +2957,8 @@ public class NotificationPanelView extends PanelView implements
             mQsPanel.refreshAllTiles();
         }
     }
+
+    public void slideLockScreenOut() {
+        mSwipeCallback.onChildDismissed(this);
+    }
 }
