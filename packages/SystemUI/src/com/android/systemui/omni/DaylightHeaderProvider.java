@@ -84,11 +84,13 @@ public class DaylightHeaderProvider implements
     private static final int DRAWABLE_CHRISTMAS = R.drawable.notifhead_christmas;
     private static final int DRAWABLE_CHRISTMAS_1 = R.drawable.notifhead_christmas_1;
     private static final int DRAWABLE_CHRISTMAS_HD = R.drawable.notifhead_christmas_hd;
+    private static final int DRAWABLE_CHRISTMAS_SCREWD = R.drawable.notifhead_screwd_christmas_hd;
     // New years eve is on Dec 31st
     private static final Calendar CAL_NEWYEARSEVE = Calendar.getInstance();
     private static final int DRAWABLE_NEWYEARSEVE = R.drawable.notifhead_newyearseve;
     private static final int DRAWABLE_NEWYEARSEVE_1 = R.drawable.notifhead_newyearseve_1;
     private static final int DRAWABLE_NEWYEARSEVE_HD = R.drawable.notifhead_newyearseve_hd;
+    private static final int DRAWABLE_NEWYEARSEVE_SCREWD = R.drawable.notifhead_screwd_newyearseve_hd;
 
     // Default drawable (AOSP)
     private static final int DRAWABLE_DEFAULT = R.drawable.notification_header_bg;
@@ -150,6 +152,15 @@ public class DaylightHeaderProvider implements
             } else if (isItToday(CAL_NEWYEARSEVE)) {
                 // Happy new year!
                 return loadOrFetch(DRAWABLE_NEWYEARSEVE_HD);
+            }
+        }
+        if (headerdefault == 3) {
+            if (isItToday(CAL_CHRISTMAS)) {
+                // Merry christmas!
+                return loadOrFetch(DRAWABLE_CHRISTMAS_SCREWD);
+            } else if (isItToday(CAL_NEWYEARSEVE)) {
+                // Happy new year!
+                return loadOrFetch(DRAWABLE_NEWYEARSEVE_SCREWD);
             }
         }
 
