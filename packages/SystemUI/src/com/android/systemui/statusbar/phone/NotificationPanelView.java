@@ -1848,7 +1848,7 @@ public class NotificationPanelView extends PanelView implements
             mTaskManagerShowing = taskManagerShowing;
             cancelAnimation();
             int x = mQsPanel.getLeft() + mQsPanel.getWidth() / 2;
-            int y = mQsPanel.getTop() + mQsPanel.getHeight() / 2;
+            int y = mQsPanel.getTop() / 2;
             if (!taskManagerShowing) {
                 mQsPanel.setVisibility(View.VISIBLE);
             }
@@ -1859,7 +1859,8 @@ public class NotificationPanelView extends PanelView implements
     private final AnimatorListenerAdapter mHideQsPanelWhenDone = new AnimatorListenerAdapter() {
         public void onAnimationEnd(Animator animation) {
             if (mTaskManagerShowing) {
-                mQsPanel.setVisibility(View.GONE);
+			mTaskManagerPanel.setVisibility(View.VISIBLE);
+			mQsPanel.setVisibility(View.GONE);
             }
         };
     };
