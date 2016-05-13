@@ -1184,7 +1184,9 @@ public abstract class BaseStatusBar extends SystemUI implements
                     launchFloating(contentIntent);
                 }
             });
-            filterButton.setVisibility(View.VISIBLE);
+            Notification notification = sbn.getNotification();
+            filterButton.setVisibility(SpamFilter.hasFilterableContent(notification)
+                    ? View.VISIBLE : View.GONE);
             filterButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     AsyncTask.execute(new Runnable() {
