@@ -2935,7 +2935,7 @@ public class NotificationPanelView extends PanelView implements
 	    mShowTaskManager = Settings.System.getIntForUser(resolver,
                     Settings.System.ENABLE_TASK_MANAGER, 0, UserHandle.USER_CURRENT) == 1;
             mQSStroke = Settings.System.getInt(resolver,
-                        Settings.System.QS_STROKE, 1);
+                        Settings.System.QS_STROKE, 0);
             mCustomStrokeColor = Settings.System.getInt(resolver,
                         Settings.System.QS_STROKE_COLOR, mContext.getResources().getColor(R.color.system_accent_color));
             mCustomStrokeThickness = Settings.System.getInt(resolver,
