@@ -81,6 +81,8 @@ public class StatusBarIconController implements Tunable {
     private BatteryMeterView mBatteryMeterView;
     private ClockController mClockController;
     private View mCenterClockLayout;
+    private TextView mWeather;
+    private TextView mWeatherLeft;
 
     private int mIconSize;
     private int mIconHPadding;
@@ -135,6 +137,8 @@ public class StatusBarIconController implements Tunable {
         mHandler = new Handler();
         mClockController = new ClockController(statusBar, mNotificationIcons, mHandler);
         mCenterClockLayout = statusBar.findViewById(R.id.center_clock_layout);
+        mWeather = (TextView) statusBar.findViewById(R.id.weather_temp);
+        mWeatherLeft = (TextView) statusBar.findViewById(R.id.left_weather_temp);
         updateResources();
 
         TunerService.get(mContext).addTunable(this, ICON_BLACKLIST);
@@ -411,6 +415,12 @@ public class StatusBarIconController implements Tunable {
                 Settings.System.STATUSBAR_CLOCK_COLOR_SWITCH, 0,
                 UserHandle.USER_CURRENT) == 0) {
             mClockController.setTextColor(mIconTint);
+        }
+        if (Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_WEATHER_COLOR, 0xFFFFFFFF,
+                UserHandle.USER_CURRENT) == 0xFFFFFFFF) {
+            mWeather.setTextColor(mIconTint);
+            mWeatherLeft.setTextColor(mIconTint);
         }
         applyNotificationIconsTint();
     }
