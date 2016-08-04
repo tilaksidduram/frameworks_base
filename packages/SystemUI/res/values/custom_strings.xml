@@ -228,4 +228,13 @@
     <string name="toast_recents_queue_app">Launch %s after closing recents</string>
     <string name="toast_recents_cancel_queued_app">Cancelled app launch</string>
 
+    <!-- HALO -->
+    <string name="halo_dismiss">Dismiss notification</string>
+    <string name="halo_hide">Hide</string>
+    <string name="halo_clear_all">Dismiss all notifications</string>
+    <string name="halo_silence">Hide &amp; silence until woken</string>
+    <string name="halo_tutorial1">This is HALO</string>
+    <string name="halo_tutorial2">Move me: double tap &amp; drag</string>
+    <string name="halo_tutorial3">Browse tasks: Horizontal drag</string>
+
 </resources>
