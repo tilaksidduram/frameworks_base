@@ -8055,6 +8055,12 @@ public final class Settings {
         public static final String HALO_COLOR = "halo_color";
 
         /**
+         * Enable/disable Halo in statusbar header
+         * @hide
+         */
+        public static final String HALO_ENABLE = "halo_enable";
+
+        /**
          * This are the settings to be backed up.
          *
          * NOTE: Settings are backed up and restored in the order they appear
