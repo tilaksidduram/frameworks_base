@@ -20,9 +20,9 @@ import android.app.ActivityManager;
 import android.app.ActivityManagerInternal;
 import android.app.ActivityManagerInternal.SleepToken;
 import android.app.ActivityManagerNative;
-import android.app.AlertDialog;
 import android.app.AppOpsManager;
 import android.app.IUiModeManager;
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.app.StatusBarManager;
 import android.app.UiModeManager;
@@ -36,7 +36,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.CompatibilityInfo;
@@ -7548,8 +7547,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         screenTurnedOn();
     }
 
-    AlertDialog mBootMsgDialog = null;
-    PackageManager mPackageManager;
+    ProgressDialog mBootMsgDialog = null;
 
     /**
      * name of package currently being dex optimized
@@ -7565,23 +7563,22 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     /** {@inheritDoc} */
     @Override
-    public void showBootMessage(final ApplicationInfo appInfo, final CharSequence msg, final boolean always) {
+    public void showBootMessage(final CharSequence msg, final boolean always) {
         mHandler.post(new Runnable() {
             @Override public void run() {
-                mPackageManager = mContext.getPackageManager();
                 if (mBootMsgDialog == null) {
                     int theme;
-                    if (mPackageManager.hasSystemFeature(
+                    if (mContext.getPackageManager().hasSystemFeature(
                             PackageManager.FEATURE_WATCH)) {
                         theme = com.android.internal.R.style.Theme_Micro_Dialog_Alert;
-                    } else if (mPackageManager.hasSystemFeature(
+                    } else if (mContext.getPackageManager().hasSystemFeature(
                             PackageManager.FEATURE_TELEVISION)) {
                         theme = com.android.internal.R.style.Theme_Leanback_Dialog_Alert;
                     } else {
                         theme = 0;
                     }
 
-                    mBootMsgDialog = new AlertDialog(mContext, theme) {
+                    mBootMsgDialog = new ProgressDialog(mContext, theme) {
                         // This dialog will consume all events coming in to
                         // it, to avoid it trying to do things too early in boot.
                         @Override public boolean dispatchKeyEvent(KeyEvent event) {
@@ -7604,15 +7601,14 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                             return true;
                         }
                     };
-                    if (mPackageManager.isUpgrade()) {
+                    if (mContext.getPackageManager().isUpgrade()) {
                         mBootMsgDialog.setTitle(R.string.android_upgrading_title);
                     } else {
                         mBootMsgDialog.setTitle(R.string.android_start_title);
                     }
-                    mBootMsgDialog.setIcon(appInfo.loadIcon(mPackageManager));
-                    //mBootMsgDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                    //mBootMsgDialog.setIcon(com.android.internal.R.drawable.boot_logo);
-                    //mBootMsgDialog.setIndeterminate(true);
+                    mBootMsgDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    mBootMsgDialog.setIcon(com.android.internal.R.drawable.boot_logo);
+                    mBootMsgDialog.setIndeterminate(true);
                     mBootMsgDialog.getWindow().setType(
                             WindowManager.LayoutParams.TYPE_BOOT_PROGRESS);
                     mBootMsgDialog.getWindow().addFlags(
@@ -7623,14 +7619,12 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     lp.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_NOSENSOR;
                     mBootMsgDialog.getWindow().setAttributes(lp);
                     mBootMsgDialog.setCancelable(false);
-                    mBootMsgDialog.setMessage("");
                     mBootMsgDialog.show();
                 }
 
                 if (always && (currentPackageName != null)) {
                     // Only display the current package name if the main message says "Optimizing app N of M".
                     // We don't want to do this when the message says "Starting apps" or "Finishing boot", etc.
-                    mBootMsgDialog.setIcon(appInfo.loadIcon(mPackageManager));
                     mBootMsgDialog.setMessage(Html.fromHtml(msg + "<br><b>" + currentPackageName + "</b>"));
                 }
                 else {
