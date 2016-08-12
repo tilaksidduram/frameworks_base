@@ -63,7 +63,6 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.media.session.MediaSessionLegacyHelper;
 import android.os.Binder;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.FactoryTest;
@@ -100,8 +99,6 @@ import cyanogenmod.hardware.CMHardwareManager;
 import cyanogenmod.providers.CMSettings;
 import dalvik.system.DexClassLoader;
 import com.android.internal.util.temasek.DimensionConverter;
-import android.text.Html;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.EventLog;
 import android.util.Log;
@@ -7615,15 +7612,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     if (mPackageManager.isUpgrade()) {
                         mBootMsgDialog.setTitle(R.string.android_upgrading_title);
                     } else {
-                        String dialogTitle = Build.MODEL + " " + mContext.getResources().getString(
-                                com.android.internal.R.string.android_start_title);
-                        String customDialogTitle = Settings.System.getString(mContext.getContentResolver(),
-                                Settings.System.BOOT_DIALOG_TITLE);
-                        if (!TextUtils.isEmpty(customDialogTitle)) {
-                            mBootMsgDialog.setTitle(customDialogTitle);
-                        } else {
-                            mBootMsgDialog.setTitle(dialogTitle);
-                        }
+                        mBootMsgDialog.setTitle(R.string.android_start_title);
                     }
                     mBootMsgDialog.setIcon(appInfo.loadIcon(mPackageManager));
                     //mBootMsgDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
