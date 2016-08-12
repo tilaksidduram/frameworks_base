@@ -5312,41 +5312,6 @@ public final class Settings {
         public static final String QS_STROKE_DASH_GAP = "qs_stroke_dash_gap";
 
         /**
-         * Boot dialog pimping switch
-         * enabled by default
-         * @hide
-         */
-        public static final String BOOT_DIALOG_BG_PIMPING = "boot_dialog_bg_pimping";
-
-        /**
-         * Boot dialog bg color
-         * 0xFF000000 is default
-         * @hide
-         */
-        public static final String BOOT_DIALOG_BG_COLOR = "boot_dialog_bg_color";
-
-        /**
-         * Boot dialog stroke custom color
-         * @hide
-         */
-        public static final String BOOT_DIALOG_STROKE_COLOR = "boot_dialog_stroke_color";
-
-        /**
-         * Boot dialog stroke custom thickness
-         * 12dp is default for AICP
-         * set ot 0 to disable
-         * @hide
-         */
-        public static final String BOOT_DIALOG_STROKE_THICKNESS = "boot_dialog_stroke_thickness";
-
-        /**
-         * Boot dialog custom corner radius
-         * 45dp is default
-         * @hide
-         */
-        public static final String BOOT_DIALOG_CORNER_RADIUS = "boot_dialog_corner_radius";
-
-        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
