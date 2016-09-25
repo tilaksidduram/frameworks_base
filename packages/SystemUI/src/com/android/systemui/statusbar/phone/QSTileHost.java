@@ -68,6 +68,7 @@ import com.android.systemui.qs.tiles.MagiskManagerTile;
 import com.android.systemui.qs.tiles.MusicTile;
 import com.android.systemui.qs.tiles.NfcTile;
 import com.android.systemui.qs.tiles.NightDisplayTile;
+import com.android.systemui.qs.tiles.PieTile;
 import com.android.systemui.qs.tiles.RebootTile;
 import com.android.systemui.qs.tiles.RotationLockTile;
 import com.android.systemui.qs.tiles.ScreenrecordTile;
@@ -481,6 +482,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("night")) return new NightDisplayTile(this);
         else if (tileSpec.equals("nfc")) return new NfcTile(this);
         else if (tileSpec.equals("compass")) return new CompassTile(this);
+        else if (tileSpec.equals("pie")) return  new PieTile(this);
         else if (tileSpec.equals("magiskmanager")) return new MagiskManagerTile(this);
         else if (tileSpec.equals("ambient_display")) return new AmbientDisplayTile(this);
         else if (tileSpec.equals("live_display")) return new LiveDisplayTile(this);
