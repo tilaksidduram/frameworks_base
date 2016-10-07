@@ -68,6 +68,7 @@ public class QSContainer extends FrameLayout {
 
     // omni additions
     private HorizontalScrollView mQuickQsPanelScroller;
+    private boolean mSecureExpandDisabled;
 
     public QSContainer(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -253,8 +254,9 @@ public class QSContainer extends FrameLayout {
         if (DEBUG) Log.d(TAG, "setQSExpansion " + expansion + " " + headerTranslation);
         mQsExpansion = expansion;
         final float translationScaleY = expansion - 1;
+
         if (!mHeaderAnimating) {
-            setTranslationY(mKeyguardShowing ? (translationScaleY * mHeader.getHeight())
+            setTranslationY((mKeyguardShowing || mSecureExpandDisabled) ? (translationScaleY * mHeader.getHeight())
                     : headerTranslation);
         }
         mHeader.setExpansion(mKeyguardShowing ? 1 : expansion);
@@ -271,6 +273,9 @@ public class QSContainer extends FrameLayout {
     }
 
     public void animateHeaderSlidingIn(long delay) {
+        if (mSecureExpandDisabled) {
+            return;
+        }
         if (DEBUG) Log.d(TAG, "animateHeaderSlidingIn");
         // If the QS is already expanded we don't need to slide in the header as it's already
         // visible.
@@ -282,6 +287,9 @@ public class QSContainer extends FrameLayout {
     }
 
     public void animateHeaderSlidingOut() {
+        if (mSecureExpandDisabled) {
+            return;
+        }
         if (DEBUG) Log.d(TAG, "animateHeaderSlidingOut");
         mHeaderAnimating = true;
         animate().y(-mHeader.getHeight())
@@ -326,7 +334,12 @@ public class QSContainer extends FrameLayout {
     };
 
     public int getQsMinExpansionHeight() {
-        return mHeader.getHeight();
+        return mSecureExpandDisabled ? 0 : mHeader.getHeight();
+    }
+
+    public void setSecureExpandDisabled(boolean value) {
+        if (DEBUG) Log.d(TAG, "setSecureExpandDisabled " + value);
+        mSecureExpandDisabled = value;
     }
 
     public void hideImmediately() {
