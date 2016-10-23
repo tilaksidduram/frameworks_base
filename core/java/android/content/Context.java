@@ -3647,6 +3647,16 @@ public abstract class Context {
     public static final String SYSTEM_HEALTH_SERVICE = "systemhealth";
 
     /**
+     * Use with {@link #getSystemService} to retrieve a
+     * {@link android.os.PocketManager} for accessing and listening to device pocket state.
+     *
+     * @hide
+     * @see #getSystemService
+     * @see android.os.PocketManager
+     */
+    public static final String POCKET_SERVICE = "pocket";
+
+    /**
      * Gatekeeper Service.
      * @hide
      */
