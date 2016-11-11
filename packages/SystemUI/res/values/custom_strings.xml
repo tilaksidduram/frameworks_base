@@ -81,6 +81,9 @@
     <!-- Application picker Tile -->
     <string name="quick_settings_app_picker">Application picker</string>
 
+    <!-- Android Auto 2.0x QS tile -->
+    <string name="quick_settings_androidauto_label">Android Auto</string>
+
     <!-- Screenshot Delete Toast -->
     <string name="delete_screenshot_toast">Screenshot Deleted</string>
 
