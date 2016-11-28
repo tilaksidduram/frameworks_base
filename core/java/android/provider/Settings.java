@@ -6695,6 +6695,12 @@ public final class Settings {
         public static final String QS_COLUMNS = "qs_columns";
 
         /**
+         * Whether to display qs tile titles in the qs panel
+         * @hide
+         */
+        public static final String QS_TILE_TITLE_VISIBILITY = "qs_tile_title_visibility";
+
+        /**
          * Whether preloaded APKs have been installed for the user.
          * @hide
          */
