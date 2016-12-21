@@ -61,6 +61,7 @@ import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.ImeTile;
 import com.android.systemui.qs.tiles.IntentTile;
+import com.android.systemui.qs.tiles.LiveDisplayTile;
 import com.android.systemui.qs.tiles.LocaleTile;
 import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.MagiskManagerTile;
@@ -482,6 +483,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("compass")) return new CompassTile(this);
         else if (tileSpec.equals("magiskmanager")) return new MagiskManagerTile(this);
         else if (tileSpec.equals("ambient_display")) return new AmbientDisplayTile(this);
+        else if (tileSpec.equals("live_display")) return new LiveDisplayTile(this);
         // Intent tiles.
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else if (tileSpec.startsWith(CustomTile.PREFIX)) return CustomTile.create(this,tileSpec);
