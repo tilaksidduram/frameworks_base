@@ -488,6 +488,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                    Settings.Secure.QS_COLUMNS), false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_TILE_TITLE_VISIBILITY), false, this, UserHandle.USER_ALL);
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_QUICKBAR_SCROLL_ENABLED),
+                    false, this, UserHandle.USER_ALL);
 
             CurrentUserTracker userTracker = new CurrentUserTracker(mContext) {
                 @Override
@@ -523,6 +526,14 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 forceAddNavigationBar();
             } else {
                 removeNavigationBar();
+            }
+
+            if (mNotificationPanel != null) {
+                mNotificationPanel.updateSettings();
+            }
+
+            if (mHeader != null) {
+                mHeader.updateSettings();
             }
         }
     }
@@ -4834,6 +4845,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     public void onClosingFinished() {
         runPostCollapseRunnables();
+        mHeader.onClosingFinished();
     }
 
     public void onUnlockHintStarted() {
