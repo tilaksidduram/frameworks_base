@@ -42,6 +42,7 @@ import com.android.systemui.qs.external.TileLifecycleManager;
 import com.android.systemui.qs.external.TileServices;
 import com.android.systemui.qs.tiles.AdbOverNetworkTile;
 import com.android.systemui.qs.tiles.AirplaneModeTile;
+import com.android.systemui.qs.tiles.AmbientLiftToWakeTile;
 import com.android.systemui.qs.tiles.BatteryTile;
 import com.android.systemui.qs.tiles.BluetoothTile;
 import com.android.systemui.qs.tiles.CaffeineTile;
@@ -459,6 +460,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("heads_up")) return new HeadsUpTile(this);
         else if (tileSpec.equals("locale")) return new LocaleTile(this);
         else if (tileSpec.equals("sound")) return new SoundTile(this);
+        else if (tileSpec.equals("ambient")) return new AmbientLiftToWakeTile(this);
         else if (tileSpec.equals("night")) return new NightDisplayTile(this);
         // Intent tiles.
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
