@@ -376,7 +376,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             } else if (GLOBAL_ACTION_KEY_RESTART.equals(actionKey)) {
                 mItems.add(new RestartAction());
             } else if (GLOBAL_ACTION_KEY_SCREENSHOT.equals(actionKey)) {
-                mItems.add(new ScreenshotAction());
+                mItems.add(getScreenshotAction());
             } else if (GLOBAL_ACTION_KEY_AIRPLANE.equals(actionKey)) {
                 mItems.add(mAirplaneModeOn);
             } else if (GLOBAL_ACTION_KEY_BUGREPORT.equals(actionKey)) {
@@ -517,39 +517,27 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
         }
     }
 
-    private final class ScreenshotAction extends SinglePressAction implements LongPressAction {
+    private Action getScreenshotAction() {
+        return new SinglePressAction(com.android.internal.R.drawable.ic_lock_screenshot,
+                R.string.global_action_screenshot) {
 
-        private ScreenshotAction() {
-            super(com.android.internal.R.drawable.ic_lock_screenshot,
-                    R.string.global_action_screenshot);
-        }
-
-        @Override
-        public void onPress() {
-            if (Settings.System.getInt(mContext.getContentResolver(),
-                   Settings.System.SCREENSHOT_TYPE, 0) == 1) {
-               takeScreenshot(mScreenshotSelectedRegion);
-            } else {
-               takeScreenshot(mScreenshotFullscreen);
+            public void onPress() {
+                if (Settings.System.getInt(mContext.getContentResolver(),
+                       Settings.System.SCREENSHOT_TYPE, 0) == 1) {
+                    takeScreenshot(mScreenshotSelectedRegion);
+                } else {
+                    takeScreenshot(mScreenshotFullscreen);
+                }
             }
-        }
 
-        @Override
-        public boolean onLongPress() {
-            mHandler.sendEmptyMessage(MESSAGE_DISMISS);
-            takeScreenshot(true /* partial */);
-            return true;
-        }
+            public boolean showDuringKeyguard() {
+                return true;
+            }
 
-        @Override
-        public boolean showDuringKeyguard() {
-            return true;
-        }
-
-        @Override
-        public boolean showBeforeProvisioning() {
-            return true;
-        }
+            public boolean showBeforeProvisioning() {
+                return true;
+            }
+        };
     }
 
     private class BugReportAction extends SinglePressAction implements LongPressAction {
@@ -851,8 +839,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                         }
                         Messenger messenger = new Messenger(service);
                         Message msg = Message.obtain(null, screenshotType);
-                        msg.what = partial ? WindowManager.TAKE_SCREENSHOT_SELECTED_REGION
-                                : WindowManager.TAKE_SCREENSHOT_FULLSCREEN;
                         final ServiceConnection myConn = this;
                         Handler h = new Handler(mHandler.getLooper()) {
                             @Override
