@@ -489,7 +489,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                    Settings.Secure.QS_ROWS_LANDSCAPE), false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.Secure.getUriFor(
-                   Settings.Secure.QS_COLUMNS), false, this, UserHandle.USER_ALL);
+                   Settings.Secure.QS_COLUMNS_PORTRAIT),
+                   false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                   Settings.Secure.QS_COLUMNS_LANDSCAPE),
+                   false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_TILE_TITLE_VISIBILITY), false, this, UserHandle.USER_ALL);
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
@@ -516,7 +520,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.Secure.QS_ROWS_LANDSCAPE))) {
                     updateResources();
             } else if (uri.equals(Settings.Secure.getUriFor(
-                    Settings.Secure.QS_COLUMNS))) {
+                    Settings.Secure.QS_COLUMNS_PORTRAIT))
+                    || uri.equals(Settings.Secure.getUriFor(
+                    Settings.Secure.QS_COLUMNS_LANDSCAPE))) {
                     if (mHeader != null) {
                         mHeader.updateSettings();
                     }
