@@ -22,4 +22,7 @@
     <color name="icon_color_split_screen">@android:color/white</color>
     <color name="icon_color_home">@android:color/white</color>
     <color name="icon_color_overview">@android:color/white</color>
+
+    <!-- External QS tile tint color -->
+    <color name="external_qs_tile_tint_color">@android:color/white</color>
 </resources>
