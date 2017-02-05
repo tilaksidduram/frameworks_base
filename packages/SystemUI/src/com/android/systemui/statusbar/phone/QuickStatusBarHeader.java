@@ -192,6 +192,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     protected void updateSettingsAnimator() {
         mSettingsAlpha = new TouchAnimator.Builder()
                 .addFloat(mEdit, "alpha", 0, 1)
+                .addFloat(mRunningServicesButton, "alpha", 0, 1)
                 .addFloat(mMultiUserSwitch, "alpha", 0, 1)
                 .build();
 
@@ -303,7 +304,8 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         mEdit.setVisibility(isDemo || !mExpanded ? View.INVISIBLE : View.VISIBLE);
 
         hasRunningServices = !isRunningServicesDisabled();
-        mRunningServicesButton.setVisibility(hasRunningServices ? View.VISIBLE : View.GONE);
+        mRunningServicesButton.setVisibility(hasRunningServices && mExpanded
+                ? View.VISIBLE : View.GONE);
     }
 
     private void updateDateTimePosition() {
