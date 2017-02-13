@@ -51,6 +51,7 @@ import com.android.systemui.qs.tiles.CaffeineTile;
 import com.android.systemui.qs.tiles.CastTile;
 import com.android.systemui.qs.tiles.CellularTile;
 import com.android.systemui.qs.tiles.ColorInversionTile;
+import com.android.systemui.qs.tiles.CompassTile;
 import com.android.systemui.qs.tiles.DataSaverTile;
 import com.android.systemui.qs.tiles.DndTile;
 import com.android.systemui.qs.tiles.ExpandedDesktopTile;
@@ -477,6 +478,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("androidauto")) return new AndroidAutoTile(this);
         else if (tileSpec.equals("night")) return new NightDisplayTile(this);
         else if (tileSpec.equals("nfc")) return new NfcTile(this);
+        else if (tileSpec.equals("compass")) return new CompassTile(this);
         else if (tileSpec.equals("magiskmanager")) return new MagiskManagerTile(this);
         // Intent tiles.
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
