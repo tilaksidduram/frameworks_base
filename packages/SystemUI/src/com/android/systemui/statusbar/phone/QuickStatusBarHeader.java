@@ -28,6 +28,7 @@ import android.net.Uri;
 import android.os.UserManager;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
