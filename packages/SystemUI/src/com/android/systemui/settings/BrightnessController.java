@@ -30,8 +30,6 @@ import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.UserHandle;
 import android.provider.Settings;
-import android.view.MotionEvent;
-import android.view.View;
 import android.service.vr.IVrManager;
 import android.service.vr.IVrStateCallbacks;
 import android.util.Log;
@@ -51,6 +49,7 @@ import java.util.ArrayList;
 
 public class BrightnessController implements ToggleSlider.Listener {
     private static final String TAG = "StatusBar.BrightnessController";
+    private static final boolean SHOW_AUTOMATIC_ICON = false;
 
     /**
      * {@link android.provider.Settings.System#SCREEN_AUTO_BRIGHTNESS_ADJ} uses the range [-1, 1].
@@ -312,18 +311,6 @@ public class BrightnessController implements ToggleSlider.Listener {
                 com.android.internal.R.bool.config_automatic_brightness_available);
         mPower = IPowerManager.Stub.asInterface(ServiceManager.getService("power"));
 
-        if (mIcon != null) {
-            if (mAutomaticAvailable) {
-                mIcon.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        int newMode = mAutomatic ? Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL : Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
-                        setMode(newMode);
-                        return false;
-                    }
-                });
-            }
-        }
         mVrManager = IVrManager.Stub.asInterface(ServiceManager.getService("vrmanager"));
     }
 
@@ -402,8 +389,7 @@ public class BrightnessController implements ToggleSlider.Listener {
     @Override
     public void onChanged(ToggleSlider view, boolean tracking, boolean automatic, int value,
             boolean stopTracking) {
-        // icon cannot change while tracking
-        //updateIcon(mAutomatic);
+        updateIcon(mAutomatic);
         if (mExternalChange) return;
 
         if (mIsVrModeEnabled) {
@@ -480,7 +466,7 @@ public class BrightnessController implements ToggleSlider.Listener {
 
     private void updateIcon(boolean automatic) {
         if (mIcon != null) {
-            mIcon.setImageResource(automatic ?
+            mIcon.setImageResource(automatic && SHOW_AUTOMATIC_ICON ?
                     com.android.systemui.R.drawable.ic_qs_brightness_auto_on :
                     com.android.systemui.R.drawable.ic_qs_brightness_auto_off);
         }
