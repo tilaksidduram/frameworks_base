@@ -708,9 +708,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     boolean mDevForceNavbar = false;
 
-    /** Custom system-wide flags deciding what features get enabled. */
-    private int mSystemDesignFlags = 0;
-
     // Pie
     boolean mPieState;
 
@@ -893,9 +890,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
             if (wasDeviceInPocket != mIsDeviceInPocket) {
                 handleDevicePocketStateChanged();
-                if (mKeyHandler != null) {
-                    mKeyHandler.setIsInPocket(mIsDeviceInPocket);
-                }
             }
         }
 
@@ -1167,9 +1161,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.PIE_STATE), false, this,
-                    UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.Secure.getUriFor(
-                    Settings.Secure.SYSTEM_DESIGN_FLAGS), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.ANBI_ENABLED), false, this,
@@ -1498,13 +1489,14 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 mHandler.post(mHiddenNavPanic);
             }
 
-        // Latch power key state to detect screenshot chord.
-        if (interactive && !mPowerKeyTriggered
+            // Latch power key state to detect screenshot chord.
+            if (interactive && !mPowerKeyTriggered
                 && (event.getFlags() & KeyEvent.FLAG_FALLBACK) == 0) {
-            mPowerKeyTriggered = true;
-            mPowerKeyTime = event.getDownTime();
-            interceptScreenshotChord();
-            interceptScreenrecordChord();
+                mPowerKeyTriggered = true;
+                mPowerKeyTime = event.getDownTime();
+                interceptScreenshotChord();
+                interceptScreenrecordChord();
+            }
         }
 
         // Stop ringing or end call if configured to do so when power is pressed.
@@ -1763,9 +1755,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             msg.setAsynchronous(true);
             msg.sendToTarget();
             break;
-            hidePocketLock(true);
-            mPocketManager.setListeningExternal(false);
-            break;
         case LONG_PRESS_POWER_HIDE_POCKET_LOCK:
             mPowerKeyHandled = true;
             if (!performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false)) {
@@ -1774,15 +1763,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             hidePocketLock(true);
             mPocketManager.setListeningExternal(false);
             break;
-        } else if (mTorchEnabled && !isScreenOn()) {
-           try {
-               mCameraManager.setTorchMode(getCameraId(), true);
-           } catch (Exception e) {
-           }
-        mWasTorchActive = false;
-        mIsTorchActive = true;
-        mPowerKeyHandled = true;
->>>>>>> 42af8ad2131... policy: introduce pocket lock
         }
     }
 
@@ -2754,10 +2734,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
             mUserRotationAngles = Settings.System.getInt(resolver,
                     Settings.System.ACCELEROMETER_ROTATION_ANGLES, -1);
-
-            final int systemDesignFlags = mSystemDesignFlags;
-            mSystemDesignFlags = Settings.Secure.getIntForUser(resolver,
-                        Settings.Secure.SYSTEM_DESIGN_FLAGS, 0, UserHandle.USER_CURRENT);
 
             final boolean useEdgeService = Settings.System.getIntForUser(resolver,
                     Settings.System.USE_EDGE_SERVICE_FOR_GESTURES, 1, UserHandle.USER_CURRENT) == 1;
@@ -5992,8 +5968,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private boolean immersiveModeImplementsPie() {
-        return mPieState && mSystemDesignFlags != 0 &&
-                mSystemDesignFlags != View.SYSTEM_DESIGN_FLAG_IMMERSIVE_STATUS;
+        return mPieState;
     }
 
     private void offsetInputMethodWindowLw(WindowState win) {
@@ -6811,15 +6786,15 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                                                 isKeyguardShowingAndNotOccluded() :
                                                 mKeyguardDelegate.isShowing()));
 
+        if (mANBIHandler != null && mANBIEnabled && mANBIHandler.isScreenTouched()
+                && !navBarKey && (appSwitchKey || homeKey || menuKey || backKey)) {
+            return 0;
+        }
+
         if (DEBUG_INPUT) {
             Log.d(TAG, "interceptKeyTq keycode=" + keyCode
                     + " interactive=" + interactive + " keyguardActive=" + keyguardActive
                     + " policyFlags=" + Integer.toHexString(policyFlags));
-        }
-
-        if (mANBIHandler != null && mANBIEnabled && mANBIHandler.isScreenTouched()
-                && !navBarKey && (appSwitchKey || homeKey || menuKey || backKey)) {
-            return 0; 
         }
 
         // Pre-basic policy based on interactive and pocket lock state.
@@ -8459,9 +8434,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mEdgeGestureManager.setEdgeGestureActivationListener(mEdgeGestureActivationListener);
         mSettingsObserver.observe();
 
-        if (mDeviceHardwareKeys > 0) {
-            mANBIHandler = new ANBIHandler(mContext);
-        }
+        mANBIHandler = new ANBIHandler(mContext);
 
         readCameraLensCoverState();
         updateUiMode();
