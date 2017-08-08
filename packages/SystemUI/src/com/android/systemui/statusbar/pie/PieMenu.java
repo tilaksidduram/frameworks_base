@@ -1721,9 +1721,8 @@ public class PieMenu extends RelativeLayout {
 
         @Override
         public void setMobileDataIndicators(IconState statusIcon, IconState qsIcon, int statusType,
-                int qsType, boolean activityIn, boolean activityOut,
-                String typeContentDescription, String description, boolean isWide, int subId,
-                boolean isMobileIms,boolean roaming) {
+                int qsType, boolean activityIn, boolean activityOut, String typeContentDescription,
+                String description, boolean isWide, int subId, boolean roaming) {
             mSubId = subId;
             mNetworkIconResId = qsIcon == null ? 0 : qsIcon.icon;
             createSignalIcons();
