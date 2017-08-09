@@ -6830,6 +6830,17 @@ public final class Settings {
         public static final String PIE_STATUS_INDICATOR = "pie_status_indicator";
 
         /**
+         * Locations of the Pa Pie in the screen.
+         * (1<<0) = LEFT
+         * (1<<1) = BOTTOM
+         * (1<<2) = RIGHT
+         * (1<<3) = TOP
+         * Default: LEFT
+         * @hide
+         */
+        public static final String PA_PIE_GRAVITY = "pa_pie_gravity";
+
+        /**
          * Used to store the last used system ui flags to make qs settings stick after reboot
          * @hide
          */
